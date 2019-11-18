@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Mandarin Support &mdash; nemo 0.8.1 documentation</title>
+  <title>QuartzNet &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -35,7 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Core APIs" href="../api-docs/nemo.html" /> 
+    <link rel="next" title="自然语言处理" href="../nlp/intro.html" />
+    <link rel="prev" title="Jasper" href="jasper.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,15 +85,24 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../training.html">Fast Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">Speech Recognition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">从这里开始</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="intro.html">语音识别</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html">教程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets.html">数据集</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="models.html">模型</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="jasper.html">Jasper</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">QuartzNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Mandarin Support</a></li>
 </ul>
 
             
@@ -138,13 +148,17 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Mandarin Support</li>
+          <li><a href="intro.html">语音识别</a> &raquo;</li>
+        
+          <li><a href="models.html">模型</a> &raquo;</li>
+        
+      <li>QuartzNet</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/chinese/intro.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/asr/quartznet.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -157,9 +171,20 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="mandarin-support">
-<span id="asr-docs"></span><h1>Mandarin Support<a class="headerlink" href="#mandarin-support" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="zh/index.html">中文版支持戳这里</a></p>
+  <div class="section" id="quartznet">
+<h1>QuartzNet<a class="headerlink" href="#quartznet" title="Permalink to this headline">¶</a></h1>
+<p>QuartzNet is a version of Jasper <a class="bibtex reference internal" href="../nlp/asr-improvement.html#li2019jasper" id="id1">[1]</a> model with separable convolutions and larger filters. It can achieve performance
+similar to Jasper but with an order of magnitude less parameters.
+Similarly to Jasper, QuartzNet family of models are denoted as QuartzNet_[BxR] where B is the number of blocks, and R - the number of convolutional sub-blocks within a block. Each sub-block contains a 1-D <em>separable</em> convolution, batch normalization, ReLU, and dropout:</p>
+<blockquote>
+<div><img alt="quartznet model" class="align-center" src="../_images/quartz_vertical.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This checkpoint was trained on LibriSpeech and full “validated” part of En Mozilla Common Voice</p>
+</div>
+</div></blockquote>
+<p>We are working on a QuartzNet paper and will release it soon.</p>
+<p>Pretrained models can be found, <a class="reference external" href="https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5">here</a>.</p>
 </div>
 
 
@@ -170,8 +195,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../nlp/intro.html" class="btn btn-neutral float-right" title="自然语言处理" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="../api-docs/nemo.html" class="btn btn-neutral float-left" title="Core APIs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="jasper.html" class="btn btn-neutral float-left" title="Jasper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

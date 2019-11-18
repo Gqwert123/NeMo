@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Mandarin Support &mdash; nemo 0.8.1 documentation</title>
+  <title>Core APIs &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Core APIs" href="../api-docs/nemo.html" /> 
+    <link rel="prev" title="NeMo API" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,15 +84,28 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../training.html">Fast Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">Speech Recognition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">从这里开始</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Mandarin Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">NeMo API</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Core APIs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#neural-types">neural_types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#neural-modules">neural_modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#neural-factory">neural_factory</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pytorch-backend">PyTorch BackEnd</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-actions">Basic actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#classes-for-writing-your-own-nms">Classes for writing your own NMs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#trainable-module-wrapper">Trainable Module Wrapper</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -138,13 +151,15 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Mandarin Support</li>
+          <li><a href="modules.html">NeMo API</a> &raquo;</li>
+        
+      <li>Core APIs</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/chinese/intro.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api-docs/nemo.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -157,9 +172,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="mandarin-support">
-<span id="asr-docs"></span><h1>Mandarin Support<a class="headerlink" href="#mandarin-support" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="zh/index.html">中文版支持戳这里</a></p>
+  <div class="section" id="core-apis">
+<h1>Core APIs<a class="headerlink" href="#core-apis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="neural-types">
+<h2>neural_types<a class="headerlink" href="#neural-types" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="neural-modules">
+<h2>neural_modules<a class="headerlink" href="#neural-modules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="neural-factory">
+<h2>neural_factory<a class="headerlink" href="#neural-factory" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="pytorch-backend">
+<h1>PyTorch BackEnd<a class="headerlink" href="#pytorch-backend" title="Permalink to this headline">¶</a></h1>
+<p>Currently, we only support PyTorch backend.</p>
+<div class="section" id="basic-actions">
+<h2>Basic actions<a class="headerlink" href="#basic-actions" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="classes-for-writing-your-own-nms">
+<h2>Classes for writing your own NMs<a class="headerlink" href="#classes-for-writing-your-own-nms" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="trainable-module-wrapper">
+<h2>Trainable Module Wrapper<a class="headerlink" href="#trainable-module-wrapper" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -171,7 +207,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="../api-docs/nemo.html" class="btn btn-neutral float-left" title="Core APIs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="NeMo API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

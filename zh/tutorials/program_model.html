@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Mandarin Support &mdash; nemo 0.8.1 documentation</title>
+  <title>Programming Model &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -35,7 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Core APIs" href="../api-docs/nemo.html" /> 
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="从这里开始" href="intro.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,15 +85,23 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../training.html">Fast Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">Speech Recognition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="intro.html">从这里开始</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Programming Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neuraltypes.html">Neural Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custommodules.html">How to build Neural Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="weightsharing.html">Weight Sharing between Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="callbacks.html">Callbacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">Complex Training Pipelines (GAN Example)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Mandarin Support</a></li>
 </ul>
 
             
@@ -138,13 +147,15 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Mandarin Support</li>
+          <li><a href="intro.html">从这里开始</a> &raquo;</li>
+        
+      <li>Programming Model</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/chinese/intro.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/program_model.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -157,9 +168,20 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="mandarin-support">
-<span id="asr-docs"></span><h1>Mandarin Support<a class="headerlink" href="#mandarin-support" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="zh/index.html">中文版支持戳这里</a></p>
+  <div class="section" id="programming-model">
+<h1>Programming Model<a class="headerlink" href="#programming-model" title="Permalink to this headline">¶</a></h1>
+<p>A typical application using NeMo APIs consists of 3 logical stages:</p>
+<ol class="arabic simple">
+<li><p>Creation of <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModuleFactory</span></code> and necessary <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></p></li>
+<li><p>Defining a Directed Acyclic Graph (DAG) of <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></p></li>
+<li><p>Call to “action” such as <code class="xref py py-class docutils literal notranslate"><span class="pre">train</span></code></p></li>
+</ol>
+<p>NeMo follows <em>lazy execution</em> model - actual computation happen only after training or inference is called.</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> is an abstraction between a layer and a neural network, for example: encoder, decoder, language model, acoustic model, etc. Each <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> computes a set of outputs from a set of inputs.
+Every <code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code> has <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> .
+<code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> describes tensor semantics, axis’ order and dimensions. These types
+are used to determine how modules should be connected together.</p>
+<p>You can also pass to <em>callbacks</em> to actions which are then used for evaluation, logging and performance monitoring.</p>
 </div>
 
 
@@ -170,8 +192,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="../api-docs/nemo.html" class="btn btn-neutral float-left" title="Core APIs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="intro.html" class="btn btn-neutral float-left" title="从这里开始" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
