@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Datasets &mdash; nemo 0.8 documentation</title>
+  <title>Datasets &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.8
+                0.8.1
               </div>
             
           
@@ -95,6 +95,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#librispeech">LibriSpeech</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fisher-english-training-speech">Fisher English Training Speech</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#hub5-english-evaluation-speech">2000 HUB5 English Evaluation Speech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aishell1">Aishell1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aishell2">Aishell2</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
@@ -103,6 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chinese/intro.html">Mandarin Support</a></li>
 </ul>
 
             
@@ -253,6 +256,26 @@ You will also need to have sph2pipe installed.</p>
 </pre></div>
 </div>
 <p>You may optionally include <cite>–min_slice_duration=&lt;num_seconds&gt;</cite> if you would like to change the minimum audio segment duration.</p>
+</div>
+<div class="section" id="aishell1">
+<h2>Aishell1<a class="headerlink" href="#aishell1" title="Permalink to this headline">¶</a></h2>
+<p>Run these scripts to download Aishell1 data and convert it into format expected by <cite>nemo_asr</cite>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install sox</span>
+sudo apt-get install sox
+mkdir data
+python get_aishell_data.py --data_root<span class="o">=</span>data
+</pre></div>
+</div>
+<p>After this, your <cite>data</cite> folder should contain wav files and <cite>.json</cite> manifests for NeMo ASR datalayer:</p>
+<p>Each line is a training example. <cite>audio_filepath</cite> contains path to the wav file, <cite>duration</cite> it’s duration in seconds and <cite>text</cite> it’s transcript:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;audio_filepath&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;absolute_path_to&gt;/BAC009S0062W0157.wav&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">4.474</span><span class="p">,</span> <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;加上两会释放出宽松信号后&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;audio_filepath&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;absolute_path_to&gt;/BAC009S0062W0238.wav&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">3.803</span><span class="p">,</span> <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;建设统一规范的公共资源交易市场&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="aishell2">
+<h2>Aishell2<a class="headerlink" href="#aishell2" title="Permalink to this headline">¶</a></h2>
+<p>xxxTO BE FILLEDxxx</p>
 </div>
 </div>
 

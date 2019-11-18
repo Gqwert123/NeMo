@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Programming Model &mdash; nemo 0.8 documentation</title>
+  <title>Programming Model &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.8
+                0.8.1
               </div>
             
           
@@ -102,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chinese/intro.html">Mandarin Support</a></li>
 </ul>
 
             
@@ -172,14 +173,14 @@
 <h1>Programming Model<a class="headerlink" href="#programming-model" title="Permalink to this headline">¶</a></h1>
 <p>A typical application using NeMo APIs consists of 3 logical stages:</p>
 <ol class="arabic simple">
-<li><p>Creation of <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_factory.NeuralModuleFactory" title="nemo.core.neural_factory.NeuralModuleFactory"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModuleFactory</span></code></a> and necessary <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a></p></li>
-<li><p>Defining a Directed Acyclic Graph (DAG) of <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a></p></li>
-<li><p>Call to “action” such as <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_factory.Actions.train" title="nemo.core.neural_factory.Actions.train"><code class="xref py py-class docutils literal notranslate"><span class="pre">train</span></code></a></p></li>
+<li><p>Creation of <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModuleFactory</span></code> and necessary <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></p></li>
+<li><p>Defining a Directed Acyclic Graph (DAG) of <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></p></li>
+<li><p>Call to “action” such as <code class="xref py py-class docutils literal notranslate"><span class="pre">train</span></code></p></li>
 </ol>
 <p>NeMo follows <em>lazy execution</em> model - actual computation happen only after training or inference is called.</p>
-<p><a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a> is an abstraction between a layer and a neural network, for example: encoder, decoder, language model, acoustic model, etc. Each <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a> computes a set of outputs from a set of inputs.
-Every <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NmTensor" title="nemo.core.neural_types.NmTensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code></a> has <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NeuralType" title="nemo.core.neural_types.NeuralType"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code></a> .
-<a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NeuralType" title="nemo.core.neural_types.NeuralType"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code></a> describes tensor semantics, axis’ order and dimensions. These types
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> is an abstraction between a layer and a neural network, for example: encoder, decoder, language model, acoustic model, etc. Each <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> computes a set of outputs from a set of inputs.
+Every <code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code> has <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> .
+<code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> describes tensor semantics, axis’ order and dimensions. These types
 are used to determine how modules should be connected together.</p>
 <p>You can also pass to <em>callbacks</em> to actions which are then used for evaluation, logging and performance monitoring.</p>
 </div>

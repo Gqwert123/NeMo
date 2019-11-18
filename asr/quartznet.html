@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>QuartzNet &mdash; nemo 0.8 documentation</title>
+  <title>QuartzNet &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.8
+                0.8.1
               </div>
             
           
@@ -103,6 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chinese/intro.html">Mandarin Support</a></li>
 </ul>
 
             
@@ -178,6 +179,10 @@ similar to Jasper but with an order of magnitude less parameters.
 Similarly to Jasper, QuartzNet family of models are denoted as QuartzNet_[BxR] where B is the number of blocks, and R - the number of convolutional sub-blocks within a block. Each sub-block contains a 1-D <em>separable</em> convolution, batch normalization, ReLU, and dropout:</p>
 <blockquote>
 <div><img alt="quartznet model" class="align-center" src="../_images/quartz_vertical.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This checkpoint was trained on LibriSpeech and full “validated” part of En Mozilla Common Voice</p>
+</div>
 </div></blockquote>
 <p>We are working on a QuartzNet paper and will release it soon.</p>
 <p>Pretrained models can be found, <a class="reference external" href="https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5">here</a>.</p>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Neural Types &mdash; nemo 0.8 documentation</title>
+  <title>Neural Types &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.8
+                0.8.1
               </div>
             
           
@@ -102,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chinese/intro.html">Mandarin Support</a></li>
 </ul>
 
             
@@ -172,10 +173,10 @@
 <h1>Neural Types<a class="headerlink" href="#neural-types" title="Permalink to this headline">¶</a></h1>
 <p>Neural Types are used to check input tensors to make sure that two neural modules are compatible, and catch
 semantic and dimensionality errors.</p>
-<p>Neural Types are implemented by <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NeuralType" title="nemo.core.neural_types.NeuralType"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code></a> class which is a mapping from Tensor’s axis to <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.AxisType" title="nemo.core.neural_types.AxisType"><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code></a>.</p>
-<p><a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.AxisType" title="nemo.core.neural_types.AxisType"><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code></a> contains following information per axis:</p>
+<p>Neural Types are implemented by <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> class which is a mapping from Tensor’s axis to <code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code>.</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code> contains following information per axis:</p>
 <ul class="simple">
-<li><p>Semantic Tag, which must inherit from <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.BaseTag" title="nemo.core.neural_types.BaseTag"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTag</span></code></a>, for example: <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.BatchTag" title="nemo.core.neural_types.BatchTag"><code class="xref py py-class docutils literal notranslate"><span class="pre">BatchTag</span></code></a>, <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.ChannelTag" title="nemo.core.neural_types.ChannelTag"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChannelTag</span></code></a>, <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.TimeTag" title="nemo.core.neural_types.TimeTag"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTag</span></code></a>, etc. These tags can be related via <cite>is-a</cite> inheritance.</p></li>
+<li><p>Semantic Tag, which must inherit from <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTag</span></code>, for example: <code class="xref py py-class docutils literal notranslate"><span class="pre">BatchTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ChannelTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTag</span></code>, etc. These tags can be related via <cite>is-a</cite> inheritance.</p></li>
 <li><p>Dimension: unsigned integer</p></li>
 <li><p>Descriptor: string</p></li>
 </ul>
@@ -191,7 +192,7 @@ For example, a ResNet18 input and output ports can be described as:</p>
 </pre></div>
 </div>
 <p><strong>Neural type comparison</strong></p>
-<p>Two <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NeuralType" title="nemo.core.neural_types.NeuralType"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code></a> objects can be compared using <code class="docutils literal notranslate"><span class="pre">.compare</span></code> method.
+<p>Two <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> objects can be compared using <code class="docutils literal notranslate"><span class="pre">.compare</span></code> method.
 The result is:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NeuralTypeComparisonResult</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;The result of comparing two neural type objects for compatibility.</span>
@@ -231,7 +232,7 @@ The result is:</p>
 <p>A module expects image of size 224x224 but gets 256x256. The type comparison will result in <code class="docutils literal notranslate"><span class="pre">NeuralTypeComparisonResult.DIM_INCOMPATIBLE</span></code> .</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This type mechanism is represented by Python inheritance. That is, <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NmTensor" title="nemo.core.neural_types.NmTensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code></a> class inherits from <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NeuralType" title="nemo.core.neural_types.NeuralType"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code></a> class.</p>
+<p>This type mechanism is represented by Python inheritance. That is, <code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code> class inherits from <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> class.</p>
 </div>
 </div>
 

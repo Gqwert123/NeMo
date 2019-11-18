@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Weight Sharing between Modules &mdash; nemo 0.8 documentation</title>
+  <title>Weight Sharing between Modules &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.8
+                0.8.1
               </div>
             
           
@@ -107,6 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chinese/intro.html">Mandarin Support</a></li>
 </ul>
 
             
@@ -208,13 +209,13 @@ For example:</p>
 </div>
 <div class="section" id="copy-weights-between-modules">
 <h2>Copy weights between modules<a class="headerlink" href="#copy-weights-between-modules" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a> class provides 2 methods
-<a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule.get_weights" title="nemo.core.neural_modules.NeuralModule.get_weights"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_weights</span></code></a> and
-<a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule.set_weights" title="nemo.core.neural_modules.NeuralModule.set_weights"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_weights</span></code></a>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> class provides 2 methods
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_weights</span></code> and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">set_weights</span></code>
 for sharing weights.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule.set_weights" title="nemo.core.neural_modules.NeuralModule.set_weights"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_weights</span></code></a> method can set only part of module’s weights.</p>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_weights</span></code> method can set only part of module’s weights.</p>
 </div>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -243,7 +244,7 @@ for sharing weights.</p>
 </div>
 <div class="section" id="tie-weights-between-modules">
 <h2>Tie weights between modules<a class="headerlink" href="#tie-weights-between-modules" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a> class provides <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule.tie_weights_with" title="nemo.core.neural_modules.NeuralModule.tie_weights_with"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tie_weights_with</span></code></a> method to tie weights between two or more modules.</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> class provides <code class="xref py py-meth docutils literal notranslate"><span class="pre">tie_weights_with</span></code> method to tie weights between two or more modules.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Tied weights are identical across all modules: subsequent modification of weights in one module will result in the same modification on the other.</p>
