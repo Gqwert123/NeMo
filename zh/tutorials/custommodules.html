@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>How to build Neural Module &mdash; nemo 0.9.0 documentation</title>
+  <title>How to build Neural Module &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -17,24 +17,26 @@
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
     
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
 
   
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Weight Sharing between Modules" href="weightsharing.html" />
+    <link rel="prev" title="Neural Types" href="neuraltypes.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -48,7 +50,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> nemo
+            <a href="../index.html" class="icon icon-home"> nemo
           
 
           
@@ -58,14 +60,14 @@
             
             
               <div class="version">
-                0.9.0
+                0.8.1
               </div>
             
           
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -82,16 +84,40 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../index.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/intro.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../training.html">Fast Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../asr/intro.html">Speech Recognition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlp/intro.html">Natural Language Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../collections/modules.html">NeMo Collections API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api-docs/modules.html">NeMo API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../chinese/intro.html">Mandarin Support</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="intro.html">从这里开始</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="program_model.html">Programming Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neuraltypes.html">Neural Types</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">How to build Neural Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#trainable-module">Trainable Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#define-module-from-scratch">Define module from scratch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-1">Example 1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#converting-from-pytorch-s-nn-module">Converting from PyTorch’s nn.Module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#data-layer-module">Data Layer Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#loss-neural-module">Loss Neural Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="weightsharing.html">Weight Sharing between Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="callbacks.html">Callbacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">Complex Training Pipelines (GAN Example)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
 
             
@@ -106,7 +132,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">nemo</a>
+          <a href="../index.html">nemo</a>
         
       </nav>
 
@@ -135,7 +161,9 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="intro.html">从这里开始</a> &raquo;</li>
         
       <li>How to build Neural Module</li>
     
@@ -143,7 +171,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/zh/tutorials/custommodules.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorials/custommodules.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -175,7 +203,7 @@
 </ul>
 <p>In Figure below you can see a class inheritance diagram for these helper classes.</p>
 <div class="figure align-default" id="id2">
-<img alt="map to buried treasure" src="../../_images/nm_class_structure1.png" />
+<img alt="map to buried treasure" src="../_images/nm_class_structure.png" />
 <p class="caption"><span class="caption-text">Inheritance class diagram. Provided API’s classes are in green. Red classes are to be implemented by user.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="trainable-module">
@@ -378,12 +406,21 @@ parameters such as <code class="docutils literal notranslate"><span class="pre">
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="weightsharing.html" class="btn btn-neutral float-right" title="Weight Sharing between Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="neuraltypes.html" class="btn btn-neutral float-left" title="Neural Types" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2019, NVIDIA
+        &copy; Copyright 2018-2019, AI Applications team
 
     </p>
   </div>

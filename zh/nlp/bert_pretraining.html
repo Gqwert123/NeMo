@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>BERT预训练 &mdash; nemo 0.9.0 documentation</title>
+  <title>BERT预训练 &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -17,24 +17,26 @@
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
     
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
 
   
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Transformer语言模型" href="transformer_language_model.html" />
+    <link rel="prev" title="Tutorial" href="neural_machine_translation.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -48,7 +50,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> nemo
+            <a href="../index.html" class="icon icon-home"> nemo
           
 
           
@@ -58,14 +60,14 @@
             
             
               <div class="version">
-                0.9.0
+                0.8.1
               </div>
             
           
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -82,16 +84,32 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../index.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/intro.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../training.html">Fast Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../asr/intro.html">Speech Recognition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlp/intro.html">Natural Language Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../collections/modules.html">NeMo Collections API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api-docs/modules.html">NeMo API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../chinese/intro.html">Mandarin Support</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">从这里开始</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="intro.html">自然语言处理</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html#nmt">神经网络机器翻译 (NMT)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="intro.html#bert">BERT</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">BERT预训练</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">语料下载</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tokenizer">创建分词器(Tokenizer)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">创建模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">参考</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#transformer">Transformer语言模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#id2">命名实体识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#intent-and-slot-filling">Intent and Slot filling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#bertx2">用BERTx2后处理模型来提升语音识别性能</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
 
             
@@ -106,7 +124,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">nemo</a>
+          <a href="../index.html">nemo</a>
         
       </nav>
 
@@ -135,7 +153,9 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="intro.html">自然语言处理</a> &raquo;</li>
         
       <li>BERT预训练</li>
     
@@ -143,7 +163,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/zh/nlp/bert_pretraining.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/nlp/bert_pretraining.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -158,12 +178,12 @@
             
   <div class="section" id="bert">
 <h1>BERT预训练<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h1>
-<p>在本教程中，我们会按照BERT模型结构 <a class="bibtex reference internal" href="#devlin2018bert" id="id1">[2]</a> 构建并训练一个掩码语言模型。训练可以完全从零开始或者在一个预训练好的模型基础上继续训练。在开始本教程之前，请先安装好``nemo``和``nemo_nlp``。关于安装``nemo``的一些步骤可以参阅 <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a> 章节。</p>
-<p>创建一个专门领域的BERT模型对于某些应用是更有优势的。比如一个专门针对生物医学领域的专业BERT，类似于BioBERT <a class="bibtex reference internal" href="#lee2019biobert" id="id2">[3]</a> 和SciBERT <a class="bibtex reference internal" href="#beltagy2019scibert" id="id3">[1]</a>.</p>
+<p>在本教程中，我们会按照BERT模型结构 <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#devlin2018bert" id="id1">[2]</a> 构建并训练一个掩码语言模型。训练可以完全从零开始或者在一个预训练好的模型基础上继续训练。在开始本教程之前，请先安装好``nemo``和``nemo_nlp``。关于安装``nemo``的一些步骤可以参阅 <a class="reference internal" href="../zh/installation.html#installation"><span class="std std-ref">如何安装</span></a> 章节。</p>
+<p>创建一个专门领域的BERT模型对于某些应用是更有优势的。比如一个专门针对生物医学领域的专业BERT，类似于BioBERT <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#lee2019biobert" id="id2">[3]</a> 和SciBERT <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#beltagy2019scibert" id="id3">[1]</a>.</p>
 <p>本教程中所使用的代码来自于 <code class="docutils literal notranslate"><span class="pre">examples/nlp/bert_pretraining.py</span></code>.</p>
 <div class="section" id="id4">
 <h2>语料下载<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>因为这只是一个演示，所以我们使用一个非常小的英文数据集WikiText-2 <a class="bibtex reference internal" href="#merity2016pointer" id="id5">[4]</a>.</p>
+<p>因为这只是一个演示，所以我们使用一个非常小的英文数据集WikiText-2 <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#merity2016pointer" id="id5">[4]</a>.</p>
 <p>运行脚本``examples/nlp/scripts/get_wt2.sh``便可以下载这个数据集。下载后并解压，会得到如下三个文件：</p>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>test.txt
@@ -348,7 +368,7 @@ valid.txt
 </div>
 <div class="section" id="id7">
 <h2>参考<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-zh/nlp/bert_pretraining-0"><dl class="citation">
+<p id="bibtex-bibliography-nlp/bert_pretraining-0"><dl class="citation">
 <dt class="bibtex label" id="beltagy2019scibert"><span class="brackets"><a class="fn-backref" href="#id3">1</a></span></dt>
 <dd><p>Iz Beltagy, Arman Cohan, and Kyle Lo. Scibert: pretrained contextualized embeddings for scientific text. 2019. <a class="reference external" href="https://arxiv.org/abs/1903.10676">arXiv:1903.10676</a>.</p>
 </dd>
@@ -372,12 +392,21 @@ valid.txt
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="transformer_language_model.html" class="btn btn-neutral float-right" title="Transformer语言模型" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="neural_machine_translation.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2019, NVIDIA
+        &copy; Copyright 2018-2019, AI Applications team
 
     </p>
   </div>

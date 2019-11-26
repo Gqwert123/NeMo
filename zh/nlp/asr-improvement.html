@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>教程 &mdash; nemo 0.9.0 documentation</title>
+  <title>教程 &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -17,24 +17,26 @@
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
     
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
 
   
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NeMo Collections API" href="../collections/modules.html" />
+    <link rel="prev" title="Tutorial" href="joint_intent_slot_filling.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -48,7 +50,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> nemo
+            <a href="../index.html" class="icon icon-home"> nemo
           
 
           
@@ -58,14 +60,14 @@
             
             
               <div class="version">
-                0.9.0
+                0.8.1
               </div>
             
           
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -82,16 +84,33 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../index.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/intro.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../training.html">Fast Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../asr/intro.html">Speech Recognition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlp/intro.html">Natural Language Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../collections/modules.html">NeMo Collections API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api-docs/modules.html">NeMo API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../chinese/intro.html">Mandarin Support</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">从这里开始</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="intro.html">自然语言处理</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html#nmt">神经网络机器翻译 (NMT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#bert">BERT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#transformer">Transformer语言模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#id2">命名实体识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#intent-and-slot-filling">Intent and Slot filling</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="intro.html#bertx2">用BERTx2后处理模型来提升语音识别性能</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">教程</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">数据</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bert">从预训练BERT模型中加载参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">神经模块概览</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">模型训练</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">参考</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
 
             
@@ -106,7 +125,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">nemo</a>
+          <a href="../index.html">nemo</a>
         
       </nav>
 
@@ -135,7 +154,9 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="intro.html">自然语言处理</a> &raquo;</li>
         
       <li>教程</li>
     
@@ -143,7 +164,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/zh/nlp/asr-improvement.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/nlp/asr-improvement.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -159,12 +180,12 @@
   <div class="section" id="id1">
 <h1>教程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>在这个教程中，我们会训练一个语音识别的后处理模型来纠正端到端语音识别模型的输出错误。这个模型和翻译模型很相似，但和传统语音识别模型的再打分很不一样。
-这个模型的架构是基于注意力机制的编码器解码器架构，其中编码器和解码器都是用BERT的预训练语言模型初始化的。为了训练这个模型，我们用预训练的Jasper语音识别模型 <a class="bibtex reference internal" href="#li2019jasper" id="id2">[1]</a> 产生的错误来收集数据集。</p>
+这个模型的架构是基于注意力机制的编码器解码器架构，其中编码器和解码器都是用BERT的预训练语言模型初始化的。为了训练这个模型，我们用预训练的Jasper语音识别模型 <a class="bibtex reference internal" href="../zh/nlp/asr-improvement.html#li2019jasper" id="id2">[1]</a> 产生的错误来收集数据集。</p>
 <div class="section" id="id3">
 <h2>数据<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p><strong>数据收集</strong> 我们用Jasper <a class="bibtex reference internal" href="#li2019jasper" id="id4">[1]</a>  在Librispeech数据集 <a class="bibtex reference internal" href="#panayotov2015librispeech" id="id5">[3]</a> 上训练的模型为这个任务收集数据集。
-下载Librispeech数据集, 参考 <a class="reference internal" href="../asr/datasets.html#librispeech-dataset"><span class="std std-ref">LibriSpeech</span></a>.
-获得Jasper预训练模型, 参考 <a class="reference internal" href="../asr/jasper.html#jasper-model"><span class="std std-ref">Jasper</span></a>.
+<p><strong>数据收集</strong> 我们用Jasper <a class="bibtex reference internal" href="../zh/nlp/asr-improvement.html#li2019jasper" id="id4">[1]</a>  在Librispeech数据集 <a class="bibtex reference internal" href="../zh/nlp/asr-improvement.html#panayotov2015librispeech" id="id5">[3]</a> 上训练的模型为这个任务收集数据集。
+下载Librispeech数据集, 参考 <a class="reference internal" href="../zh/asr/datasets.html#librispeech-dataset"><span class="std std-ref">LibriSpeech</span></a>.
+获得Jasper预训练模型, 参考 <a class="reference internal" href="../zh/asr/jasper.html#jasper-model"><span class="std std-ref">Jasper</span></a>.
 Librispeech训练数据集包含三个部分: train-clean-100, train-clean-360, 和train-clean-500 总共281000个训练样本 .
 我们用两个方法来扩增数据集:</p>
 <ul class="simple">
@@ -180,7 +201,7 @@ Librispeech训练数据集包含三个部分: train-clean-100, train-clean-360, 
 </div>
 <div class="section" id="bert">
 <h2>从预训练BERT模型中加载参数<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h2>
-<p>编码器和解码器都用的是预训练的BERT模型参数。 因为BERT的语言模型和Transformer的编码器结构相同，因此没有其他什么需要做的。从预训练的BERT模型中为解码器准备参数，我们写了一个脚本 <code class="docutils literal notranslate"><span class="pre">get_decoder_params_from_bert.py</span></code> 会从 <code class="docutils literal notranslate"><span class="pre">pytorch-transformers</span></code> <a class="bibtex reference internal" href="#huggingface2019transformers" id="id6">[1]</a> 下载参数，并把他们映射到解码器的参数上.
+<p>编码器和解码器都用的是预训练的BERT模型参数。 因为BERT的语言模型和Transformer的编码器结构相同，因此没有其他什么需要做的。从预训练的BERT模型中为解码器准备参数，我们写了一个脚本 <code class="docutils literal notranslate"><span class="pre">get_decoder_params_from_bert.py</span></code> 会从 <code class="docutils literal notranslate"><span class="pre">pytorch-transformers</span></code> <a class="bibtex reference internal" href="../zh/nlp/asr-improvement.html#huggingface2019transformers" id="id6">[1]</a> 下载参数，并把他们映射到解码器的参数上.
 编码器和解码器的注意力是用self-attention参数做初始化的。
 这个脚本位于 <code class="docutils literal notranslate"><span class="pre">scripts</span></code> 文件目录下，接受两个参数:</p>
 <ul>
@@ -264,7 +285,7 @@ Librispeech训练数据集包含三个部分: train-clean-100, train-clean-360, 
 </div>
 <div class="section" id="id8">
 <h2>模型训练<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
-<p>训练模型，运行 <code class="docutils literal notranslate"><span class="pre">asr_postprocessor.py.py</span></code>， 它位于 <code class="docutils literal notranslate"><span class="pre">examples/nlp</span></code> 目录中. 我们用novograd优化器来训练  <a class="bibtex reference internal" href="#ginsburg2019stochastic" id="id9">[2]</a>, 设置学习率 <code class="docutils literal notranslate"><span class="pre">lr=0.001</span></code> ，多项式学习率衰减策略, <code class="docutils literal notranslate"><span class="pre">1000</span></code> 步预热, 每个GPU的批量为 <code class="docutils literal notranslate"><span class="pre">4096*8</span></code> 符号, 以及 <code class="docutils literal notranslate"><span class="pre">0.25</span></code> dropout概率. 我们再8张GPU上做训练。可以用下面的方法开启多GPU训练模式:</p>
+<p>训练模型，运行 <code class="docutils literal notranslate"><span class="pre">asr_postprocessor.py.py</span></code>， 它位于 <code class="docutils literal notranslate"><span class="pre">examples/nlp</span></code> 目录中. 我们用novograd优化器来训练  <a class="bibtex reference internal" href="../zh/nlp/asr-improvement.html#ginsburg2019stochastic" id="id9">[2]</a>, 设置学习率 <code class="docutils literal notranslate"><span class="pre">lr=0.001</span></code> ，多项式学习率衰减策略, <code class="docutils literal notranslate"><span class="pre">1000</span></code> 步预热, 每个GPU的批量为 <code class="docutils literal notranslate"><span class="pre">4096*8</span></code> 符号, 以及 <code class="docutils literal notranslate"><span class="pre">0.25</span></code> dropout概率. 我们再8张GPU上做训练。可以用下面的方法开启多GPU训练模式:</p>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="m">8</span>  asr_postprocessor.py --data_dir ../../tests/data/pred_real/ --restore_from ../../scripts/bert-base-uncased_decoder.pt
 </pre></div>
@@ -273,7 +294,7 @@ Librispeech训练数据集包含三个部分: train-clean-100, train-clean-360, 
 </div>
 <div class="section" id="id10">
 <h2>参考<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-zh/nlp/asr-improvement-0"><dl class="citation">
+<p id="bibtex-bibliography-nlp/asr-improvement-0"><dl class="citation">
 <dt class="bibtex label" id="huggingface2019transformers"><span class="brackets"><a class="fn-backref" href="#id6">1</a></span></dt>
 <dd><p>A library of state-of-the-art pretrained models for natural language processing (nlp). <span><a class="reference external" href="#"></a></span>https://github.com/huggingface/pytorch-transformers, Accessed August 23, 2019.</p>
 </dd>
@@ -297,12 +318,21 @@ Librispeech训练数据集包含三个部分: train-clean-100, train-clean-360, 
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../collections/modules.html" class="btn btn-neutral float-right" title="NeMo Collections API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="joint_intent_slot_filling.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2019, NVIDIA
+        &copy; Copyright 2018-2019, AI Applications team
 
     </p>
   </div>

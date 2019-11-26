@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>QuartzNet &mdash; nemo 0.9.0 documentation</title>
+  <title>QuartzNet &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -17,24 +17,26 @@
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
     
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
 
   
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="自然语言处理" href="../nlp/intro.html" />
+    <link rel="prev" title="Jasper" href="jasper.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -48,7 +50,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> nemo
+            <a href="../index.html" class="icon icon-home"> nemo
           
 
           
@@ -58,14 +60,14 @@
             
             
               <div class="version">
-                0.9.0
+                0.8.1
               </div>
             
           
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -82,16 +84,25 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../index.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/intro.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../training.html">Fast Training</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../asr/intro.html">Speech Recognition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../nlp/intro.html">Natural Language Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../collections/modules.html">NeMo Collections API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api-docs/modules.html">NeMo API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../chinese/intro.html">Mandarin Support</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">从这里开始</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="intro.html">语音识别</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html">教程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets.html">数据集</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="models.html">模型</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="jasper.html">Jasper</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">QuartzNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models.html#id2">参考</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
 
             
@@ -106,7 +117,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">nemo</a>
+          <a href="../index.html">nemo</a>
         
       </nav>
 
@@ -135,7 +146,11 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="intro.html">语音识别</a> &raquo;</li>
+        
+          <li><a href="models.html">模型</a> &raquo;</li>
         
       <li>QuartzNet</li>
     
@@ -143,7 +158,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/zh/asr/quartznet.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/asr/quartznet.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -158,11 +173,11 @@
             
   <div class="section" id="quartznet">
 <h1>QuartzNet<a class="headerlink" href="#quartznet" title="Permalink to this headline">¶</a></h1>
-<p>QuartzNet 是Jasper的一个版本 <a class="bibtex reference internal" href="../nlp/asr-improvement.html#li2019jasper" id="id1">[1]</a> 它有可分离的卷积和更大的过滤器。它可以获得和Jasper
+<p>QuartzNet 是Jasper的一个版本 <a class="bibtex reference internal" href="../zh/nlp/asr-improvement.html#li2019jasper" id="id1">[1]</a> 它有可分离的卷积和更大的过滤器。它可以获得和Jasper
 相似的效果，但是在参数上是远远小于Jasper的。
 类似于Jasper, QuartzNet模型的家族可以用 QuartzNet_[BxR] 结构来表示，其中B是块的个数，R表示一个块中卷积子块的个数. 每个子块包含了一个一维的 <em>可分离</em> 的卷积层，批归一化层，ReLU和dropout层:</p>
 <blockquote>
-<div><img alt="quartznet model" class="align-center" src="../../_images/quartz_vertical1.png" />
+<div><img alt="quartznet model" class="align-center" src="../_images/quartz_vertical.png" />
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>这个checkpoint是在LibriSpeech上训练的，完全在EN Mozilla Common Voice的部分数据集上做的“验证”</p>
@@ -178,12 +193,21 @@
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../nlp/intro.html" class="btn btn-neutral float-right" title="自然语言处理" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="jasper.html" class="btn btn-neutral float-left" title="Jasper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2019, NVIDIA
+        &copy; Copyright 2018-2019, AI Applications team
 
     </p>
   </div>
