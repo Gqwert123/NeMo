@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Datasets &mdash; nemo 0.8.1 documentation</title>
+  <title>Datasets &mdash; nemo 0.9.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.8.1
+                0.9.0
               </div>
             
           
@@ -196,8 +196,8 @@ python get_librispeech_data.py --data_root<span class="o">=</span>data --data_se
 <p>Run these scripts to convert the Fisher English Training Speech data into a format expected by the <cite>nemo_asr</cite> collection.</p>
 <p>In brief, the following scripts convert the .sph files to .wav, slice those files into smaller audio samples, match the smaller slices with their corresponding transcripts, and split the resulting audio segments into train, validation, and test sets (with one manifest each).</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">You will need at least 106GB of space to run the .wav conversion, and an additional 105GB for the slicing and matching.
+<p class="admonition-title">Note</p>
+<p>You will need at least 106GB of space to run the .wav conversion, and an additional 105GB for the slicing and matching.
 You will need to have sph2pipe installed in order to run the .wav conversion.</p>
 </div>
 <p><strong>Instructions</strong></p>
@@ -244,8 +244,8 @@ Once finished, you may delete the 10 minute long .wav files if you wish.</p>
 <p>Similarly to the Fisher dataset processing scripts, this script converts the .sph files to .wav, slices the audio files and transcripts into utterances, and combines them into segments of some minimum length (default is 10 seconds).
 The resulting segments are all written out to an audio directory, and the corresponding transcripts are written to a manifest JSON.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">You will need 5GB of free space to run this script.
+<p class="admonition-title">Note</p>
+<p>You will need 5GB of free space to run this script.
 You will also need to have sph2pipe installed.</p>
 </div>
 <p>This script assumes you already have the 2000 HUB5 dataset from the Linguistic Data Consortium.</p>
@@ -266,16 +266,11 @@ mkdir data
 python get_aishell_data.py --data_root<span class="o">=</span>data
 </pre></div>
 </div>
-<p>After this, your <cite>data</cite> folder should contain wav files and <cite>.json</cite> manifests for NeMo ASR datalayer:</p>
-<p>Each line is a training example. <cite>audio_filepath</cite> contains path to the wav file, <cite>duration</cite> it’s duration in seconds and <cite>text</cite> it’s transcript:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;audio_filepath&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;absolute_path_to&gt;/BAC009S0062W0157.wav&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">4.474</span><span class="p">,</span> <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;加上两会释放出宽松信号后&quot;</span><span class="p">}</span>
-<span class="p">{</span><span class="nt">&quot;audio_filepath&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;absolute_path_to&gt;/BAC009S0062W0238.wav&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">3.803</span><span class="p">,</span> <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;建设统一规范的公共资源交易市场&quot;</span><span class="p">}</span>
-</pre></div>
-</div>
+<p>After this, your <cite>data</cite> folder should contain a <cite>data_aishell</cite> folder which contains wav, transcript folder and related <cite>.json</cite> files and <cite>vocab.txt</cite>.</p>
 </div>
 <div class="section" id="aishell2">
 <h2>Aishell2<a class="headerlink" href="#aishell2" title="Permalink to this headline">¶</a></h2>
-<p>Run the script to process AIShell-2 dataset in order to generate files in the supported format of  <cite>nemo_asr</cite>. You should set the data folder of AIShell-2 using <cite>–audio_folder</cite> and where to push these json files using <cite>–dest_folder</cite>.</p>
+<p>Run the script to process AIShell-2 dataset in order to generate files in the supported format of  <cite>nemo_asr</cite>. You should set the data folder of AIShell-2 using <cite>–audio_folder</cite> and where to push these files using <cite>–dest_folder</cite>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python process_aishell2_data.py --audio_folder<span class="o">=</span>&lt;data directory&gt; --dest_folder<span class="o">=</span>&lt;destination directory&gt;
 </pre></div>
 </div>
@@ -303,7 +298,7 @@ python get_aishell_data.py --data_root<span class="o">=</span>data
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2019, AI Applications team
+        &copy; Copyright 2018-2019, NVIDIA
 
     </p>
   </div>

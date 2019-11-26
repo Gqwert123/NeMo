@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pretraining BERT &mdash; nemo 0.8.1 documentation</title>
+  <title>BERT预训练 &mdash; nemo 0.9.0 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.8.1
+                0.9.0
               </div>
             
           
@@ -137,7 +137,7 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-      <li>Pretraining BERT</li>
+      <li>BERT预训练</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -156,17 +156,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pretraining-bert">
-<h1>Pretraining BERT<a class="headerlink" href="#pretraining-bert" title="Permalink to this headline">¶</a></h1>
-<p>In this tutorial, we will build and train a masked language model, either from scratch or from a pretrained BERT model, using the BERT architecture <a class="bibtex reference internal" href="#devlin2018bert" id="id1">[2]</a>. Make sure you have <code class="docutils literal notranslate"><span class="pre">nemo</span></code> and <code class="docutils literal notranslate"><span class="pre">nemo_nlp</span></code> installed before starting this tutorial. See the <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a> section for more details.</p>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>Creating domain-specific BERT models can be advantageous for a wide range of applications. One notable is domain-specific BERT in a biomedical setting, similar to BioBERT <a class="bibtex reference internal" href="#lee2019biobert" id="id2">[3]</a> and SciBERT <a class="bibtex reference internal" href="#beltagy2019scibert" id="id3">[1]</a>.</p>
-</div>
-<div class="section" id="download-corpus">
-<h2>Download Corpus<a class="headerlink" href="#download-corpus" title="Permalink to this headline">¶</a></h2>
-<p>For demonstration purposes, we will be using the very small WikiText-2 dataset <a class="bibtex reference internal" href="#merity2016pointer" id="id4">[4]</a>.</p>
-<p>To download the dataset, run the script <code class="docutils literal notranslate"><span class="pre">examples/nlp/scripts/get_wt2.sh</span></code>. After downloading and unzipping, the folder should include 3 files that look like this:</p>
+  <div class="section" id="bert">
+<h1>BERT预训练<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h1>
+<p>在本教程中，我们会按照BERT模型结构 <a class="bibtex reference internal" href="#devlin2018bert" id="id1">[2]</a> 构建并训练一个掩码语言模型。训练可以完全从零开始或者在一个预训练好的模型基础上继续训练。在开始本教程之前，请先安装好``nemo``和``nemo_nlp``。关于安装``nemo``的一些步骤可以参阅 <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a> 章节。</p>
+<p>创建一个专门领域的BERT模型对于某些应用是更有优势的。比如一个专门针对生物医学领域的专业BERT，类似于BioBERT <a class="bibtex reference internal" href="#lee2019biobert" id="id2">[3]</a> 和SciBERT <a class="bibtex reference internal" href="#beltagy2019scibert" id="id3">[1]</a>.</p>
+<p>本教程中所使用的代码来自于 <code class="docutils literal notranslate"><span class="pre">examples/nlp/bert_pretraining.py</span></code>.</p>
+<div class="section" id="id4">
+<h2>语料下载<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>因为这只是一个演示，所以我们使用一个非常小的英文数据集WikiText-2 <a class="bibtex reference internal" href="#merity2016pointer" id="id5">[4]</a>.</p>
+<p>运行脚本``examples/nlp/scripts/get_wt2.sh``便可以下载这个数据集。下载后并解压，会得到如下三个文件：</p>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>test.txt
 train.txt
@@ -174,12 +172,18 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
+<p>如果想尝试训练中文BERT模型，你可以下载中文维基语料 <a class="reference external" href="https://github.com/brightmart/nlp_chinese_corpus">wiki2019zh</a>。下载后，你需要解压并用这个脚本 <code class="docutils literal notranslate"><span class="pre">examples/nlp/scripts/process_wiki_zh.py</span></code> 来进行预处理</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python examples/nlp/scripts/process_wiki_zh.py --data_dir<span class="o">=</span>./wiki_zh --output_dir<span class="o">=</span>./wiki_zh --min_frequency<span class="o">=</span><span class="m">3</span>
+</pre></div>
 </div>
-<div class="section" id="create-the-tokenizer-model">
-<h2>Create the tokenizer model<a class="headerlink" href="#create-the-tokenizer-model" title="Permalink to this headline">¶</a></h2>
-<p><cite>BERTPretrainingDataDesc</cite> converts your dataset into the format compatible with <cite>BertPretrainingDataset</cite>. The most computationally intensive step is to tokenize the dataset to create a vocab file and a tokenizer model.</p>
-<p>You can also use an available vocab or tokenizer model to skip this step. If you already have a pretrained tokenizer model, copy it to the <code class="docutils literal notranslate"><span class="pre">[data_dir]/bert`</span></code> folder under the name <code class="docutils literal notranslate"><span class="pre">tokenizer.model</span></code> and the script will skip this step.</p>
-<p>If have an available vocab, say the <code class="docutils literal notranslate"><span class="pre">vocab.txt</span></code> file from any <a class="reference external" href="https://github.com/google-research/bert#pre-trained-models">pretrained BERT model</a>, copy it to the <code class="docutils literal notranslate"><span class="pre">[data_dir]/bert</span></code> folder under the name <code class="docutils literal notranslate"><span class="pre">vocab.txt</span></code>.</p>
+</div></blockquote>
+</div>
+<div class="section" id="tokenizer">
+<h2>创建分词器(Tokenizer)<a class="headerlink" href="#tokenizer" title="Permalink to this headline">¶</a></h2>
+<p>首先你需要创建一个`BERTPretrainingDataDesc`对象来描述数据集的格式。这其中涉及的主要步骤包括将数据集符号化并创建词表(vocabulary)和一个分词器(tokenizer).</p>
+<p>你也可以使用一个现成的词表或者分词器模型来跳过这一步。如果你已经有一个预训练好的分词器模型，将它复制到文件夹``[data_dir]/bert``下并重命名为``tokenizer.model``。</p>
+<p>如果你有一个现成的词表文件，可以将它复制到文件夹``[data_dir]/bert``下并命名为``vocab.txt``。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_desc</span> <span class="o">=</span> <span class="n">BERTPretrainingDataDesc</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
                                     <span class="n">args</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span>
@@ -190,7 +194,7 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>We need to define our tokenizer. If you’d like to use a custom vocabulary file, we strongly recommend you use our <cite>SentencePieceTokenizer</cite>. Otherwise, if you’ll be using a vocabulary file from another pre-trained BERT model, you should use <cite>NemoBertTokenizer</cite>.</p>
+<p>接下来我们需要定义tokenizer。如果你想使用一个自定义的词表文件，我们强烈推荐使用我们的`SentencePieceTokenizer`。如果要训练中文BERT模型，请使用`NemoBertTokenizer`。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># If you&#39;re using a custom vocabulary, create your tokenizer like this</span>
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">SentencePieceTokenizer</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="s2">&quot;tokenizer.model&quot;</span><span class="p">)</span>
@@ -202,13 +206,13 @@ valid.txt
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="create-the-model">
-<h2>Create the model<a class="headerlink" href="#create-the-model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>创建模型<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>We recommend you try this out in a Jupyter notebook. It’ll make debugging much easier!</p>
+<p>建议你在一个Jupyter notebook中尝试以下内容，以方便调试。</p>
 </div>
-<p>First, we need to create our neural factory with the supported backend. How you should define it depends on whether you’d like to multi-GPU or mixed-precision training. This tutorial assumes that you’re training on one GPU, without mixed precision. If you want to use mixed precision, set <code class="docutils literal notranslate"><span class="pre">amp_opt_level</span></code> to <code class="docutils literal notranslate"><span class="pre">O1</span></code> or <code class="docutils literal notranslate"><span class="pre">O2</span></code>.</p>
+<p>首先，我们需要创建一个`NeuralModuleFactory`对象并调用所支持的后端。具体如何创建还取决于你是否想进行多GPU训练或者混合精度训练等。在本教程中，我们只使用一个GPU，而且没有混合精度训练。如果你想使用混合精度训练，可以将``amp_opt_level``选项设置为``O1``或者``O2``。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Backend</span><span class="o">.</span><span class="n">PyTorch</span><span class="p">,</span>
                                    <span class="n">local_rank</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">local_rank</span><span class="p">,</span>
@@ -219,7 +223,7 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>We also need to define the BERT model that we will be pre-training. Here, you can configure your model size as needed. If you want to train from scratch, use this:</p>
+<p>接下来我们需要定义模型结构。这里我们从`huggingface`模块导入BERT的模型结构。你只需要定义一些关键参数即可。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bert_model</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span>
     <span class="n">vocab_size</span><span class="o">=</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab_size</span><span class="p">,</span>
@@ -232,13 +236,13 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>If you want to start pre-training from existing BERT checkpoints, use the following code. For the full list of BERT model names, check out <cite>nemo_nlp.huggingface.BERT.list_pretrained_models()</cite></p>
+<p>如果你想从一个已有的BERT模型文件继续训练，那设置一个模型的名字即可。如果想查看完整的预训练好的BERT模型列表，可以使用`nemo_nlp.huggingface.BERT.list_pretrained_models()`。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bert_model</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span><span class="n">pretrained_model_name</span><span class="o">=</span><span class="s2">&quot;bert-base-cased&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
-<p>Next, we will define our classifier and loss functions. We will demonstrate how to pre-train with both MLM (masked language model) and NSP (next sentence prediction) losses, but you may observe higher downstream accuracy by only pre-training with MLM loss.</p>
+<p>接下来，我们需要定义分类器和损失函数。在本教程中，我们会同时使用掩码语言模型和预测下一句模型这两个模型的损失函数，如果你只用掩饰语言模型作为损失的话，可能会观察到更高的准确率。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mlm_classifier</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">TokenClassifier</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">d_model</span><span class="p">,</span>
                                           <span class="n">num_classes</span><span class="o">=</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab_size</span><span class="p">,</span>
@@ -256,7 +260,7 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>Then, we create the pipeline gtom input to output that can be used for both training and evaluation:</p>
+<p>然后，我们把从输入到输出的整个计算流程封装成一个函数。有了这个函数，我们就可以很方便的分别创建训练流和评估流：</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_pipeline</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">):</span>
     <span class="n">dataset</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">BertPretrainingDataset</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
@@ -294,11 +298,11 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>Next, we define necessary callbacks:</p>
+<p>再然后，我们定义一些必要的回调函数：</p>
 <ol class="arabic">
-<li><p><cite>SimpleLossLoggerCallback</cite>: tracking loss during training</p></li>
-<li><p><cite>EvaluatorCallback</cite>: tracking metrics during evaluation at set intervals</p></li>
-<li><p><cite>CheckpointCallback</cite>: saving model checkpoints at set intervals</p>
+<li><p><cite>SimpleLossLoggerCallback</cite>: 跟踪训练过程中损失函数的变化</p></li>
+<li><p><cite>EvaluatorCallback</cite>: 跟踪评估集上的指标变化</p></li>
+<li><p><cite>CheckpointCallback</cite>: 每过一段时间间隔保存模型</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">SimpleLossLoggerCallback</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">eval_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">EvaluatorCallback</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
@@ -310,12 +314,12 @@ valid.txt
 </ol>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p><a class="reference external" href="https://www.tensorflow.org/tensorboard">Tensorboard</a> is a great debugging tool. It’s not a requirement for this tutorial, but if you’d like to use it, you should install <a class="reference external" href="https://github.com/lanpa/tensorboardX">tensorboardX</a> and run the following command during pre-training:</p>
+<p><a class="reference external" href="https://www.tensorflow.org/tensorboard">Tensorboard</a> 是一个非常棒的调试工具。虽然不是训练的必要步骤，但是你可以安装 <a class="reference external" href="https://github.com/lanpa/tensorboardX">tensorboardX</a> 并在训练过程中运行它来观察一些指标在训练过程中的变化：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tensorboard --logdir bert_pretraining_tb
 </pre></div>
 </div>
 </div>
-<p>We also recommend you export your model’s parameters to a config file. This makes it easier to load your BERT model into NeMo later, as explained in our NER tutorial.</p>
+<p>我们还建议把模型参数保存到一个配置文件中。这样做的话，你以后使用NeMo的时候导入BERT模型会非常方便。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config_path</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{nf.checkpoint_dir}/bert-config.json&#39;</span>
 
@@ -324,7 +328,7 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>Finally, you should define your optimizer, and start training!</p>
+<p>最后，我们定义优化器并开始训练！</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lr_policy_fn</span> <span class="o">=</span> <span class="n">get_lr_policy</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">lr_policy</span><span class="p">,</span>
                              <span class="n">total_steps</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">num_epochs</span> <span class="o">*</span> <span class="n">steps_per_epoch</span><span class="p">,</span>
@@ -342,8 +346,8 @@ valid.txt
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>参考<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-zh/nlp/bert_pretraining-0"><dl class="citation">
 <dt class="bibtex label" id="beltagy2019scibert"><span class="brackets"><a class="fn-backref" href="#id3">1</a></span></dt>
 <dd><p>Iz Beltagy, Arman Cohan, and Kyle Lo. Scibert: pretrained contextualized embeddings for scientific text. 2019. <a class="reference external" href="https://arxiv.org/abs/1903.10676">arXiv:1903.10676</a>.</p>
@@ -354,7 +358,7 @@ valid.txt
 <dt class="bibtex label" id="lee2019biobert"><span class="brackets"><a class="fn-backref" href="#id2">3</a></span></dt>
 <dd><p>Jinhyuk Lee, Wonjin Yoon, Sungdong Kim, Donghyeon Kim, Sunkyu Kim, Chan Ho So, and Jaewoo Kang. Biobert: a pre-trained biomedical language representation model for biomedical text mining. 2019. <a class="reference external" href="https://arxiv.org/abs/1901.08746">arXiv:1901.08746</a>.</p>
 </dd>
-<dt class="bibtex label" id="merity2016pointer"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dt class="bibtex label" id="merity2016pointer"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
 <dd><p>Stephen Merity, Caiming Xiong, James Bradbury, and Richard Socher. Pointer sentinel mixture models. <em>arXiv preprint arXiv:1609.07843</em>, 2016.</p>
 </dd>
 </dl>
@@ -373,7 +377,7 @@ valid.txt
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2019, AI Applications team
+        &copy; Copyright 2018-2019, NVIDIA
 
     </p>
   </div>

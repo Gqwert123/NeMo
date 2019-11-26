@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>QuartzNet &mdash; nemo 0.8.1 documentation</title>
+  <title>QuartzNet &mdash; nemo 0.9.0 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.8.1
+                0.9.0
               </div>
             
           
@@ -158,18 +158,18 @@
             
   <div class="section" id="quartznet">
 <h1>QuartzNet<a class="headerlink" href="#quartznet" title="Permalink to this headline">¶</a></h1>
-<p>QuartzNet is a version of Jasper <a class="bibtex reference internal" href="../nlp/asr-improvement.html#li2019jasper" id="id1">[1]</a> model with separable convolutions and larger filters. It can achieve performance
-similar to Jasper but with an order of magnitude less parameters.
-Similarly to Jasper, QuartzNet family of models are denoted as QuartzNet_[BxR] where B is the number of blocks, and R - the number of convolutional sub-blocks within a block. Each sub-block contains a 1-D <em>separable</em> convolution, batch normalization, ReLU, and dropout:</p>
+<p>QuartzNet 是Jasper的一个版本 <a class="bibtex reference internal" href="../nlp/asr-improvement.html#li2019jasper" id="id1">[1]</a> 它有可分离的卷积和更大的过滤器。它可以获得和Jasper
+相似的效果，但是在参数上是远远小于Jasper的。
+类似于Jasper, QuartzNet模型的家族可以用 QuartzNet_[BxR] 结构来表示，其中B是块的个数，R表示一个块中卷积子块的个数. 每个子块包含了一个一维的 <em>可分离</em> 的卷积层，批归一化层，ReLU和dropout层:</p>
 <blockquote>
 <div><img alt="quartznet model" class="align-center" src="../../_images/quartz_vertical1.png" />
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This checkpoint was trained on LibriSpeech and full “validated” part of En Mozilla Common Voice</p>
+<p>这个checkpoint是在LibriSpeech上训练的，完全在EN Mozilla Common Voice的部分数据集上做的“验证”</p>
 </div>
 </div></blockquote>
-<p>We are working on a QuartzNet paper and will release it soon.</p>
-<p>Pretrained models can be found, <a class="reference external" href="https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5">here</a>.</p>
+<p>我们正在写QuartzNet的论文，不就就会发布。</p>
+<p>预训练的模型, <a class="reference external" href="https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5">这里</a>.</p>
 </div>
 
 
@@ -183,7 +183,7 @@ Similarly to Jasper, QuartzNet family of models are denoted as QuartzNet_[BxR] w
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2019, AI Applications team
+        &copy; Copyright 2018-2019, NVIDIA
 
     </p>
   </div>

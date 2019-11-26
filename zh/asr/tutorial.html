@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>教程 &mdash; nemo 0.8.1 documentation</title>
+  <title>教程 &mdash; nemo 0.9.0 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0.8.1
+                0.9.0
               </div>
             
           
@@ -426,8 +426,8 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
 </div>
 </div>
 </div>
-<div class="section" id="fine-tuning">
-<h2>微调（Fine-tuning）<a class="headerlink" href="#fine-tuning" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h2>微调<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <p>如果我们从一个好的预训练模型开始训练，训练时间会大大的减小:</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -446,15 +446,15 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
 <p>微调的时候，用小一点的学习率</p>
 </div>
 </div>
-<div class="section" id="id11">
-<h2>推理<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2>推理<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <p>首先下载预训练模型(jasper_encoder, jasper_decoder and configuration files) <a class="reference external" href="https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5">戳这里</a> 放到 <cite>&lt;path_to_checkpoints&gt;</cite>. 我们会用这个预训练模型在LibriSpeech dev-clean数据集上测试WER.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python &lt;nemo_git_repo_root&gt;/examples/asr/jasper_infer.py --model_config<span class="o">=</span>&lt;nemo_git_repo_root&gt;/examples/asr/configs/quartznet15x5.yaml --eval_datasets <span class="s2">&quot;&lt;path_to_data&gt;/dev_clean.json&quot;</span> --load_dir<span class="o">=</span>&lt;directory_containing_checkpoints&gt;
 </pre></div>
 </div>
 </div>
-<div class="section" id="id13">
-<h2>用语言模型推理<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id14">
+<h2>用语言模型推理<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="kenlm">
 <h3>用KenLM构建的语言模型<a class="headerlink" href="#kenlm" title="Permalink to this headline">¶</a></h3>
 <p>我们会使用 <a class="reference external" href="https://github.com/PaddlePaddle/DeepSpeech">Baidu’s CTC decoder with LM implementation.</a>.</p>
@@ -481,8 +481,8 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
 </div></blockquote>
 </div>
 </div>
-<div class="section" id="id14">
-<h2>参考<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h2>参考<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-zh/asr/tutorial-0"><dl class="citation">
 <dt class="bibtex label" id="graves2006"><span class="brackets"><a class="fn-backref" href="#id4">1</a></span></dt>
 <dd><p>Alex Graves, Santiago Fernández, Faustino Gomez, and Jürgen Schmidhuber. Connectionist temporal classification: labelling unsegmented sequence data with recurrent neural networks. In <em>Proceedings of the 23rd international conference on Machine learning</em>, 369–376. ACM, 2006.</p>
@@ -518,7 +518,7 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2019, AI Applications team
+        &copy; Copyright 2018-2019, NVIDIA
 
     </p>
   </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pretraining BERT &mdash; nemo 0.8.1 documentation</title>
+  <title>Pretraining BERT &mdash; nemo 0.9.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.8.1
+                0.9.0
               </div>
             
           
@@ -181,6 +181,7 @@
   <div class="section" id="pretraining-bert">
 <h1>Pretraining BERT<a class="headerlink" href="#pretraining-bert" title="Permalink to this headline">¶</a></h1>
 <p>In this tutorial, we will build and train a masked language model, either from scratch or from a pretrained BERT model, using the BERT architecture <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#devlin2018bert" id="id1">[2]</a>. Make sure you have <code class="docutils literal notranslate"><span class="pre">nemo</span></code> and <code class="docutils literal notranslate"><span class="pre">nemo_nlp</span></code> installed before starting this tutorial. See the <a class="reference internal" href="../zh/installation.html#installation"><span class="std std-ref">如何安装</span></a> section for more details.</p>
+<p>The code used in this tutorial can be found at <code class="docutils literal notranslate"><span class="pre">examples/nlp/bert_pretraining.py</span></code>.</p>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Creating domain-specific BERT models can be advantageous for a wide range of applications. One notable is domain-specific BERT in a biomedical setting, similar to BioBERT <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#lee2019biobert" id="id2">[3]</a> and SciBERT <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#beltagy2019scibert" id="id3">[1]</a>.</p>
@@ -196,11 +197,17 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
+<p>To train BERT on a Chinese dataset, you may download the Chinese Wikipedia corpus <a class="reference external" href="https://github.com/brightmart/nlp_chinese_corpus">wiki2019zh</a>. After downloading, you may unzip and use the script <code class="docutils literal notranslate"><span class="pre">examples/nlp/scripts/process_wiki_zh.py</span></code> for preprocessing the raw text.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python examples/nlp/scripts/process_wiki_zh.py --data_dir<span class="o">=</span>./wiki_zh --output_dir<span class="o">=</span>./wiki_zh --min_frequency<span class="o">=</span><span class="m">3</span>
+</pre></div>
+</div>
+</div></blockquote>
 </div>
 <div class="section" id="create-the-tokenizer-model">
 <h2>Create the tokenizer model<a class="headerlink" href="#create-the-tokenizer-model" title="Permalink to this headline">¶</a></h2>
 <p><cite>BERTPretrainingDataDesc</cite> converts your dataset into the format compatible with <cite>BertPretrainingDataset</cite>. The most computationally intensive step is to tokenize the dataset to create a vocab file and a tokenizer model.</p>
-<p>You can also use an available vocab or tokenizer model to skip this step. If you already have a pretrained tokenizer model, copy it to the <code class="docutils literal notranslate"><span class="pre">[data_dir]/bert`</span></code> folder under the name <code class="docutils literal notranslate"><span class="pre">tokenizer.model</span></code> and the script will skip this step.</p>
+<p>You can also use an available vocab or tokenizer model to skip this step. If you already have a pretrained tokenizer model, copy it to the <code class="docutils literal notranslate"><span class="pre">[data_dir]/bert</span></code> folder under the name <code class="docutils literal notranslate"><span class="pre">tokenizer.model</span></code> and the script will skip this step.</p>
 <p>If have an available vocab, say the <code class="docutils literal notranslate"><span class="pre">vocab.txt</span></code> file from any <a class="reference external" href="https://github.com/google-research/bert#pre-trained-models">pretrained BERT model</a>, copy it to the <code class="docutils literal notranslate"><span class="pre">[data_dir]/bert</span></code> folder under the name <code class="docutils literal notranslate"><span class="pre">vocab.txt</span></code>.</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_desc</span> <span class="o">=</span> <span class="n">BERTPretrainingDataDesc</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
@@ -213,6 +220,7 @@ valid.txt
 </div>
 </div></blockquote>
 <p>We need to define our tokenizer. If you’d like to use a custom vocabulary file, we strongly recommend you use our <cite>SentencePieceTokenizer</cite>. Otherwise, if you’ll be using a vocabulary file from another pre-trained BERT model, you should use <cite>NemoBertTokenizer</cite>.</p>
+<p>To train on a Chinese dataset, you should use <cite>NemoBertTokenizer</cite>.</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># If you&#39;re using a custom vocabulary, create your tokenizer like this</span>
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">SentencePieceTokenizer</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="s2">&quot;tokenizer.model&quot;</span><span class="p">)</span>
@@ -404,7 +412,7 @@ valid.txt
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2019, AI Applications team
+        &copy; Copyright 2018-2019, NVIDIA
 
     </p>
   </div>
