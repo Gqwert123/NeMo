@@ -196,8 +196,8 @@ python get_librispeech_data.py --data_root<span class="o">=</span>data --data_se
 <p>Run these scripts to convert the Fisher English Training Speech data into a format expected by the <cite>nemo_asr</cite> collection.</p>
 <p>In brief, the following scripts convert the .sph files to .wav, slice those files into smaller audio samples, match the smaller slices with their corresponding transcripts, and split the resulting audio segments into train, validation, and test sets (with one manifest each).</p>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You will need at least 106GB of space to run the .wav conversion, and an additional 105GB for the slicing and matching.
+<p class="first admonition-title">Note</p>
+<p class="last">You will need at least 106GB of space to run the .wav conversion, and an additional 105GB for the slicing and matching.
 You will need to have sph2pipe installed in order to run the .wav conversion.</p>
 </div>
 <p><strong>Instructions</strong></p>
@@ -244,8 +244,8 @@ Once finished, you may delete the 10 minute long .wav files if you wish.</p>
 <p>Similarly to the Fisher dataset processing scripts, this script converts the .sph files to .wav, slices the audio files and transcripts into utterances, and combines them into segments of some minimum length (default is 10 seconds).
 The resulting segments are all written out to an audio directory, and the corresponding transcripts are written to a manifest JSON.</p>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You will need 5GB of free space to run this script.
+<p class="first admonition-title">Note</p>
+<p class="last">You will need 5GB of free space to run this script.
 You will also need to have sph2pipe installed.</p>
 </div>
 <p>This script assumes you already have the 2000 HUB5 dataset from the Linguistic Data Consortium.</p>
@@ -275,7 +275,11 @@ python get_aishell_data.py --data_root<span class="o">=</span>data
 </div>
 <div class="section" id="aishell2">
 <h2>Aishell2<a class="headerlink" href="#aishell2" title="Permalink to this headline">¶</a></h2>
-<p>xxxTO BE FILLEDxxx</p>
+<p>Run the script to process AIShell-2 dataset in order to generate files in the supported format of  <cite>nemo_asr</cite>. You should set the data folder of AIShell-2 using <cite>–audio_folder</cite> and where to push these json files using <cite>–dest_folder</cite>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python process_aishell2_data.py --audio_folder<span class="o">=</span>&lt;data directory&gt; --dest_folder<span class="o">=</span>&lt;destination directory&gt;
+</pre></div>
+</div>
+<p>Then, you should have <cite>train.json</cite> <cite>dev.json</cite> <cite>test.json</cite> and <cite>vocab.txt</cite> in <cite>dest_folder</cite>.</p>
 </div>
 </div>
 
