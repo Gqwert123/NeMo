@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Neural Types &mdash; nemo 0.8.1 documentation</title>
+  <title>神经类型 &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="How to build Neural Module" href="custommodules.html" />
-    <link rel="prev" title="Examples" href="examples.html" /> 
+    <link rel="next" title="如何构建神经模块" href="custommodules.html" />
+    <link rel="prev" title="例子" href="examples.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,18 +88,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="intro.html">从这里开始</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="program_model.html">Programming Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Neural Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html">How to build Neural Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="weightsharing.html">Weight Sharing between Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html">Callbacks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">Complex Training Pipelines (GAN Example)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="program_model.html">编程模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">例子</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">神经类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custommodules.html">如何构建神经模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a></li>
+<li class="toctree-l2"><a class="reference internal" href="callbacks.html">回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程 (GAN例子)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">语音合成</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
@@ -149,7 +150,7 @@
         
           <li><a href="intro.html">从这里开始</a> &raquo;</li>
         
-      <li>Neural Types</li>
+      <li>神经类型</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -168,19 +169,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="neural-types">
-<h1>Neural Types<a class="headerlink" href="#neural-types" title="Permalink to this headline">¶</a></h1>
-<p>Neural Types are used to check input tensors to make sure that two neural modules are compatible, and catch
-semantic and dimensionality errors.</p>
-<p>Neural Types are implemented by <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> class which is a mapping from Tensor’s axis to <code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code>.</p>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code> contains following information per axis:</p>
+  <div class="section" id="id1">
+<h1>神经类型<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>神经类型是用来检查输入张量，确保两个神经模块是兼容的，并且捕捉语义和维度上的错误。</p>
+<p>神经类型在 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 类中实现，它把张量的轴映射到 <code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code>.</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code> 每个轴有下列信息:</p>
 <ul class="simple">
-<li><p>Semantic Tag, which must inherit from <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTag</span></code>, for example: <code class="xref py py-class docutils literal notranslate"><span class="pre">BatchTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ChannelTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTag</span></code>, etc. These tags can be related via <cite>is-a</cite> inheritance.</p></li>
-<li><p>Dimension: unsigned integer</p></li>
-<li><p>Descriptor: string</p></li>
+<li><p>Semantic Tag, 必须继承自 <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTag</span></code>，比如 <code class="xref py py-class docutils literal notranslate"><span class="pre">BatchTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ChannelTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTag</span></code> 等。这些标签是 <cite>is-a</cite> 的继承关系。</p></li>
+<li><p>Dimension: 无符号整形</p></li>
+<li><p>Descriptor: 字符串</p></li>
 </ul>
-<p>To instantiate a NeuralType you should pass it a dictionary (axis2type) which will map axis to it’s AxisType.
-For example, a ResNet18 input and output ports can be described as:</p>
+<p>初始化神经类型，你应该给它传递一个字典（轴到类型），把轴映射到它的AxisType。
+比如，ResNet18的输入和输出端口可以这么描述：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">input_ports</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">NeuralType</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">AxisType</span><span class="p">(</span><span class="n">BatchTag</span><span class="p">),</span>
                                 <span class="mi">1</span><span class="p">:</span> <span class="n">AxisType</span><span class="p">(</span><span class="n">ChannelTag</span><span class="p">),</span>
                                 <span class="mi">2</span><span class="p">:</span> <span class="n">AxisType</span><span class="p">(</span><span class="n">HeightTag</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span>
@@ -190,48 +190,48 @@ For example, a ResNet18 input and output ports can be described as:</p>
                                 <span class="mi">1</span><span class="p">:</span> <span class="n">AxisType</span><span class="p">(</span><span class="n">ChannelTag</span><span class="p">)})}</span>
 </pre></div>
 </div>
-<p><strong>Neural type comparison</strong></p>
-<p>Two <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> objects can be compared using <code class="docutils literal notranslate"><span class="pre">.compare</span></code> method.
-The result is:</p>
+<p><strong>神经类型比较</strong></p>
+<p>两个 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 对象可以通过 <code class="docutils literal notranslate"><span class="pre">.compare</span></code> 方法来进行比较。
+结果是:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NeuralTypeComparisonResult</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;The result of comparing two neural type objects for compatibility.</span>
-<span class="sd">  When comparing A.compare_to(B):&quot;&quot;&quot;</span>
+  <span class="sd">&quot;&quot;&quot;比较两个神经类型兼容性的结果</span>
+<span class="sd">  A.compare_to(B):&quot;&quot;&quot;</span>
   <span class="n">SAME</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="n">LESS</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># A is B</span>
-  <span class="n">GREATER</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># B is A</span>
-  <span class="n">DIM_INCOMPATIBLE</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># Resize connector might fix incompatibility</span>
-  <span class="n">TRANSPOSE_SAME</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># A transpose will make them same</span>
-  <span class="n">INCOMPATIBLE</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># A and B are incompatible. Can&#39;t fix incompatibility automatically</span>
+  <span class="n">LESS</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># A 是 B</span>
+  <span class="n">GREATER</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># B 是 A</span>
+  <span class="n">DIM_INCOMPATIBLE</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># 重新调整连接器也许可以修复不兼容</span>
+  <span class="n">TRANSPOSE_SAME</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># 把A转置可以使它们相同</span>
+  <span class="n">INCOMPATIBLE</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># A和B不兼容。不能自动修复不兼容</span>
 </pre></div>
 </div>
-<p><strong>Special cases</strong></p>
+<p><strong>特殊例子</strong></p>
 <ul class="simple">
-<li><p><em>Non-tensor</em> objects should be denoted as <code class="docutils literal notranslate"><span class="pre">NeuralType(None)</span></code></p></li>
-<li><p><em>Optional</em>: input is as optional, if input is provided the type compatibility will be checked</p></li>
-<li><p><em>Root</em> type is denoted by <code class="docutils literal notranslate"><span class="pre">NeuralType({})</span></code>: A port of <code class="docutils literal notranslate"><span class="pre">NeuralType({})</span></code> type must accept NmTensors of any NeuralType:</p></li>
+<li><p><em>Non-tensor</em> 对象应该用 <code class="docutils literal notranslate"><span class="pre">NeuralType(None)</span></code> 表示。</p></li>
+<li><p><em>Optional</em>: 输入是可选的，如果提供了类型输入，那么会自动做类型检测</p></li>
+<li><p><em>Root</em> 类型可以用 <code class="docutils literal notranslate"><span class="pre">NeuralType({})</span></code> 表示: <code class="docutils literal notranslate"><span class="pre">NeuralType({})</span></code> 类型的端口必须可以接收任意的神经类型的神经模块张量(NmTensors):</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">root_type</span> <span class="o">=</span> <span class="n">NeuralType</span><span class="p">({})</span>
 <span class="n">root_type</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">any_other_neural_type</span><span class="p">)</span> <span class="o">==</span> <span class="n">NeuralTypeComparisonResult</span><span class="o">.</span><span class="n">SAME</span>
 </pre></div>
 </div>
-<p>See “nemo/tests/test_neural_types.py” for more examples.</p>
-<p><strong>Neural Types help us to debug models</strong></p>
-<p>There is a large class of errors, which will not produce runtime or compile exception. For example:</p>
+<p>参考 “nemo/tests/test_neural_types.py” 中更多的例子。</p>
+<p><strong>神经类型帮助我们调试程序</strong></p>
+<p>有许多的错误类型在运行和编译的时候不会报错，比如：</p>
 <ol class="arabic simple">
 <li><p>“Rank matches but semantics doesn’t”.</p></li>
 </ol>
-<p>For example, Module A produces data in the format [Batch, Time, Dim] whereas Module B  expects format [Time, Batch, Dim]. A simple axes transpose will solve this error.</p>
+<p>例如，模块A的数据格式是[Batch, Time, Dim]，但是模块B期望的格式是[Time, Batch, Dim]。简单的轴转置就可以解决这个错误。</p>
 <ol class="arabic simple" start="2">
 <li><p>“Concatenating wrong dimensions”.</p></li>
 </ol>
-<p>For example, module should concatenate (add) two input tensors X and Y along dimension 0. But tensor X is in format [B, T, D] while tensor Y=[T, B, D] and concat . .</p>
+<p>例如, 模块应该根据0号维度合并(加)两个输入张量X和Y。但是张量X格式是[B, T, D]，但是张量Y格式是[T, B, D] 然后做合并 . .</p>
 <ol class="arabic simple" start="3">
 <li><p>“Dimensionality mismatch”</p></li>
 </ol>
-<p>A module expects image of size 224x224 but gets 256x256. The type comparison will result in <code class="docutils literal notranslate"><span class="pre">NeuralTypeComparisonResult.DIM_INCOMPATIBLE</span></code> .</p>
+<p>一个模块期望图片尺寸是224x224但是得到的是256x256。这种类型比较会导致 <code class="docutils literal notranslate"><span class="pre">NeuralTypeComparisonResult.DIM_INCOMPATIBLE</span></code> .</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This type mechanism is represented by Python inheritance. That is, <code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code> class inherits from <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> class.</p>
+<p>这个类型机制是由Python继承表示的。也就是说 <code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code> 类继承自 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 类。</p>
 </div>
 </div>
 
@@ -243,10 +243,10 @@ The result is:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="custommodules.html" class="btn btn-neutral float-right" title="How to build Neural Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="custommodules.html" class="btn btn-neutral float-right" title="如何构建神经模块" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-left" title="例子" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

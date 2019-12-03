@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Weight Sharing between Modules &mdash; nemo 0.8.1 documentation</title>
+  <title>模块间的权重共享 &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Callbacks" href="callbacks.html" />
-    <link rel="prev" title="How to build Neural Module" href="custommodules.html" /> 
+    <link rel="next" title="回调" href="callbacks.html" />
+    <link rel="prev" title="如何构建神经模块" href="custommodules.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,23 +88,24 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="intro.html">从这里开始</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="program_model.html">Programming Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neuraltypes.html">Neural Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html">How to build Neural Module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Weight Sharing between Modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#neural-module-reuse">Neural Module reuse</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#copy-weights-between-modules">Copy weights between modules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#tie-weights-between-modules">Tie weights between modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="program_model.html">编程模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">例子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neuraltypes.html">神经类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custommodules.html">如何构建神经模块</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">模块间的权重共享</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">神经模块重用</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">在模块间复制权重</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">在模块间连接权重</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html">Callbacks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">Complex Training Pipelines (GAN Example)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="callbacks.html">回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程 (GAN例子)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">语音合成</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
@@ -154,7 +155,7 @@
         
           <li><a href="intro.html">从这里开始</a> &raquo;</li>
         
-      <li>Weight Sharing between Modules</li>
+      <li>模块间的权重共享</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -173,20 +174,20 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="weight-sharing-between-modules">
-<h1>Weight Sharing between Modules<a class="headerlink" href="#weight-sharing-between-modules" title="Permalink to this headline">¶</a></h1>
-<p>There are several ways to share or tie weights between neural models.</p>
-<div class="section" id="neural-module-reuse">
-<h2>Neural Module reuse<a class="headerlink" href="#neural-module-reuse" title="Permalink to this headline">¶</a></h2>
-<p>The idea is to re-use neural modules between training, evaluation and inference graphs.
-For example:</p>
+  <div class="section" id="id1">
+<h1>模块间的权重共享<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>这里有一些在神经模块之间共享权重的方法。</p>
+<div class="section" id="id2">
+<h2>神经模块重用<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>这个想法是在训练，验证评估和推理图上重用神经模块。
+例如:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
 <span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">TrainDataLayer</span><span class="p">(</span><span class="o">**</span><span class="n">train_config</span><span class="p">)</span>
 <span class="n">eval_dataloader</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">EvalDataLayer</span><span class="p">(</span><span class="o">**</span><span class="n">eval_config</span><span class="p">)</span>
 
 <span class="n">L</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">MaskedXEntropyLoss</span><span class="p">()</span>
 
-<span class="c1"># training model</span>
+<span class="c1"># 训练模型</span>
 
 <span class="n">src</span><span class="p">,</span> <span class="n">src_lengths</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">max_tgt_length</span> <span class="o">=</span> <span class="n">train_dataloader</span><span class="p">()</span>
 <span class="n">encoder_outputs</span><span class="p">,</span> <span class="n">encoder_hidden</span> <span class="o">=</span> <span class="n">encoder</span><span class="p">(</span><span class="n">input_seq</span><span class="o">=</span><span class="n">src</span><span class="p">,</span> <span class="n">input_lengths</span><span class="o">=</span><span class="n">src_lengths</span><span class="p">)</span>
@@ -195,7 +196,7 @@ For example:</p>
 <span class="n">train_loss</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">tgt</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
 
 
-<span class="c1"># evaluation model</span>
+<span class="c1"># 评测验证模型</span>
 
 <span class="n">src</span><span class="p">,</span> <span class="n">src_lengths</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">max_tgt_length</span> <span class="o">=</span> <span class="n">eval_dataloader</span><span class="p">()</span>
 <span class="n">encoder_outputs</span><span class="p">,</span> <span class="n">encoder_hidden</span> <span class="o">=</span> <span class="n">encoder</span><span class="p">(</span><span class="n">input_seq</span><span class="o">=</span><span class="n">src</span><span class="p">,</span> <span class="n">input_lengths</span><span class="o">=</span><span class="n">src_lengths</span><span class="p">)</span>
@@ -206,53 +207,55 @@ For example:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="copy-weights-between-modules">
-<h2>Copy weights between modules<a class="headerlink" href="#copy-weights-between-modules" title="Permalink to this headline">¶</a></h2>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> class provides 2 methods
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_weights</span></code> and
+<div class="section" id="id3">
+<h2>在模块间复制权重<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> 类提供了两个方法
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_weights</span></code> 和
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">set_weights</span></code>
-for sharing weights.</p>
+用来做权重共享</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_weights</span></code> method can set only part of module’s weights.</p>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_weights</span></code> 方法只能设置模块的部分权重</p>
 </div>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>This approach is used only to copy weights. Subsequent update of weights in one module will not affect weights in the other module.</p>
+<p>这个方法只能用来复制权重。后续在一个模块中更新权重不会影响到其他模块中的权重。</p>
 </div>
-<p>Consider an example:</p>
+<p>考虑下面这个例子:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tn1</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">pytorch</span><span class="o">.</span><span class="n">toys</span><span class="o">.</span><span class="n">TaylorNet</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">tn2</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">pytorch</span><span class="o">.</span><span class="n">toys</span><span class="o">.</span><span class="n">TaylorNet</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
-<span class="c1"># because of random intialization, weights should be different</span>
+<span class="c1"># 因为随机初始化，权重应该是不一样的</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__check_if_weights_are_equal</span><span class="p">(</span><span class="n">tn1</span><span class="o">.</span><span class="n">get_weights</span><span class="p">(),</span>
                                                    <span class="n">tn2</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()))</span>
 <span class="n">tn3</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">pytorch</span><span class="o">.</span><span class="n">toys</span><span class="o">.</span><span class="n">TaylorNet</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">tn3</span><span class="o">.</span><span class="n">set_weights</span><span class="p">(</span><span class="n">tn1</span><span class="o">.</span><span class="n">get_weights</span><span class="p">())</span>
 
-<span class="c1"># check than weights are the same</span>
+<span class="c1"># 检查权重是否一样</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__check_if_weights_are_equal</span><span class="p">(</span><span class="n">tn1</span><span class="o">.</span><span class="n">get_weights</span><span class="p">(),</span>
                                                   <span class="n">tn3</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()))</span>
 
-<span class="c1"># change weights in tn1 module - another module should not change</span>
+<span class="c1"># 改变tn1模块中的权重 - 另一个模块中的权重不应该改变</span>
 <span class="n">tn1</span><span class="o">.</span><span class="n">fc1</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.1</span><span class="p">])</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__check_if_weights_are_equal</span><span class="p">(</span><span class="n">tn1</span><span class="o">.</span><span class="n">get_weights</span><span class="p">(),</span>
                                                    <span class="n">tn3</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()))</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="tie-weights-between-modules">
-<h2>Tie weights between modules<a class="headerlink" href="#tie-weights-between-modules" title="Permalink to this headline">¶</a></h2>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> class provides <code class="xref py py-meth docutils literal notranslate"><span class="pre">tie_weights_with</span></code> method to tie weights between two or more modules.</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>Tied weights are identical across all modules: subsequent modification of weights in one module will result in the same modification on the other.</p>
+<div class="section" id="id4">
+<h2>在模块间连接权重<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> 类提供 <code class="xref py py-meth docutils literal notranslate"><span class="pre">tie_weights_with</span></code> 方法在多个模块间连接权重
+.. important:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>连接后的权重在所有的模块之间保持一致，后续对一个模块中权重的改变也会使得其他模块中的权重有相同的改变
+</pre></div>
 </div>
-<p>In the example below we first create a simple embedding encoder which takes [batch, time] sequences of word ids from vocabulary <code class="docutils literal notranslate"><span class="pre">V</span></code>  and embeds them into some <code class="docutils literal notranslate"><span class="pre">D</span></code>-dimensional space. Effectively, this is a lookup-based projection from <code class="docutils literal notranslate"><span class="pre">V</span></code>-dimensional space to <code class="docutils literal notranslate"><span class="pre">D</span></code>-dimensional space. We then create a decoder which projects from <code class="docutils literal notranslate"><span class="pre">D</span></code>-dimensional space back to the <code class="docutils literal notranslate"><span class="pre">V</span></code>-dimensional space. We want to transpose the encoder projection matrix and reuse it for decoder.
-The code below demonstrates how this can be achieved.</p>
+<p>在下面的例子中，我们首先创建一个简单的词嵌入编码器，他的输入是[batch, time]的词序列，从词表中 <code class="docutils literal notranslate"><span class="pre">V</span></code> 中找到词id，把它映射到 <code class="docutils literal notranslate"><span class="pre">D</span></code> 维空间。
+这是一个查表的映射，从 <code class="docutils literal notranslate"><span class="pre">V</span></code> 维空间到 <code class="docutils literal notranslate"><span class="pre">D</span></code> 维空间。
+接着我们需要创建一个解码器，从 <code class="docutils literal notranslate"><span class="pre">D</span></code>-维空间映射到 <code class="docutils literal notranslate"><span class="pre">V</span></code>-维空间。我们想把编码器的映射矩阵在解码器中重用。
+下面的代码解释了这要怎么做。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The weights have different names (<code class="docutils literal notranslate"><span class="pre">embedding.weight</span></code> and <code class="docutils literal notranslate"><span class="pre">projection.weight</span></code>) but their values are the same. Changes to one will result to changes in the other. Effectively, <code class="docutils literal notranslate"><span class="pre">embedding.weight</span></code> and <code class="docutils literal notranslate"><span class="pre">projection.weight</span></code> become pointers to the same tensor.</p>
+<p>权重有不同名字(<code class="docutils literal notranslate"><span class="pre">embedding.weight</span></code> 和 <code class="docutils literal notranslate"><span class="pre">projection.weight</span></code>) 但值是一样的。对一个权重的改变会导致另一个也变化。可以理解为 <code class="docutils literal notranslate"><span class="pre">embedding.weight</span></code> 和 <code class="docutils literal notranslate"><span class="pre">projection.weight</span></code> 是指向同一个张量的指针。</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">D</span> <span class="o">=</span> <span class="mi">2</span>
@@ -269,11 +272,11 @@ The code below demonstrates how this can be achieved.</p>
 
 <span class="n">was</span> <span class="o">=</span> <span class="n">embd</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 
-<span class="c1"># Now, change weights on one object</span>
+<span class="c1"># 现在，我们在一个对象上改变值</span>
 <span class="n">embd</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="n">after</span> <span class="o">=</span> <span class="n">embd</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 
-<span class="c1"># Make sure that the change was reflected on another object</span>
+<span class="c1"># 确保另一个对象上的值也得到了相应的变化</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">embd</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
                                 <span class="n">proj</span><span class="o">.</span><span class="n">projection</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">was</span><span class="p">,</span> <span class="n">after</span><span class="p">))</span>
@@ -290,10 +293,10 @@ The code below demonstrates how this can be achieved.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="callbacks.html" class="btn btn-neutral float-right" title="Callbacks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="callbacks.html" class="btn btn-neutral float-right" title="回调" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="custommodules.html" class="btn btn-neutral float-left" title="How to build Neural Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="custommodules.html" class="btn btn-neutral float-left" title="如何构建神经模块" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="语音识别" href="asr/intro.html" />
-    <link rel="prev" title="Complex Training Pipelines (GAN Example)" href="tutorials/complex_training.html" /> 
+    <link rel="prev" title="复杂训练流程 (GAN例子)" href="tutorials/complex_training.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -96,6 +96,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="asr/intro.html">语音识别</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nlp/intro.html">自然语言处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tts/intro.html">语音合成</a></li>
 <li class="toctree-l1"><a class="reference internal" href="collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api-docs/modules.html">NeMo API</a></li>
 </ul>
@@ -182,7 +183,7 @@
 <p>进行多GPU训练需要进行如下设置：</p>
 <ol class="arabic simple">
 <li><p>在 <cite>NeuralModuleFactory</cite> 类中设置选项 <cite>placement</cite> 为 <cite>nemo.core.DeviceType.AllGpu</cite></p></li>
-<li><p>在你的python脚本中添加命令行选项 ‘local_rank’: <cite>parser.add_argument(“–local_rank”, default=None, type=int)</cite></p></li>
+<li><p>在你的python脚本中添加命令行选项 <code class="docutils literal notranslate"><span class="pre">local_rank</span></code>: <cite>parser.add_argument(“–local_rank”, default=None, type=int)</cite></p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span>
        <span class="n">placement</span><span class="o">=</span><span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">DeviceType</span><span class="o">.</span><span class="n">AllGpu</span><span class="p">,</span>
@@ -204,7 +205,8 @@
 <p>这条命令会进行8卡并行和混合精度训练，并且会在多个数据集上进行验证。</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>你可以在选项中同时传入多个数据集，他们之间用逗号隔开，例如： <cite>–train_manifest=/manifests/librivox-train-all.json,/manifests/librivox-train-all-sp10pcnt.json,/manifests/cv/validated.json</cite>.</p>
+<p>你可以在选项中同时传入多个数据集，他们之间用逗号隔开，例如：
+<cite>–train_manifest=/manifests/librivox-train-all.json,/manifests/librivox-train-all-sp10pcnt.json,/manifests/cv/validated.json</cite>.</p>
 </div>
 </div>
 </div>
@@ -220,7 +222,7 @@
         <a href="asr/intro.html" class="btn btn-neutral float-right" title="语音识别" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="tutorials/complex_training.html" class="btn btn-neutral float-left" title="Complex Training Pipelines (GAN Example)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tutorials/complex_training.html" class="btn btn-neutral float-left" title="复杂训练流程 (GAN例子)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

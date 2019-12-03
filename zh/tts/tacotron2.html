@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>从这里开始 &mdash; nemo 0.8.1 documentation</title>
+  <title>Tacotron 2 &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -34,9 +34,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="编程模型" href="program_model.html" />
-    <link rel="prev" title="如何安装" href="../installation.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,23 +82,14 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">从这里开始</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="program_model.html">编程模型</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples.html">例子</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neuraltypes.html">神经类型</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html">如何构建神经模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a></li>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html">回调</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程 (GAN例子)</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">从这里开始</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">语音合成</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">语音合成</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
@@ -148,13 +137,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>从这里开始</li>
+      <li>Tacotron 2</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/tutorials/intro.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tts/tacotron2.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -167,41 +156,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="id1">
-<h1>从这里开始<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="program_model.html">编程模型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">例子</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples.html#hello-world">Hello World</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples.html#id2">简单的聊天机器人</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="neuraltypes.html">神经类型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="custommodules.html">如何构建神经模块</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html#id2">可训练模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html#id5">数据层模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html#id9">损失函数神经模块</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="weightsharing.html#id2">神经模块重用</a></li>
-<li class="toctree-l2"><a class="reference internal" href="weightsharing.html#id3">在模块间复制权重</a></li>
-<li class="toctree-l2"><a class="reference internal" href="weightsharing.html#id4">在模块间连接权重</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="callbacks.html">回调</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html#simplelossloggercallback">SimpleLossLoggerCallback</a></li>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html#checkpointcallback">CheckpointCallback</a></li>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html#evaluatorcallback">EvaluatorCallback</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="complex_training.html">复杂训练流程 (GAN例子)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html#id1">多个损失函数</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html#id2">多个优化器和多个损失函数</a></li>
-</ul>
-</li>
-</ul>
+  <div class="section" id="tacotron-2">
+<span id="id1"></span><h1>Tacotron 2<a class="headerlink" href="#tacotron-2" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="model">
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
+<p>本模型基于 <a class="reference external" href="https://ai.googleblog.com/2017/12/tacotron-2-generating-human-like-speech.html">Tacotron 2 模型</a>
+(也可参考 <a class="reference external" href="https://arxiv.org/abs/1712.05884">文献</a>)。</p>
+<p>Tacotron 2 模型使用的编码器-解码器结构能够很好地对序列到序列（sequence-to-sequence）建模，NeMo 将 Tacotron 2 分成了 4 个不同的神经模块:</p>
+<ol class="arabic simple">
+<li><p>文本嵌入（TextEmbedding）神经模块包含的查找表用于将字符 ID 转化为嵌入空间中的向量表示。</p></li>
+<li><p>嵌入表示的文本序列会传入到 Tacotron2Encoder 神经模块中。</p></li>
+<li><p>Tacotron2Decoder 神经模块包含模型中的注意力机制以及解码器的循环神经网络（RNN）部分。</p></li>
+<li><p>最后, Tacotron2Postnet 神经模块对 Tacotron2Decoder 神经模块中编码器输出的音频谱进行修正。</p></li>
+</ol>
+</div>
+<div class="section" id="id4">
+<h2>小建议<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>模型通过注意力机制学习到的对齐矩阵可以用来初步衡量合成音频的质量。在理想情况下，我们希望
+学习到的对齐是一个干净清晰的对角线。NeMo 中当前的模型能够在训练 20k 个训练步后学习到输入
+文本和输出音频谱的对齐信息。</p>
 </div>
 </div>
 
@@ -210,15 +183,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="program_model.html" class="btn btn-neutral float-right" title="编程模型" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../installation.html" class="btn btn-neutral float-left" title="如何安装" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

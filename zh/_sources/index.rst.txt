@@ -11,6 +11,7 @@ NVIDIA Neural Modules: NeMo 中文文档
    training
    asr/intro
    nlp/intro
+   tts/intro
    collections/modules
    api-docs/modules
 
@@ -42,7 +43,7 @@ Neural Modules (NeMo) 是一个用神经模块来构建AI应用的框架无关�
 * `NmTensor` - 表示的是神经模块端口之间流动的激活元。
 * `NeuralType` - 表示模块端口类型和NmTensors。
 * `NeuralFactory` - 创建神经模块并且管理训练流程。
-* `Lazy execution` - 当描述神经模块之间的激活流时，在一个“action”(比如`optimizer.optimize(...)` 没有触发前，什么都不会发生。
+* `Lazy execution` - 当描述神经模块之间的激活流时，在一个“action”(比如 `optimizer.optimize(...)` 没有触发前，什么都不会发生。
 * `Collections` - NeMo中附带的模块集合 -  相关的模块集合，比如 `nemo_asr` (语音识别) 以及 `nemo_nlp` (自然语言处理)
 
 
@@ -57,7 +58,7 @@ Neural Modules (NeMo) 是一个用神经模块来构建AI应用的框架无关�
 
 如果需要的话，你可以从这个docker容器开始 `NGC PyTorch容器 <https://ngc.nvidia.com/catalog/containers/nvidia:pytorch>`_ 这里面已经包含了上面所需要的环境。
 
-你可以直接运行``docker pull nvcr.io/nvidia/pytorch:19.08-py3``
+你可以直接运行 ``docker pull nvcr.io/nvidia/pytorch:19.08-py3``
 
 接着就按照下面的步骤：
 
@@ -69,7 +70,9 @@ Neural Modules (NeMo) 是一个用神经模块来构建AI应用的框架无关�
         2. ``python setup.py install``
 
     * NLP collections `collections/nemo_nlp`: ``python setup.py install``
-4) 如果要开发，你需要: ``python setup.py develop`` 而不是 ``python setup.py install`` in Step (3.2) above
+    
+    * TTS collections `collections/nemo_tts`: ``python setup.py install``
+4) 如果要开发，你需要运行: ``python setup.py develop`` 而不是之前步骤3.2中的 ``python setup.py install``
 5) 到 `examples/start_here` 下，从这几个简单的例子开始吧
 
 

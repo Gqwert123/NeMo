@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>从这里开始 &mdash; nemo 0.8.1 documentation</title>
+  <title>模型 &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -34,9 +34,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="编程模型" href="program_model.html" />
-    <link rel="prev" title="如何安装" href="../installation.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -84,23 +82,14 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">从这里开始</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="program_model.html">编程模型</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples.html">例子</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neuraltypes.html">神经类型</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html">如何构建神经模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a></li>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html">回调</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程 (GAN例子)</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">从这里开始</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">语音合成</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">语音合成</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
@@ -148,13 +137,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>从这里开始</li>
+      <li>模型</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/tutorials/intro.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tts/models.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,37 +157,16 @@
            <div itemprop="articleBody">
             
   <div class="section" id="id1">
-<h1>从这里开始<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>模型<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="program_model.html">编程模型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">例子</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples.html#hello-world">Hello World</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples.html#id2">简单的聊天机器人</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tacotron2.html">Tacotron 2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tacotron2.html#model">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tacotron2.html#id4">小建议</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="neuraltypes.html">神经类型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="custommodules.html">如何构建神经模块</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html#id2">可训练模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html#id5">数据层模块</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html#id9">损失函数神经模块</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="weightsharing.html#id2">神经模块重用</a></li>
-<li class="toctree-l2"><a class="reference internal" href="weightsharing.html#id3">在模块间复制权重</a></li>
-<li class="toctree-l2"><a class="reference internal" href="weightsharing.html#id4">在模块间连接权重</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="callbacks.html">回调</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html#simplelossloggercallback">SimpleLossLoggerCallback</a></li>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html#checkpointcallback">CheckpointCallback</a></li>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html#evaluatorcallback">EvaluatorCallback</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="complex_training.html">复杂训练流程 (GAN例子)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html#id1">多个损失函数</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html#id2">多个优化器和多个损失函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="waveglow.html">WaveGlow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="waveglow.html#id2">小建议</a></li>
 </ul>
 </li>
 </ul>
@@ -210,15 +178,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="program_model.html" class="btn btn-neutral float-right" title="编程模型" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../installation.html" class="btn btn-neutral float-left" title="如何安装" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

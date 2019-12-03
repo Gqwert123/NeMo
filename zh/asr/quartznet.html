@@ -101,6 +101,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">语音合成</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
@@ -173,7 +174,7 @@
             
   <div class="section" id="quartznet">
 <h1>QuartzNet<a class="headerlink" href="#quartznet" title="Permalink to this headline">¶</a></h1>
-<p>QuartzNet 是Jasper的一个版本 <a class="bibtex reference internal" href="../zh/nlp/asr-improvement.html#li2019jasper" id="id1">[1]</a> 它有可分离的卷积和更大的过滤器。它可以获得和Jasper
+<p>QuartzNet 是Jasper的一个版本 <a class="bibtex reference internal" href="../nlp/asr-improvement.html#li2019jasper" id="id1">[1]</a> 它有可分离的卷积和更大的过滤器。它可以获得和Jasper
 相似的效果，但是在参数上是远远小于Jasper的。
 类似于Jasper, QuartzNet模型的家族可以用 QuartzNet_[BxR] 结构来表示，其中B是块的个数，R表示一个块中卷积子块的个数. 每个子块包含了一个一维的 <em>可分离</em> 的卷积层，批归一化层，ReLU和dropout层:</p>
 <blockquote>
@@ -184,7 +185,7 @@
 </div>
 </div></blockquote>
 <p>我们正在写QuartzNet的论文，不就就会发布。</p>
-<p>预训练的模型, <a class="reference external" href="https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5">这里</a>.</p>
+<p>预训练的模型在 <a class="reference external" href="https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5">这里</a>.</p>
 </div>
 
 

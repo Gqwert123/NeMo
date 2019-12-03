@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Examples &mdash; nemo 0.8.1 documentation</title>
+  <title>例子 &mdash; nemo 0.8.1 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Neural Types" href="neuraltypes.html" />
-    <link rel="prev" title="Programming Model" href="program_model.html" /> 
+    <link rel="next" title="神经类型" href="neuraltypes.html" />
+    <link rel="prev" title="编程模型" href="program_model.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,22 +88,23 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="intro.html">从这里开始</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="program_model.html">Programming Model</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="program_model.html">编程模型</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">例子</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#hello-world">Hello World</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#simple-chatbot">Simple Chatbot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">简单的聊天机器人</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="neuraltypes.html">Neural Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custommodules.html">How to build Neural Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="weightsharing.html">Weight Sharing between Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="callbacks.html">Callbacks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">Complex Training Pipelines (GAN Example)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neuraltypes.html">神经类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custommodules.html">如何构建神经模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a></li>
+<li class="toctree-l2"><a class="reference internal" href="callbacks.html">回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程 (GAN例子)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">语音合成</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
@@ -153,7 +154,7 @@
         
           <li><a href="intro.html">从这里开始</a> &raquo;</li>
         
-      <li>Examples</li>
+      <li>例子</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -172,66 +173,66 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="examples">
-<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
-<p>Nemo applications consist of 3  stages:</p>
+  <div class="section" id="id1">
+<h1>例子<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>NeMo应用程序包含三个步骤:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p>create NeuralModules</p></li>
-<li><p>construct model using tensors (‘activations’) to connect modules into graph</p></li>
-<li><p>start action, e.g. training or inference</p></li>
+<li><p>创建神经模块</p></li>
+<li><p>创建使用张量(“激活元”)的模型，把神经模块串成图</p></li>
+<li><p>开始操作, e.g. 训练或者推理</p></li>
 </ol>
 </div></blockquote>
 <div class="section" id="hello-world">
 <h2>Hello World<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
-<p>This example shows how to build a model which learn Taylor’s coefficients for y=sin(x).</p>
+<p>这个例子展现了如何构建一个模型，学习y=sin(x)的泰勒系数。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nemo</span>
 
-<span class="c1"># instantiate Neural Factory with supported backend</span>
+<span class="c1"># 用支持的后端初始化Neural Factory</span>
 <span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">()</span>
 
-<span class="c1"># instantiate necessary neural modules</span>
-<span class="c1"># RealFunctionDataLayer defaults to f=torch.sin, sampling from x=[-4, 4]</span>
+<span class="c1"># 初始化必要的神经模块</span>
+<span class="c1"># RealFunctionDataLayer默认为f=torch.sin，从x=[-4, 4]采样</span>
 <span class="n">dl</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">RealFunctionDataLayer</span><span class="p">(</span>
     <span class="n">n</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
 <span class="n">fx</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">TaylorNet</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">loss</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
 
-<span class="c1"># describe activation&#39;s flow</span>
+<span class="c1"># 描述激活流</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">dl</span><span class="p">()</span>
 <span class="n">p</span> <span class="o">=</span> <span class="n">fx</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
 <span class="n">lss</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-<span class="c1"># SimpleLossLoggerCallback will print loss values to console.</span>
+<span class="c1"># SimpleLossLoggerCallback打印损失函数值到控制台</span>
 <span class="n">callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">SimpleLossLoggerCallback</span><span class="p">(</span>
     <span class="n">tensors</span><span class="o">=</span><span class="p">[</span><span class="n">lss</span><span class="p">],</span>
     <span class="n">print_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Train Loss: {str(x[0].item())}&#39;</span><span class="p">))</span>
 
-<span class="c1"># Invoke &quot;train&quot; action</span>
+<span class="c1"># 触发“训练”操作</span>
 <span class="n">nf</span><span class="o">.</span><span class="n">train</span><span class="p">([</span><span class="n">lss</span><span class="p">],</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">callback</span><span class="p">],</span>
          <span class="n">optimization_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num_epochs&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.0003</span><span class="p">},</span>
          <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;sgd&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="simple-chatbot">
-<h2>Simple Chatbot<a class="headerlink" href="#simple-chatbot" title="Permalink to this headline">¶</a></h2>
-<p>This is an adaptation of <a class="reference external" href="https://pytorch.org/tutorials/beginner/chatbot_tutorial.html">PyTorch’s Chatbot tutorial</a> into NeuralModule’s framework. It demonstrates how to do training and evaluation.</p>
-<p>Model can be describes by graph shown below. Model has:</p>
+<div class="section" id="id2">
+<h2>简单的聊天机器人<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>这个教程改编自 <a class="reference external" href="https://pytorch.org/tutorials/beginner/chatbot_tutorial.html">PyTorch的聊天机器人教程</a> 使得它适配于NeMo框架。它解释了要如何训练和评估。</p>
+<p>模型可以由下图表示，模型有:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>two data layers (one for training and another one for inference),</p></li>
-<li><p>encoder and decoder (shared by training and inference),</p></li>
-<li><p>two loss modules (one for training and another one for inference).</p></li>
+<li><p>两个数据层 (一个做训练一个做推理),</p></li>
+<li><p>编码器解码器(训练和推理共享),</p></li>
+<li><p>两个损失函数模块 (一个做训练一个做推理).</p></li>
 </ul>
 </div></blockquote>
 <img alt="../_images/chatbot.png" src="../_images/chatbot.png" />
-<p>During training model will print:</p>
+<p>在训练过程中，模型会打印:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><strong>SOURCE</strong>:  model input</p></li>
-<li><p><strong>PREDICTED RESPONSE</strong>: model output</p></li>
-<li><p><strong>TARGET</strong>:  target output</p></li>
+<li><p><strong>SOURCE</strong>:  模型输入</p></li>
+<li><p><strong>PREDICTED RESPONSE</strong>: 模型输出</p></li>
+<li><p><strong>TARGET</strong>:  目标输出</p></li>
 </ul>
 </div></blockquote>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -240,14 +241,14 @@
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">nemo</span>
 
-<span class="c1"># Get Data</span>
+<span class="c1"># 获取数据</span>
 <span class="n">data_file</span> <span class="o">=</span> <span class="s2">&quot;movie_data.txt&quot;</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">data_file</span><span class="p">):</span>
     <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;../../tests/data/movie_lines.txt.gz&quot;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
             <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">f_in</span><span class="p">,</span> <span class="n">f_out</span><span class="p">)</span>
 
-<span class="c1"># Configuration</span>
+<span class="c1"># 配置</span>
 <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;corpus_name&quot;</span><span class="p">:</span> <span class="s2">&quot;cornell&quot;</span><span class="p">,</span>
     <span class="s2">&quot;datafile&quot;</span><span class="p">:</span> <span class="n">data_file</span><span class="p">,</span>
@@ -264,20 +265,20 @@
     <span class="s2">&quot;tb_log_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;ChatBot&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="c1"># instantiate neural factory</span>
+<span class="c1"># 初始化 neural factory</span>
 <span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">()</span>
 
-<span class="c1"># instantiate neural modules</span>
+<span class="c1"># 初始化神经模块</span>
 <span class="n">dl</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">DialogDataLayer</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
 <span class="n">encoder</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">EncoderRNN</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
 <span class="n">decoder</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">LuongAttnDecoderRNN</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
 <span class="n">L</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">MaskedXEntropyLoss</span><span class="p">()</span>
 <span class="n">decoderInfer</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">GreedyLuongAttnDecoderRNN</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
 
-<span class="c1"># PARAMETER SHARING: between training and auto-regressive inference decoders</span>
+<span class="c1"># 参数共享: 在训练解码器和自回归推理解码器之间</span>
 <span class="n">decoderInfer</span><span class="o">.</span><span class="n">tie_weights_with</span><span class="p">(</span><span class="n">decoder</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">decoder</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
-<span class="c1"># express activations flow</span>
+<span class="c1"># 描述激活流</span>
 <span class="n">src</span><span class="p">,</span> <span class="n">src_lengths</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">max_tgt_length</span> <span class="o">=</span> <span class="n">dl</span><span class="p">()</span>
 <span class="n">encoder_outputs</span><span class="p">,</span> <span class="n">encoder_hidden</span> <span class="o">=</span> <span class="n">encoder</span><span class="p">(</span><span class="n">input_seq</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
                                           <span class="n">input_lengths</span><span class="o">=</span><span class="n">src_lengths</span><span class="p">)</span>
@@ -285,11 +286,11 @@
                           <span class="n">max_target_len</span><span class="o">=</span><span class="n">max_tgt_length</span><span class="p">)</span>
 <span class="n">loss</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">tgt</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
 
-<span class="c1"># run inference decoder to generate predictions</span>
+<span class="c1"># 运行推理解码器得到输出</span>
 <span class="n">outputs_inf</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">decoderInfer</span><span class="p">(</span><span class="n">encoder_outputs</span><span class="o">=</span><span class="n">encoder_outputs</span><span class="p">)</span>
 
 
-<span class="c1"># define callback function which prints intermediate results to console</span>
+<span class="c1"># 定义回调函数打印中间结果到控制台</span>
 <span class="k">def</span> <span class="nf">outputs2words</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="n">vocab</span><span class="p">):</span>
     <span class="n">source_ids</span> <span class="o">=</span> <span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
     <span class="n">response_ids</span> <span class="o">=</span> <span class="n">tensors</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -310,7 +311,7 @@
     <span class="n">print_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">outputs2words</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dl</span><span class="o">.</span><span class="n">voc</span><span class="o">.</span><span class="n">index2word</span><span class="p">)</span>
 <span class="p">)</span>
 
-<span class="c1"># start training</span>
+<span class="c1"># 开始训练</span>
 <span class="n">nf</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
     <span class="n">tensors_to_optimize</span><span class="o">=</span><span class="p">[</span><span class="n">loss</span><span class="p">],</span>
     <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">callback</span><span class="p">],</span>
@@ -320,7 +321,7 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Look for more examples under <cite>nemo/examples</cite></p>
+<p>可以在 <cite>nemo/examples</cite> 下面找到更多例子</p>
 </div>
 </div>
 </div>
@@ -333,10 +334,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="neuraltypes.html" class="btn btn-neutral float-right" title="Neural Types" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="neuraltypes.html" class="btn btn-neutral float-right" title="神经类型" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="program_model.html" class="btn btn-neutral float-left" title="Programming Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="program_model.html" class="btn btn-neutral float-left" title="编程模型" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Transformer语言模型" href="transformer_language_model.html" />
-    <link rel="prev" title="Tutorial" href="neural_machine_translation.html" /> 
+    <link rel="prev" title="教程" href="neural_machine_translation.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -108,6 +108,7 @@
 <li class="toctree-l2"><a class="reference internal" href="intro.html#bertx2">用BERTx2后处理模型来提升语音识别性能</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">语音合成</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
@@ -178,13 +179,13 @@
             
   <div class="section" id="bert">
 <h1>BERT预训练<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h1>
-<p>在本教程中，我们会按照BERT模型结构 <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#devlin2018bert" id="id1">[2]</a> 构建并训练一个掩码语言模型。训练可以完全从零开始或者在一个预训练好的模型基础上继续训练。在开始本教程之前，请先安装好``nemo``和``nemo_nlp``。关于安装``nemo``的一些步骤可以参阅 <a class="reference internal" href="../zh/installation.html#installation"><span class="std std-ref">如何安装</span></a> 章节。</p>
-<p>创建一个专门领域的BERT模型对于某些应用是更有优势的。比如一个专门针对生物医学领域的专业BERT，类似于BioBERT <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#lee2019biobert" id="id2">[3]</a> 和SciBERT <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#beltagy2019scibert" id="id3">[1]</a>.</p>
+<p>在本教程中，我们会按照BERT模型结构 <a class="bibtex reference internal" href="#devlin2018bert" id="id1">[2]</a> 构建并训练一个掩码语言模型。训练可以完全从零开始或者在一个预训练好的模型基础上继续训练。在开始本教程之前，请先安装好 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 和 <code class="docutils literal notranslate"><span class="pre">nemo_nlp</span></code> 。关于安装 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 的一些步骤可以参阅 <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a> 章节。</p>
+<p>创建一个专门领域的BERT模型对于某些应用是更有优势的。比如一个专门针对生物医学领域的专业BERT，类似于BioBERT <a class="bibtex reference internal" href="#lee2019biobert" id="id2">[3]</a> 和SciBERT <a class="bibtex reference internal" href="#beltagy2019scibert" id="id3">[1]</a>.</p>
 <p>本教程中所使用的代码来自于 <code class="docutils literal notranslate"><span class="pre">examples/nlp/bert_pretraining.py</span></code>.</p>
 <div class="section" id="id4">
 <h2>语料下载<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>因为这只是一个演示，所以我们使用一个非常小的英文数据集WikiText-2 <a class="bibtex reference internal" href="../zh/nlp/bert_pretraining.html#merity2016pointer" id="id5">[4]</a>.</p>
-<p>运行脚本``examples/nlp/scripts/get_wt2.sh``便可以下载这个数据集。下载后并解压，会得到如下三个文件：</p>
+<p>因为这只是一个演示，所以我们使用一个非常小的英文数据集WikiText-2 <a class="bibtex reference internal" href="#merity2016pointer" id="id5">[4]</a>.</p>
+<p>运行脚本 <code class="docutils literal notranslate"><span class="pre">examples/nlp/scripts/get_wt2.sh</span></code> 便可以下载这个数据集。下载后并解压，会得到如下三个文件：</p>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>test.txt
 train.txt
@@ -201,9 +202,9 @@ valid.txt
 </div>
 <div class="section" id="tokenizer">
 <h2>创建分词器(Tokenizer)<a class="headerlink" href="#tokenizer" title="Permalink to this headline">¶</a></h2>
-<p>首先你需要创建一个`BERTPretrainingDataDesc`对象来描述数据集的格式。这其中涉及的主要步骤包括将数据集符号化并创建词表(vocabulary)和一个分词器(tokenizer).</p>
-<p>你也可以使用一个现成的词表或者分词器模型来跳过这一步。如果你已经有一个预训练好的分词器模型，将它复制到文件夹``[data_dir]/bert``下并重命名为``tokenizer.model``。</p>
-<p>如果你有一个现成的词表文件，可以将它复制到文件夹``[data_dir]/bert``下并命名为``vocab.txt``。</p>
+<p>首先你需要创建一个 <cite>BERTPretrainingDataDesc</cite> 对象来描述数据集的格式。这其中涉及的主要步骤包括将数据集符号化并创建词表(vocabulary)和一个分词器(tokenizer).</p>
+<p>你也可以使用一个现成的词表或者分词器模型来跳过这一步。如果你已经有一个预训练好的分词器模型，将它复制到文件夹 <code class="docutils literal notranslate"><span class="pre">[data_dir]/bert</span></code> 下并重命名为 <code class="docutils literal notranslate"><span class="pre">tokenizer.model</span></code> 。</p>
+<p>如果你有一个现成的词表文件，可以将它复制到文件夹 <code class="docutils literal notranslate"><span class="pre">[data_dir]/bert</span></code> 下并命名为 <code class="docutils literal notranslate"><span class="pre">vocab.txt</span></code> 。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_desc</span> <span class="o">=</span> <span class="n">BERTPretrainingDataDesc</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span>
                                     <span class="n">args</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span>
@@ -214,7 +215,7 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>接下来我们需要定义tokenizer。如果你想使用一个自定义的词表文件，我们强烈推荐使用我们的`SentencePieceTokenizer`。如果要训练中文BERT模型，请使用`NemoBertTokenizer`。</p>
+<p>接下来我们需要定义tokenizer。如果你想使用一个自定义的词表文件，我们强烈推荐使用 <cite>SentencePieceTokenizer</cite> 。如果要训练中文BERT模型，请使用 <cite>NemoBertTokenizer</cite> 。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># If you&#39;re using a custom vocabulary, create your tokenizer like this</span>
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">SentencePieceTokenizer</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="s2">&quot;tokenizer.model&quot;</span><span class="p">)</span>
@@ -232,7 +233,7 @@ valid.txt
 <p class="admonition-title">Tip</p>
 <p>建议你在一个Jupyter notebook中尝试以下内容，以方便调试。</p>
 </div>
-<p>首先，我们需要创建一个`NeuralModuleFactory`对象并调用所支持的后端。具体如何创建还取决于你是否想进行多GPU训练或者混合精度训练等。在本教程中，我们只使用一个GPU，而且没有混合精度训练。如果你想使用混合精度训练，可以将``amp_opt_level``选项设置为``O1``或者``O2``。</p>
+<p>首先，我们需要创建一个 <cite>NeuralModuleFactory</cite> 对象并调用所支持的后端。具体如何创建还取决于你是否想进行多GPU训练或者混合精度训练等。在本教程中，我们只使用一个GPU，而且没有混合精度训练。如果你想使用混合精度训练，可以将 <code class="docutils literal notranslate"><span class="pre">amp_opt_level</span></code> 选项设置为 <code class="docutils literal notranslate"><span class="pre">O1</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">O2</span></code> 。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Backend</span><span class="o">.</span><span class="n">PyTorch</span><span class="p">,</span>
                                    <span class="n">local_rank</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">local_rank</span><span class="p">,</span>
@@ -243,7 +244,7 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>接下来我们需要定义模型结构。这里我们从`huggingface`模块导入BERT的模型结构。你只需要定义一些关键参数即可。</p>
+<p>接下来我们需要定义模型结构。这里我们从 <cite>huggingface</cite> 模块导入BERT的模型结构。你只需要定义一些关键参数即可。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bert_model</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span>
     <span class="n">vocab_size</span><span class="o">=</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab_size</span><span class="p">,</span>
@@ -256,7 +257,7 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>如果你想从一个已有的BERT模型文件继续训练，那设置一个模型的名字即可。如果想查看完整的预训练好的BERT模型列表，可以使用`nemo_nlp.huggingface.BERT.list_pretrained_models()`。</p>
+<p>如果你想从一个已有的BERT模型文件继续训练，那设置一个模型的名字即可。如果想查看完整的预训练好的BERT模型列表，可以使用 <cite>nemo_nlp.huggingface.BERT.list_pretrained_models()</cite> 。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bert_model</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span><span class="n">pretrained_model_name</span><span class="o">=</span><span class="s2">&quot;bert-base-cased&quot;</span><span class="p">)</span>
 </pre></div>
@@ -397,7 +398,7 @@ valid.txt
         <a href="transformer_language_model.html" class="btn btn-neutral float-right" title="Transformer语言模型" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="neural_machine_translation.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="neural_machine_translation.html" class="btn btn-neutral float-left" title="教程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

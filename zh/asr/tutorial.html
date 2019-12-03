@@ -113,6 +113,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">语音合成</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
@@ -184,14 +185,14 @@
   <div class="section" id="id1">
 <h1>教程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>确保你已经安装了 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 和 <code class="docutils literal notranslate"><span class="pre">nemo_asr</span></code>
-参考 <a class="reference internal" href="../zh/installation.html#installation"><span class="std std-ref">如何安装</span></a> 部分.</p>
+参考 <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a> 部分.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>在这个教程中你只需要用到 <cite>nemo</cite> 和 <cite>nemo_asr</cite></p>
 </div>
 <div class="section" id="id2">
 <h2>简介<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>这个教程中我们使用Jasper <a class="bibtex reference internal" href="../zh/nlp/asr-improvement.html#li2019jasper" id="id3">[1]</a> 模型。Jasper是一个基于CTC <a class="bibtex reference internal" href="../zh/asr/tutorial.html#graves2006" id="id4">[1]</a> 的端到端的语音识别模型。这个模型之所以被称之为“端到端”是因为它在不需要额外的对齐信息下就可以把输入的音频样本转到对应的抄本上。
+<p>这个教程中我们使用Jasper <a class="bibtex reference internal" href="../nlp/asr-improvement.html#li2019jasper" id="id3">[1]</a> 模型。Jasper是一个基于CTC <a class="bibtex reference internal" href="#graves2006" id="id4">[1]</a> 的端到端的语音识别模型。这个模型之所以被称之为“端到端”是因为它在不需要额外的对齐信息下就可以把输入的音频样本转到对应的抄本上。
 CTC可以在音频和文本中找到对齐方式。基于CTC的语音识别管道包含了下面的这些模块：</p>
 <ol class="arabic">
 <li><p>音频预处理(特征提取)： 信号正则化，窗口化，(log)频谱(梅尔谱或者MFCC)</p></li>
@@ -205,7 +206,7 @@ CTC可以在音频和文本中找到对齐方式。基于CTC的语音识别管�
 </div>
 <div class="section" id="id5">
 <h2>获取数据<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>我们会使用LibriSpeech <a class="bibtex reference internal" href="../zh/nlp/asr-improvement.html#panayotov2015librispeech" id="id6">[3]</a> 数据集. 下面这些脚本会下载并且把Librispeech转成 <cite>nemo_asr</cite> 需要的数据格式 :</p>
+<p>我们会使用LibriSpeech <a class="bibtex reference internal" href="../nlp/asr-improvement.html#panayotov2015librispeech" id="id6">[3]</a> 数据集. 下面这些脚本会下载并且把Librispeech转成 <cite>nemo_asr</cite> 需要的数据格式 :</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir data
 <span class="c1"># 我们需要安装sox</span>
 <span class="c1"># 在ubuntu上安装sox, 只需要: sudo apt-get install sox</span>
@@ -234,7 +235,7 @@ json文件中的每一行都指的是一个训练样本 - <cite>audio_filepath</
 </div>
 <div class="section" id="id7">
 <h2>训练<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<p>我们会在Jasper家族 <a class="bibtex reference internal" href="../zh/nlp/asr-improvement.html#li2019jasper" id="id8">[1]</a> 中训练一个小模型。
+<p>我们会在Jasper家族 <a class="bibtex reference internal" href="../nlp/asr-improvement.html#li2019jasper" id="id8">[1]</a> 中训练一个小模型。
 Jasper (“Just Another SPeech Recognizer”) 是一个深度时延网络 (TDNN) 包含了一维卷积层的块(blocks)。
 Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的个数, R表示的是一个块中卷积子块的个数。每个子块包含了一个一维卷积层，一层batch normalization,一个ReLU激活函数, 和一个dropout层:</p>
 <blockquote>
@@ -255,7 +256,7 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
 <span class="c1"># NeMo&#39;s ASR collection</span>
 <span class="kn">import</span> <span class="nn">nemo_asr</span>
 
-<span class="c1"># Create a Neural Factory</span>
+<span class="c1"># 创建Neural Factory</span>
 <span class="c1"># It creates log files and tensorboard writers for us among other functions</span>
 <span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span>
     <span class="n">log_dir</span><span class="o">=</span><span class="s1">&#39;jasper12x1SEP&#39;</span><span class="p">,</span>
@@ -269,17 +270,17 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
 <span class="c1"># Path to our validation manifest</span>
 <span class="n">eval_datasets</span> <span class="o">=</span> <span class="s2">&quot;&lt;path_to_where_you_put_data&gt;/dev_clean.json&quot;</span>
 
-<span class="c1"># Jasper Model definition</span>
+<span class="c1"># Jasper模型定义</span>
 <span class="kn">from</span> <span class="nn">ruamel.yaml</span> <span class="kn">import</span> <span class="n">YAML</span>
 
-<span class="c1"># Here we will be using separable convolutions</span>
+<span class="c1"># 这里我们用可分离卷积</span>
 <span class="c1"># with 12 blocks (k=12 repeated once r=1 from the picture above)</span>
 <span class="n">yaml</span> <span class="o">=</span> <span class="n">YAML</span><span class="p">(</span><span class="n">typ</span><span class="o">=</span><span class="s2">&quot;safe&quot;</span><span class="p">)</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;&lt;nemo_git_repo_root&gt;/examples/asr/configs/jasper12x1SEP.yaml&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">jasper_model_definition</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 <span class="n">labels</span> <span class="o">=</span> <span class="n">jasper_model_definition</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">]</span>
 
-<span class="c1"># Instantiate neural modules</span>
+<span class="c1"># 初始化神经模块</span>
 <span class="n">data_layer</span> <span class="o">=</span> <span class="n">nemo_asr</span><span class="o">.</span><span class="n">AudioToTextDataLayer</span><span class="p">(</span>
     <span class="n">manifest_filepath</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
@@ -298,7 +299,7 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
 <span class="n">ctc_loss</span> <span class="o">=</span> <span class="n">nemo_asr</span><span class="o">.</span><span class="n">CTCLossNM</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
 <span class="n">greedy_decoder</span> <span class="o">=</span> <span class="n">nemo_asr</span><span class="o">.</span><span class="n">GreedyCTCDecoder</span><span class="p">()</span>
 
-<span class="c1"># Training DAG (Model)</span>
+<span class="c1"># 训练有向无环图DAG (模型)</span>
 <span class="n">audio_signal</span><span class="p">,</span> <span class="n">audio_signal_len</span><span class="p">,</span> <span class="n">transcript</span><span class="p">,</span> <span class="n">transcript_len</span> <span class="o">=</span> <span class="n">data_layer</span><span class="p">()</span>
 <span class="n">processed_signal</span><span class="p">,</span> <span class="n">processed_signal_len</span> <span class="o">=</span> <span class="n">data_preprocessor</span><span class="p">(</span>
     <span class="n">input_signal</span><span class="o">=</span><span class="n">audio_signal</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">audio_signal_len</span><span class="p">)</span>
@@ -311,13 +312,12 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
     <span class="n">log_probs</span><span class="o">=</span><span class="n">log_probs</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="n">transcript</span><span class="p">,</span>
     <span class="n">input_length</span><span class="o">=</span><span class="n">encoded_len</span><span class="p">,</span> <span class="n">target_length</span><span class="o">=</span><span class="n">transcript_len</span><span class="p">)</span>
 
-<span class="c1"># Validation DAG (Model)</span>
-<span class="c1"># We need to instantiate additional data layer neural module</span>
-<span class="c1"># for validation data</span>
+<span class="c1"># 验证有向无环图DAG (模型)</span>
+<span class="c1"># 我们需要为验证集初始化额外的数据层的神经模块</span>
 <span class="n">audio_signal_v</span><span class="p">,</span> <span class="n">audio_signal_len_v</span><span class="p">,</span> <span class="n">transcript_v</span><span class="p">,</span> <span class="n">transcript_len_v</span> <span class="o">=</span> <span class="n">data_layer_val</span><span class="p">()</span>
 <span class="n">processed_signal_v</span><span class="p">,</span> <span class="n">processed_signal_len_v</span> <span class="o">=</span> <span class="n">data_preprocessor</span><span class="p">(</span>
     <span class="n">input_signal</span><span class="o">=</span><span class="n">audio_signal_v</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">audio_signal_len_v</span><span class="p">)</span>
-<span class="c1"># Note that we are not using data-augmentation in validation DAG</span>
+<span class="c1"># 注意我们再验证DAG的时候不会用数据增强</span>
 <span class="n">encoded_v</span><span class="p">,</span> <span class="n">encoded_len_v</span> <span class="o">=</span> <span class="n">jasper_encoder</span><span class="p">(</span>
     <span class="n">audio_signal</span><span class="o">=</span><span class="n">processed_signal_v</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">processed_signal_len_v</span><span class="p">)</span>
 <span class="n">log_probs_v</span> <span class="o">=</span> <span class="n">jasper_decoder</span><span class="p">(</span><span class="n">encoder_output</span><span class="o">=</span><span class="n">encoded_v</span><span class="p">)</span>
@@ -326,22 +326,21 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
     <span class="n">log_probs</span><span class="o">=</span><span class="n">log_probs_v</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="n">transcript_v</span><span class="p">,</span>
     <span class="n">input_length</span><span class="o">=</span><span class="n">encoded_len_v</span><span class="p">,</span> <span class="n">target_length</span><span class="o">=</span><span class="n">transcript_len_v</span><span class="p">)</span>
 
-<span class="c1"># These helper functions are needed to print and compute various metrics</span>
-<span class="c1"># such as word error rate and log them into tensorboard</span>
-<span class="c1"># they are domain-specific and are provided by NeMo&#39;s collections</span>
+<span class="c1"># 这些帮助函数对于打印和计算不同的指标很重要</span>
+<span class="c1"># 比如计算错词率和把它们记录到tensorboard</span>
+<span class="c1"># 这些函数是领域特殊性的，由NeMo的不同collections提供(nemo_asr, nemo_nlp)</span>
 <span class="kn">from</span> <span class="nn">nemo_asr.helpers</span> <span class="kn">import</span> <span class="n">monitor_asr_train_progress</span><span class="p">,</span> \
     <span class="n">process_evaluation_batch</span><span class="p">,</span> <span class="n">process_evaluation_epoch</span>
 
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="c1"># Callback to track loss and print predictions during training</span>
+<span class="c1"># 回调追踪损失值，打印训练中的预测结果</span>
 <span class="n">train_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">SimpleLossLoggerCallback</span><span class="p">(</span>
     <span class="n">tb_writer</span><span class="o">=</span><span class="n">tb_writer</span><span class="p">,</span>
-    <span class="c1"># Define the tensors that you want SimpleLossLoggerCallback to</span>
-    <span class="c1"># operate on</span>
-    <span class="c1"># Here we want to print our loss, and our word error rate which</span>
-    <span class="c1"># is a function of our predictions, transcript, and transcript_len</span>
+    <span class="c1"># 定义让SimpleLossLoggerCallback回调打印的张量</span>
+    <span class="c1"># 这里我们想打印损失值，和我们的错词率</span>
+    <span class="c1"># 错词率是预测值，抄本和抄本长度的函数</span>
     <span class="n">tensors</span><span class="o">=</span><span class="p">[</span><span class="n">loss</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">transcript</span><span class="p">,</span> <span class="n">transcript_len</span><span class="p">],</span>
-    <span class="c1"># To print logs to screen, define a print_func</span>
+    <span class="c1"># 为了能把日志打印到屏幕，定义一个print_func函数</span>
     <span class="n">print_func</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span>
         <span class="n">monitor_asr_train_progress</span><span class="p">,</span>
         <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
@@ -350,38 +349,37 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
 
 <span class="n">saver_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">CheckpointCallback</span><span class="p">(</span>
     <span class="n">folder</span><span class="o">=</span><span class="s2">&quot;./&quot;</span><span class="p">,</span>
-    <span class="c1"># Set how often we want to save checkpoints</span>
+    <span class="c1"># 设置多少个步数保存一次checkpoint</span>
     <span class="n">step_freq</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-<span class="c1"># PRO TIP: while you can only have 1 train DAG, you can have as many</span>
-<span class="c1"># val DAGs and callbacks as you want. This is useful if you want to monitor</span>
-<span class="c1"># progress on more than one val dataset at once (say LibriSpeech dev clean</span>
-<span class="c1"># and dev other)</span>
+<span class="c1"># PRO TIP: 虽然你只能有一个有向无环图，但是你可以有任意个验证有向无环图和回调函数</span>
+<span class="c1"># 如果你想在多个验证集上做监测的话，这非常重要</span>
+<span class="c1"># (比如说LibriSpeech的dev clean和dev other两个数据集)</span>
 <span class="n">eval_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">EvaluatorCallback</span><span class="p">(</span>
     <span class="n">eval_tensors</span><span class="o">=</span><span class="p">[</span><span class="n">loss_v</span><span class="p">,</span> <span class="n">predictions_v</span><span class="p">,</span> <span class="n">transcript_v</span><span class="p">,</span> <span class="n">transcript_len_v</span><span class="p">],</span>
-    <span class="c1"># how to process evaluation batch - e.g. compute WER</span>
+    <span class="c1"># 如何处理验证集的每个batch - 例如，计算WER</span>
     <span class="n">user_iter_callback</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span>
         <span class="n">process_evaluation_batch</span><span class="p">,</span>
         <span class="n">labels</span><span class="o">=</span><span class="n">labels</span>
         <span class="p">),</span>
-    <span class="c1"># how to aggregate statistics (e.g. WER) for the evaluation epoch</span>
+    <span class="c1"># 如何把每个batch的验证集统计指标（比如WER）合并起来</span>
     <span class="n">user_epochs_done_callback</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span>
         <span class="n">process_evaluation_epoch</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;DEV-CLEAN&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span>
         <span class="p">),</span>
     <span class="n">eval_step</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
     <span class="n">tb_writer</span><span class="o">=</span><span class="n">tb_writer</span><span class="p">)</span>
 
-<span class="c1"># Run training using your Neural Factory</span>
-<span class="c1"># Once this &quot;action&quot; is called data starts flowing along train and eval DAGs</span>
-<span class="c1"># and computations start to happen</span>
+<span class="c1"># 用你的Neural Factory跑训练</span>
+<span class="c1"># 一旦这个&quot;操作&quot;开始调用，数据开始在训练和验证的有向无环图上流动</span>
+<span class="c1"># 计算就开始了</span>
 <span class="n">nf</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
     <span class="c1"># Specify the loss to optimize for</span>
     <span class="n">tensors_to_optimize</span><span class="o">=</span><span class="p">[</span><span class="n">loss</span><span class="p">],</span>
-    <span class="c1"># Specify which callbacks you want to run</span>
+    <span class="c1"># 定义你想跑多少个回调</span>
     <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">train_callback</span><span class="p">,</span> <span class="n">eval_callback</span><span class="p">,</span> <span class="n">saver_callback</span><span class="p">],</span>
-    <span class="c1"># Specify what optimizer to use</span>
+    <span class="c1"># 定义想用哪个优化器</span>
     <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;novograd&quot;</span><span class="p">,</span>
-    <span class="c1"># Specify optimizer parameters such as num_epochs and lr</span>
+    <span class="c1"># 定义优化器的参数，训练轮数和学习率</span>
     <span class="n">optimization_params</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">&quot;num_epochs&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span> <span class="s2">&quot;weight_decay&quot;</span><span class="p">:</span> <span class="mf">1e-4</span>
         <span class="p">}</span>
