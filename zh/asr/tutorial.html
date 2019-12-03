@@ -353,7 +353,7 @@ Jasper家族的模型的结构可以这样表示 Jasper_[BxR] 其中B是块的�
     <span class="n">step_freq</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
 <span class="c1"># PRO TIP: 虽然你只能有一个有向无环图，但是你可以有任意个验证有向无环图和回调函数</span>
-<span class="c1"># 如果你想在多个验证集上做监测的话，这非常重要</span>
+<span class="c1"># 如果你想在多个验证集上做监测，这非常重要</span>
 <span class="c1"># (比如说LibriSpeech的dev clean和dev other两个数据集)</span>
 <span class="n">eval_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">EvaluatorCallback</span><span class="p">(</span>
     <span class="n">eval_tensors</span><span class="o">=</span><span class="p">[</span><span class="n">loss_v</span><span class="p">,</span> <span class="n">predictions_v</span><span class="p">,</span> <span class="n">transcript_v</span><span class="p">,</span> <span class="n">transcript_len_v</span><span class="p">],</span>

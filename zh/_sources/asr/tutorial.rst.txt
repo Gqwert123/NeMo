@@ -181,7 +181,7 @@ jiaoben
         step_freq=100)
 
     # PRO TIP: 虽然你只能有一个有向无环图，但是你可以有任意个验证有向无环图和回调函数
-    # 如果你想在多个验证集上做监测的话，这非常重要
+    # 如果你想在多个验证集上做监测，这非常重要
     # (比如说LibriSpeech的dev clean和dev other两个数据集)
     eval_callback = nemo.core.EvaluatorCallback(
         eval_tensors=[loss_v, predictions_v, transcript_v, transcript_len_v],
@@ -306,7 +306,7 @@ NeMo中的混精度和分布式训练上基于 `NVIDIA's APEX library <https://g
 -----------------------------
 
 用KenLM构建的语言模型
-~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 我们会使用 `Baidu's CTC decoder with LM implementation. <https://github.com/PaddlePaddle/DeepSpeech>`_.
 
 请按照下面的步骤:

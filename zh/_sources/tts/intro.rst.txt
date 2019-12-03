@@ -6,6 +6,6 @@
 .. toctree::
    :maxdepth: 8
 
-   教程
-   数据集
-   模型
+   tutorial
+   datasets
+   models

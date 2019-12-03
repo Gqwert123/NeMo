@@ -34,7 +34,9 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="数据集" href="datasets.html" />
+    <link rel="prev" title="语音合成" href="intro.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,14 +84,27 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">如何安装</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">从这里开始</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">语音识别</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">自然语言处理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">语音合成</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="intro.html">语音合成</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">教程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">获取数据</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">训练</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">混合精度训练</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gpu">多 GPU 训练</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">合成语音</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datasets.html">数据集</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">模型</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
@@ -136,6 +151,8 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="intro.html">语音合成</a> &raquo;</li>
         
       <li>教程</li>
     
@@ -267,6 +284,15 @@ torch.distributed.launch 模块并指定 –nproc_per_node 参数为 GPU 的数�
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="datasets.html" class="btn btn-neutral float-right" title="数据集" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="intro.html" class="btn btn-neutral float-left" title="语音合成" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

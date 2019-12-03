@@ -43,7 +43,7 @@ Hello World
              optimizer="sgd")
 
 简单的聊天机器人
----------------
+-----------------
 
 这个教程改编自 `PyTorch的聊天机器人教程 <https://pytorch.org/tutorials/beginner/chatbot_tutorial.html>`_ 使得它适配于NeMo框架。它解释了要如何训练和评估。
 
