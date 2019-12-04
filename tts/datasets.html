@@ -91,7 +91,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chinese/intro.html">Mandarin Support</a></li>
 </ul>
 
             
@@ -166,6 +165,17 @@ hours of speech.</p>
 <p>Obtaining and prepocessing the data for NeMo can be done with
 <a class="reference external" href="https://github.com/NVIDIA/NeMo/blob/master/scripts/get_ljspeech_data.py">our helper script</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python scripts/get_ljspeech_data.py --data_root<span class="o">=</span>&lt;where_you_want_to_save_data&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="chinese-standard-mandarin-speech-copus-10000-sentences">
+<span id="csmsc"></span><h2>Chinese Standard Mandarin Speech Copus(10000 Sentences)<a class="headerlink" href="#chinese-standard-mandarin-speech-copus-10000-sentences" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.data-baker.com/open_source.html">Chinese Standard Mandarin Speech Copus(10000 Sentences)</a> is a speech dataset that
+consists of a single female, Mandarin speaker. It contains approximately 12 hours of speech. The copyright of this dataset is held
+by Databaker (Beijing) Technology Co.,Ltd. Support non-commercial use only.</p>
+<p>Obtaining and prepocessing the data for NeMo can be done with
+<a class="reference external" href="https://github.com/NVIDIA/NeMo/blob/master/scripts/get_databaker_data.py">our helper script</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python scripts/get_databaker_data.py --data_root<span class="o">=</span>&lt;where_you_want_to_save_data&gt;
 </pre></div>
 </div>
 </div>

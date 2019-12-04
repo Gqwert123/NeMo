@@ -91,7 +91,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chinese/intro.html">Mandarin Support</a></li>
 </ul>
 
             
@@ -159,7 +158,7 @@
   <div class="section" id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
 <p>Make sure you have installed <code class="docutils literal notranslate"><span class="pre">nemo</span></code>, <code class="docutils literal notranslate"><span class="pre">nemo_asr</span></code>, and <code class="docutils literal notranslate"><span class="pre">nemo_tts</span></code>
-collection. See the <a class="reference internal" href="../zh/installation.html#installation"><span class="std std-ref">如何安装</span></a> section.</p>
+collection. See the <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">Installation</span></a> section.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You only need <cite>nemo</cite>, <cite>nemo_asr</cite>, and <cite>nemo_tts</cite> collection for this
@@ -195,7 +194,15 @@ The script is located at NeMo/scripts and can be run like so:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python scripts/get_ljspeech_data.py --data_root<span class="o">=</span>&lt;where_you_want_to_save_data&gt;
 </pre></div>
 </div>
-<p>For more details on the LJSpeech dataset, see <span class="xref std std-ref">our docs here</span>.</p>
+<p>For more details on the LJSpeech dataset, see <a class="reference internal" href="datasets.html#ljspeech"><span class="std std-ref">our docs here</span></a>.</p>
+<p>For Mandarin, we use <a class="reference external" href="https://www.data-baker.com/open_source.html">Chinese Standard Mandarin Speech Copus</a>.
+You can use a helper script to get and process the dataset for use with NeMo. The dataset download link in the
+script is provided by Databaker (Beijing) Technology Co.,Ltd.
+The script is located at NeMo/scripts and can be run like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python scripts/get_databaker_data.py --data_root<span class="o">=</span>&lt;where_you_want_to_save_data&gt;
+</pre></div>
+</div>
+<p>For more details on the Chinese Standard Mandarin Speech Copus, see <a class="reference internal" href="datasets.html#csmsc"><span class="std std-ref">our docs here</span></a>.</p>
 </div>
 <div class="section" id="training">
 <h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
@@ -210,6 +217,11 @@ such as Mandarin.</p>
 NeMo/examples/tts. Assuming you are inside the NeMo/examples/tts directory,
 you can run the following to start training:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python tacotron2.py --train_dataset<span class="o">=</span>&lt;data_root&gt;/ljspeech_train.json --eval_datasets &lt;data_root&gt;/ljspeech_eval.json --model_config<span class="o">=</span>configs/tacotron.yaml --max_steps<span class="o">=</span><span class="m">30000</span>
+</pre></div>
+</div>
+<p>Training Tacotron 2 on Mandarin also can be done by running the <cite>tacotron2.py</cite> file.
+You can run the following to start training:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python tacotron2.py --train_dataset<span class="o">=</span>&lt;data_root&gt;/databaker_csmsc_train.json --eval_datasets &lt;data_root&gt;/databaker_csmsc_eval.json --model_config<span class="o">=</span>configs/tacotron_mandarin.yaml --max_steps<span class="o">=</span><span class="m">30000</span>
 </pre></div>
 </div>
 <div class="admonition tip">
@@ -256,11 +268,18 @@ have lines like so:</p>
 <span class="p">{</span><span class="nt">&quot;audio_filepath&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Speech Synthensis is cool.&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>Inference can be done with the tts_infer.py file under the
-NeMo/examples/tts folder like so:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python tts_infer.py --spec_model<span class="o">=</span>tacotron2 --spec_model_config<span class="o">=</span>configs/tacotron.yaml --spec_model_load_dir<span class="o">=</span>&lt;directory_with_tacotron2_checkopints&gt; --vocoder<span class="o">=</span>waveglow --vocoder_model_config<span class="o">=</span>configs/waveglow.yaml --vocoder_model_load_dir<span class="o">=</span>&lt;directory_with_waveglow_checkopints&gt; --save_dir<span class="o">=</span>&lt;where_you_want_to_save_wav_files&gt; --eval_dataset &lt;mainfest_to_generate&gt;
+<p>For Mandarin, they should have lines like so:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;audio_filepath&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;jin1 tian1 tian1 qi4 bu2 cuo4.&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;audio_filepath&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;ni3 kan4 bao4 zhi3 ma0&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
+<p>The “text” should contain the <strong>pinyin</strong> sequence in Mandarin. The digit behind each Chinese character’s pinyin is the <strong>tone</strong>. 0 stands for soft tone.</p>
+<p>Inference can be done with the tts_infer.py file under the
+NeMo/examples/tts folder like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python tts_infer.py --spec_model<span class="o">=</span>tacotron2 --spec_model_config<span class="o">=</span>configs/tacotron2.yaml --spec_model_load_dir<span class="o">=</span>&lt;directory_with_tacotron2_checkopints&gt; --vocoder<span class="o">=</span>waveglow --vocoder_model_config<span class="o">=</span>configs/waveglow.yaml --vocoder_model_load_dir<span class="o">=</span>&lt;directory_with_waveglow_checkopints&gt; --save_dir<span class="o">=</span>&lt;where_you_want_to_save_wav_files&gt; --eval_dataset &lt;mainfest_to_generate&gt;
+</pre></div>
+</div>
+<p>For Mandarin, remember to replace the config file of Tacotron 2 with tacotron2_mandarin.yaml.</p>
 </div>
 </div>
 

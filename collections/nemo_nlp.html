@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Core APIs &mdash; nemo 0.9.0 documentation</title>
+  <title>NeMo_NLP collection &mdash; nemo 0.9.0 documentation</title>
   
 
   
@@ -35,7 +35,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="NeMo API" href="modules.html" /> 
+    <link rel="next" title="NeMo API" href="../api-docs/modules.html" />
+    <link rel="prev" title="NeMo_TTS collection" href="nemo_tts.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,22 +91,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../training.html">Fast Training</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">Speech Recognition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">NeMo API</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Core APIs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#neural-types">neural_types</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#neural-modules">neural_modules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#neural-factory">neural_factory</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#pytorch-backend">PyTorch BackEnd</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#basic-actions">Basic actions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#classes-for-writing-your-own-nms">Classes for writing your own NMs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#trainable-module-wrapper">Trainable Module Wrapper</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">NeMo Collections API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">NeMo Common Collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nemo_asr.html">NeMo_ASR collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nemo_tts.html">NeMo_TTS collection</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">NeMo_NLP collection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nlp-data-processing-modules">NLP data processing modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nlp-tokenizers">NLP Tokenizers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nlp-neural-modules">NLP Neural Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nlp-hugging-face-neural-modules">NLP Hugging Face Neural Modules</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 </ul>
 
             
@@ -151,15 +150,15 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="modules.html">NeMo API</a> &raquo;</li>
+          <li><a href="modules.html">NeMo Collections API</a> &raquo;</li>
         
-      <li>Core APIs</li>
+      <li>NeMo_NLP collection</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api-docs/nemo.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/collections/nemo_nlp.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -172,29 +171,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="core-apis">
-<h1>Core APIs<a class="headerlink" href="#core-apis" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="neural-types">
-<h2>neural_types<a class="headerlink" href="#neural-types" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="nemo-nlp-collection">
+<h1>NeMo_NLP collection<a class="headerlink" href="#nemo-nlp-collection" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="nlp-data-processing-modules">
+<h2>NLP data processing modules<a class="headerlink" href="#nlp-data-processing-modules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="neural-modules">
-<h2>neural_modules<a class="headerlink" href="#neural-modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nlp-tokenizers">
+<h2>NLP Tokenizers<a class="headerlink" href="#nlp-tokenizers" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="neural-factory">
-<h2>neural_factory<a class="headerlink" href="#neural-factory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nlp-neural-modules">
+<h2>NLP Neural Modules<a class="headerlink" href="#nlp-neural-modules" title="Permalink to this headline">¶</a></h2>
 </div>
-</div>
-<div class="section" id="pytorch-backend">
-<h1>PyTorch BackEnd<a class="headerlink" href="#pytorch-backend" title="Permalink to this headline">¶</a></h1>
-<p>Currently, we only support PyTorch backend.</p>
-<div class="section" id="basic-actions">
-<h2>Basic actions<a class="headerlink" href="#basic-actions" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="classes-for-writing-your-own-nms">
-<h2>Classes for writing your own NMs<a class="headerlink" href="#classes-for-writing-your-own-nms" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="trainable-module-wrapper">
-<h2>Trainable Module Wrapper<a class="headerlink" href="#trainable-module-wrapper" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nlp-hugging-face-neural-modules">
+<h2>NLP Hugging Face Neural Modules<a class="headerlink" href="#nlp-hugging-face-neural-modules" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -206,8 +195,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../api-docs/modules.html" class="btn btn-neutral float-right" title="NeMo API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="modules.html" class="btn btn-neutral float-left" title="NeMo API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="nemo_tts.html" class="btn btn-neutral float-left" title="NeMo_TTS collection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
