@@ -94,7 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="custommodules.html">如何构建神经模块</a></li>
 <li class="toctree-l2"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a></li>
 <li class="toctree-l2"><a class="reference internal" href="callbacks.html">回调</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程 (GAN例子)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程（GAN例子）</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
@@ -172,15 +172,15 @@
   <div class="section" id="id1">
 <h1>神经类型<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>神经类型是用来检查输入张量，确保两个神经模块是兼容的，并且捕捉语义和维度上的错误。</p>
-<p>神经类型在 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 类中实现，它把张量的轴映射到 <code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code>.</p>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code> 每个轴有下列信息:</p>
+<p>神经类型在 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 类中实现，它把张量的轴映射到 <code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code>。</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code> 每个轴包含下列信息：</p>
 <ul class="simple">
-<li><p>Semantic Tag, 必须继承自 <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTag</span></code>，比如 <code class="xref py py-class docutils literal notranslate"><span class="pre">BatchTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ChannelTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTag</span></code> 等。这些标签是 <cite>is-a</cite> 的继承关系。</p></li>
-<li><p>Dimension: 无符号整形</p></li>
-<li><p>Descriptor: 字符串</p></li>
+<li><p>语义标签（Semantic Tag）, 必须继承 <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ChannelTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTag</span></code> 等。这些标签是 <cite>is-a</cite> 的继承关系。</p></li>
+<li><p>维度（Dimension）: 无符号整形</p></li>
+<li><p>描述符（Descriptor）: 字符串</p></li>
 </ul>
 <p>初始化神经类型，你应该给它传递一个字典（轴到类型），把轴映射到它的AxisType。
-比如，ResNet18的输入和输出端口可以这么描述：</p>
+比如，ResNet18 的输入和输出端口可以这么描述：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">input_ports</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">NeuralType</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">AxisType</span><span class="p">(</span><span class="n">BatchTag</span><span class="p">),</span>
                                 <span class="mi">1</span><span class="p">:</span> <span class="n">AxisType</span><span class="p">(</span><span class="n">ChannelTag</span><span class="p">),</span>
                                 <span class="mi">2</span><span class="p">:</span> <span class="n">AxisType</span><span class="p">(</span><span class="n">HeightTag</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span>
@@ -200,15 +200,15 @@
   <span class="n">LESS</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># A 是 B</span>
   <span class="n">GREATER</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># B 是 A</span>
   <span class="n">DIM_INCOMPATIBLE</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># 重新调整连接器也许可以修复不兼容</span>
-  <span class="n">TRANSPOSE_SAME</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># 把A转置可以使它们相同</span>
-  <span class="n">INCOMPATIBLE</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># A和B不兼容。不能自动修复不兼容</span>
+  <span class="n">TRANSPOSE_SAME</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># 把 A 转置可以使它们相同</span>
+  <span class="n">INCOMPATIBLE</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># A 和 B 不兼容。不能自动修复不兼容</span>
 </pre></div>
 </div>
 <p><strong>特殊例子</strong></p>
 <ul class="simple">
 <li><p><em>Non-tensor</em> 对象应该用 <code class="docutils literal notranslate"><span class="pre">NeuralType(None)</span></code> 表示。</p></li>
 <li><p><em>Optional</em>: 输入是可选的，如果提供了类型输入，那么会自动做类型检测</p></li>
-<li><p><em>Root</em> 类型可以用 <code class="docutils literal notranslate"><span class="pre">NeuralType({})</span></code> 表示: <code class="docutils literal notranslate"><span class="pre">NeuralType({})</span></code> 类型的端口必须可以接收任意的神经类型的神经模块张量(NmTensors):</p></li>
+<li><p><em>Root</em> 类型可以用 <code class="docutils literal notranslate"><span class="pre">NeuralType({})</span></code> 表示: <code class="docutils literal notranslate"><span class="pre">NeuralType({})</span></code> 类型的端口必须可以接收任意的神经类型的神经模块张量（NmTensors）：</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">root_type</span> <span class="o">=</span> <span class="n">NeuralType</span><span class="p">({})</span>
 <span class="n">root_type</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span><span class="n">any_other_neural_type</span><span class="p">)</span> <span class="o">==</span> <span class="n">NeuralTypeComparisonResult</span><span class="o">.</span><span class="n">SAME</span>
@@ -220,18 +220,18 @@
 <ol class="arabic simple">
 <li><p>“Rank matches but semantics doesn’t”.</p></li>
 </ol>
-<p>例如，模块A的数据格式是[Batch, Time, Dim]，但是模块B期望的格式是[Time, Batch, Dim]。简单的轴转置就可以解决这个错误。</p>
+<p>例如，模块 A 的数据格式是 [Batch, Time, Dim]，但是模块B期望的格式是 [Time, Batch, Dim]。简单的轴转置就可以解决这个错误。</p>
 <ol class="arabic simple" start="2">
 <li><p>“Concatenating wrong dimensions”.</p></li>
 </ol>
-<p>例如, 模块应该根据0号维度合并(加)两个输入张量X和Y。但是张量X格式是[B, T, D]，但是张量Y格式是[T, B, D] 然后做合并 . .</p>
+<p>例如, 模块应该根据 0 号维度合并（加）两个输入张量 X 和 Y。但是张量 X 格式是 [B, T, D]，但是张量 Y 格式是 [T, B, D] 然后做合并。</p>
 <ol class="arabic simple" start="3">
 <li><p>“Dimensionality mismatch”</p></li>
 </ol>
-<p>一个模块期望图片尺寸是224x224但是得到的是256x256。这种类型比较会导致 <code class="docutils literal notranslate"><span class="pre">NeuralTypeComparisonResult.DIM_INCOMPATIBLE</span></code> .</p>
+<p>一个模块期望图片尺寸是 224x224 但是得到的是 256x256。这种类型比较会导致 <code class="docutils literal notranslate"><span class="pre">NeuralTypeComparisonResult.DIM_INCOMPATIBLE</span></code>。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>这个类型机制是由Python继承表示的。也就是说 <code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code> 类继承自 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 类。</p>
+<p>这个类型机制是由 Python 继承表示的。也就是说 <code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code> 类继承自 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 类。</p>
 </div>
 </div>
 

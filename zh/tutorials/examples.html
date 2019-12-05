@@ -98,7 +98,7 @@
 <li class="toctree-l2"><a class="reference internal" href="custommodules.html">如何构建神经模块</a></li>
 <li class="toctree-l2"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a></li>
 <li class="toctree-l2"><a class="reference internal" href="callbacks.html">回调</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程 (GAN例子)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程（GAN例子）</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
@@ -175,24 +175,24 @@
             
   <div class="section" id="id1">
 <h1>例子<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>NeMo应用程序包含三个步骤:</p>
+<p>NeMo 应用程序包含三个步骤：</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li><p>创建神经模块</p></li>
-<li><p>创建使用张量(“激活元”)的模型，把神经模块串成图</p></li>
-<li><p>开始操作, e.g. 训练或者推理</p></li>
+<li><p>创建使用张量（“激活元”）的模型，把神经模块串成图</p></li>
+<li><p>触发一个操作, 例如：训练或者推理</p></li>
 </ol>
 </div></blockquote>
 <div class="section" id="hello-world">
 <h2>Hello World<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
-<p>这个例子展现了如何构建一个模型，学习y=sin(x)的泰勒系数。</p>
+<p>这个例子展现了如何构建一个模型，学习 y=sin(x) 的泰勒系数。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nemo</span>
 
-<span class="c1"># 用支持的后端初始化Neural Factory</span>
+<span class="c1"># 用支持的后端初始化 Neural Factory</span>
 <span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">()</span>
 
 <span class="c1"># 初始化必要的神经模块</span>
-<span class="c1"># RealFunctionDataLayer默认为f=torch.sin，从x=[-4, 4]采样</span>
+<span class="c1"># RealFunctionDataLayer 默认为 f=torch.sin，从 x=[-4, 4] 采样</span>
 <span class="n">dl</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">RealFunctionDataLayer</span><span class="p">(</span>
     <span class="n">n</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
 <span class="n">fx</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">TaylorNet</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
@@ -203,7 +203,7 @@
 <span class="n">p</span> <span class="o">=</span> <span class="n">fx</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
 <span class="n">lss</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-<span class="c1"># SimpleLossLoggerCallback打印损失函数值到控制台</span>
+<span class="c1"># SimpleLossLoggerCallback 打印损失函数值到控制台</span>
 <span class="n">callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">SimpleLossLoggerCallback</span><span class="p">(</span>
     <span class="n">tensors</span><span class="o">=</span><span class="p">[</span><span class="n">lss</span><span class="p">],</span>
     <span class="n">print_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Train Loss: {str(x[0].item())}&#39;</span><span class="p">))</span>
@@ -217,22 +217,22 @@
 </div>
 <div class="section" id="id2">
 <h2>简单的聊天机器人<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>这个教程改编自 <a class="reference external" href="https://pytorch.org/tutorials/beginner/chatbot_tutorial.html">PyTorch的聊天机器人教程</a> 使得它适配于NeMo框架。它解释了要如何训练和评估。</p>
+<p>这是个把 <a class="reference external" href="https://pytorch.org/tutorials/beginner/chatbot_tutorial.html">PyTorch的聊天机器人教程</a> 改成适配于 NeMo 框架的例子。它解释了要如何训练和评估。</p>
 <p>模型可以由下图表示，模型有:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>两个数据层 (一个做训练一个做推理),</p></li>
-<li><p>编码器解码器(训练和推理共享),</p></li>
-<li><p>两个损失函数模块 (一个做训练一个做推理).</p></li>
+<li><p>两个数据层（一个做训练一个做推理）,</p></li>
+<li><p>编码器和解码器（训练和推理共享）,</p></li>
+<li><p>两个损失函数模块（一个做训练一个做推理）。</p></li>
 </ul>
 </div></blockquote>
 <img alt="../_images/chatbot.png" src="../_images/chatbot.png" />
 <p>在训练过程中，模型会打印:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><strong>SOURCE</strong>:  模型输入</p></li>
+<li><p><strong>SOURCE</strong>: 模型输入</p></li>
 <li><p><strong>PREDICTED RESPONSE</strong>: 模型输出</p></li>
-<li><p><strong>TARGET</strong>:  目标输出</p></li>
+<li><p><strong>TARGET</strong>: 目标输出</p></li>
 </ul>
 </div></blockquote>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -275,7 +275,7 @@
 <span class="n">L</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">MaskedXEntropyLoss</span><span class="p">()</span>
 <span class="n">decoderInfer</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">tutorials</span><span class="o">.</span><span class="n">GreedyLuongAttnDecoderRNN</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
 
-<span class="c1"># 参数共享: 在训练解码器和自回归推理解码器之间</span>
+<span class="c1"># 参数共享: 在训练解码器和自回归推理解码器之间做参数共享</span>
 <span class="n">decoderInfer</span><span class="o">.</span><span class="n">tie_weights_with</span><span class="p">(</span><span class="n">decoder</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">decoder</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
 <span class="c1"># 描述激活流</span>
@@ -321,7 +321,7 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>可以在 <cite>nemo/examples</cite> 下面找到更多例子</p>
+<p>你可以在 <cite>nemo/examples</cite> 下面找到更多例子</p>
 </div>
 </div>
 </div>

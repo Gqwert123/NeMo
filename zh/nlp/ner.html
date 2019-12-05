@@ -94,18 +94,18 @@
 <li class="toctree-l2"><a class="reference internal" href="intro.html#nmt">神经网络机器翻译 (NMT)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#bert">BERT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#transformer">Transformer语言模型</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="intro.html#id2">命名实体识别</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="intro.html#ner">命名实体识别 (NER)</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">教程</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id2">简介</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id3">下载数据集</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id4">训练</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#bert">使用其它的BERT模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bert">使用其它的 BERT 模型</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#intent-and-slot-filling">Intent and Slot filling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#bertx2">用BERTx2后处理模型来提升语音识别性能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#bertx2">用 BERTx2 后处理模型来提升语音识别性能</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">语音合成</a></li>
@@ -179,10 +179,10 @@
             
   <div class="section" id="id1">
 <h1>教程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>在教程前，请确认你已经安装了 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 和 <code class="docutils literal notranslate"><span class="pre">nemo_nlp</span></code> 。你可以通过这个部分获得更多的信息： <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a></p>
+<p>在教程前，请确认你已经安装了 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 和 <code class="docutils literal notranslate"><span class="pre">nemo_nlp</span></code> 。你可以通过这个部分获得更多的信息 <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a></p>
 <div class="section" id="id2">
 <h2>简介<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>这个教程将介绍如何在NeMo中，实现命名实体识别(Named Entity Recognition, NER)。我们将通过一个预训练好的BERT模型来进行展示，或者你也可以使用一个训练好的模型！ 你可以通过BERT预训练教程获得更多的信息。</p>
+<p>这个教程将介绍如何在NeMo中，实现命名实体识别(Named Entity Recognition, NER)。我们将通过一个预训练好的 BERT 模型来进行展示，或者你也可以使用一个训练好的模型！你可以通过 BERT 预训练教程获得更多的信息。</p>
 </div>
 <div class="section" id="id3">
 <h2>下载数据集<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
@@ -208,7 +208,7 @@
 <p class="admonition-title">Tip</p>
 <p>我们建议试试使用Jupyter来运行这部分代码，这会使得调试更加容易!</p>
 </div>
-<p>首先，我们需要使用所支持的后端，来创建我们的neural factory。你需要确认使用多GPU或者混合精度训练。这个教程中我们使用单GPU训练，不使用混合精度。如果你想使用混合精度训练，需要设置 <code class="docutils literal notranslate"><span class="pre">amp_opt_level</span></code> 这个参数为 <code class="docutils literal notranslate"><span class="pre">O1</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">O2</span></code> 。</p>
+<p>首先，我们需要使用所支持的后端，来创建我们的 <cite>Neural Factory</cite> 。你需要确认使用多GPU或者混合精度训练。这个教程中我们使用单GPU训练，不使用混合精度。如果你想使用混合精度训练，需要设置 <code class="docutils literal notranslate"><span class="pre">amp_opt_level</span></code> 这个参数为 <code class="docutils literal notranslate"><span class="pre">O1</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">O2</span></code> 。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Backend</span><span class="o">.</span><span class="n">PyTorch</span><span class="p">,</span>
                                    <span class="n">local_rank</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">local_rank</span><span class="p">,</span>
@@ -219,8 +219,8 @@
 </pre></div>
 </div>
 </div></blockquote>
-<p>接着，我们需要定义我们的tokenizer和BERT模型。你可以有多种方式来实现。注意，NER是大小写敏感的(“New York Ciyt”比”new york city”更容易被识别出来)，所以我们建议使用区分大小写的模型。</p>
-<p>如果你正在使用一个标准的BERT模型，我们建议你使用下面这条命令。想获取完整的BERT列表，可以参考 <code class="docutils literal notranslate"><span class="pre">nemo_nlp.huggingface.BERT.list_pretrained_models()</span></code> 。</p>
+<p>接着，我们需要定义我们的分词器 (tokenizer) 和 BERT 模型。你可以有多种方式来实现。注意，NER是大小写敏感的（”New York City”比”new york city”更容易被识别出来），所以我们建议使用区分大小写的模型。</p>
+<p>如果你正在使用一个标准的 BERT 模型，我们建议你使用下面这条命令。想获取完整的 BERT 列表，可以参考 <code class="docutils literal notranslate"><span class="pre">nemo_nlp.huggingface.BERT.list_pretrained_models()</span></code> 。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">NemoBertTokenizer</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">pretrained_bert_model</span><span class="p">)</span>
 <span class="n">pretrained_bert_model</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span>
@@ -228,7 +228,7 @@
 </pre></div>
 </div>
 </div></blockquote>
-<p>如果你在使用一个自己预训练好的BERT模型，你可以使用下面这条命令。这里，你需要把 <code class="docutils literal notranslate"><span class="pre">args.bert_checkpoint</span></code> 这个参数改成你的checkpoint文件所在的位置。</p>
+<p>如果你在使用一个自己预训练好的 BERT 模型，你可以使用下面这条命令。这里，你需要把 <code class="docutils literal notranslate"><span class="pre">args.bert_checkpoint</span></code> 这个参数改成你的 checkpoint 文件所在的位置。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">SentencePieceTokenizer</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="n">tokenizer_model</span><span class="p">)</span>
 <span class="n">tokenizer</span><span class="o">.</span><span class="n">add_special_tokens</span><span class="p">([</span><span class="s2">&quot;[MASK]&quot;</span><span class="p">,</span> <span class="s2">&quot;[CLS]&quot;</span><span class="p">,</span> <span class="s2">&quot;[SEP]&quot;</span><span class="p">])</span>
@@ -286,7 +286,7 @@
 </pre></div>
 </div>
 </div></blockquote>
-<p>现在，我们需要设置callbacks，一共有3个callbacks:</p>
+<p>现在，我们设置3个回调函数：</p>
 <ul class="simple">
 <li><p><cite>SimpleLossLoggerCallback</cite> 打印出训练过程中的损失函数值</p></li>
 <li><p><cite>EvaluatorCallback</cite> 来验证我们dev集合上F1的值。在这个例子中， <cite>EvaluatorCallback</cite> 也会打印出 <cite>output.txt</cite> 上的预测值，这有利于找出模型哪个部分出了问题。</p></li>
@@ -340,8 +340,8 @@
 </div></blockquote>
 </div>
 <div class="section" id="bert">
-<h2>使用其它的BERT模型<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h2>
-<p>除了可以使用谷歌提供的预训练BERT模型和你自己训练的BERT模型外，在NeMo中，也可以使用来自第三方的BERT模型，只要这个模型的参数可以加载到Pytorch中即可。例如，如果你想使用 <a class="reference external" href="https://github.com/allenai/scibert">SciBERT</a> 来微调：</p>
+<h2>使用其它的 BERT 模型<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h2>
+<p>除了可以使用谷歌提供的预训练 BERT 模型和你自己训练的模型外，在NeMo中，也可以使用来自第三方的BERT模型，只要这个模型的参数可以加载到PyTorch中即可。例如，如果你想使用 <a class="reference external" href="https://github.com/allenai/scibert">SciBERT</a> 来微调：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://s3-us-west-2.amazonaws.com/ai2-s2-research/scibert/pytorch_models/scibert_scivocab_cased.tar
 tar -xf scibert_scivocab_cased.tar
 <span class="nb">cd</span> scibert_scivocab_cased
@@ -350,14 +350,14 @@ mv bert_config.json config.json
 <span class="nb">cd</span> ..
 </pre></div>
 </div>
-<p>接着，当你加载你的BERT模型，你需要指定模型所在的目录名：</p>
+<p>接着，当你加载你的 BERT 模型，你需要指定模型所在的目录名：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">NemoBertTokenizer</span><span class="p">(</span><span class="n">pretrained_model</span><span class="o">=</span><span class="s2">&quot;scibert_scivocab_cased&quot;</span><span class="p">)</span>
 <span class="n">bert_model</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span>
     <span class="n">pretrained_model_name</span><span class="o">=</span><span class="s2">&quot;scibert_scivocab_cased&quot;</span><span class="p">,</span>
     <span class="n">factory</span><span class="o">=</span><span class="n">neural_factory</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>如果你想使用TensorFlow训练好的模型，例如BioBERT，你需要首先使用Hugging Face提供的 <a class="reference external" href="https://github.com/huggingface/pytorch-transformers/blob/master/pytorch_transformers/convert_tf_checkpoint_to_pytorch.py">model conversion script</a> 进行模型转换，再在NeMo中使用这个模型。</p>
+<p>如果你想使用 TensorFlow 训练好的模型，例如 BioBERT ，你需要首先使用 Hugging Face 提供的 <a class="reference external" href="https://github.com/huggingface/pytorch-transformers/blob/master/pytorch_transformers/convert_tf_checkpoint_to_pytorch.py">model conversion script</a> 进行模型转换，再在 NeMo 中使用这个模型。</p>
 </div>
 </div>
 

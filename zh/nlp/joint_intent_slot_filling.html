@@ -94,18 +94,18 @@
 <li class="toctree-l2"><a class="reference internal" href="intro.html#nmt">神经网络机器翻译 (NMT)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#bert">BERT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#transformer">Transformer语言模型</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#id2">命名实体识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#ner">命名实体识别 (NER)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="intro.html#intent-and-slot-filling">Intent and Slot filling</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">教程</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id3">写在开头</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id4">代码结构</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id9">模型训练</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id10">参考文献</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">代码结构</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">模型训练</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">参考文献</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#bertx2">用BERTx2后处理模型来提升语音识别性能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#bertx2">用 BERTx2 后处理模型来提升语音识别性能</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">语音合成</a></li>
@@ -179,33 +179,40 @@
             
   <div class="section" id="id1">
 <h1>教程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>在这个教程中，我们将使用BERT模型，来实现一个意图识别（intent）和槽填充（slot filling）混合系统，参考自 <a class="reference external" href="https://arxiv.org/abs/1902.10909">BERT for Joint Intent Classification and Slot Filling</a> <a class="bibtex reference internal" href="#chen2019bert" id="id2">[1]</a>。本教程中所有的代码全部来自 <code class="docutils literal notranslate"><span class="pre">examples/nlp/joint_intent_slot_with_bert.py</span></code>.</p>
-<p>我们可以使用 <cite>–pretrained_bert_model</cite> 这个参数，来选择四个预训练好的BERT模型。当前，我们使用的加载预训练模型的脚本均来自 <cite>pytorch_transformers</cite> 。更多预训练好的模型在 <a class="reference external" href="https://huggingface.co/pytorch-transformers/pretrained_models.html">这里</a> 。</p>
+<p>在这个教程中，我们将使用 BERT 模型，来实现一个意图识别 (intent classification) 和槽填充 (slot filling) 混合系统，参考自 <a class="reference external" href="https://arxiv.org/abs/1902.10909">BERT for Joint Intent Classification and Slot Filling</a> <a class="bibtex reference internal" href="#chen2019bert" id="id2">[1]</a> 。本教程中所有的代码全部来自 <code class="docutils literal notranslate"><span class="pre">examples/nlp/joint_intent_slot_with_bert.py</span></code> 。</p>
+<p>我们可以使用 <cite>–pretrained_bert_model</cite> 这个参数，来选择四个预训练好的 BERT 模型。当前，我们使用的加载预训练模型的脚本均来自 <cite>pytorch_transformers</cite> 。更多预训练好的模型在 <a class="reference external" href="https://huggingface.co/pytorch-transformers/pretrained_models.html">这里</a> 。</p>
 <div class="section" id="id3">
 <h2>写在开头<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p><strong>模型细节</strong>
-这个模型会一起训练一个句子层面的分类器，和一个符号串层面的槽分类器，通过最小化如下的混合损失:</p>
+这个模型会一起训练一个句子层级的分类器，和一个符号串层面的槽 (slot) 分类器，通过最小化如下的混合损失：</p>
 <blockquote>
 <div><p>intent_loss * intent_loss_weight + slot_loss * (1 - intent_loss_weight)</p>
 </div></blockquote>
-<p>当 <cite>intent_loss_weight = 0.5</cite> 时, 它等价于最大化:</p>
+<p>当 <cite>intent_loss_weight = 0.5</cite> 时，它等价于最大化:</p>
 <blockquote>
-<div><p>p(y | x)P(s1, s2, …, sn | x)</p>
+<div><p>p(y|x) p(s1, s2, …, sn|x)</p>
 </div></blockquote>
-<p>这里x是一个有n个符号串的序列(x1, x2, …, xn)，y是x预测出的意图，s1, s2, …, sn 是对应于x1, x2, …, xn预测出的槽。</p>
+<p>这里 x 是一个有 n 个符号串的序列 (x1, x2, …, xn)， y 是 x 预测出的意图，s1, s2, …, sn 是对应于 x1, x2, …, xn 预测出的槽。</p>
 <p><strong>数据集</strong></p>
-<dl class="simple">
-<dt>这个模型可以应用到任意一个符合如下格式的数据集:</dt><dd><ul class="simple">
+<p>这个模型可以应用到任意一个符合如下格式的数据集:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p>输入文件: 一个 <cite>tsv</cite> 文件，第一行为 [sentence][tab][label]</p></li>
 <li><p>槽文件: 句子中所有符号串的槽标注，使用空格分隔。槽标注的数量需要与句子中所有符号串的数量保持一致。</p></li>
 </ul>
-</dd>
-</dl>
-<p>当前，我们提供多个数据集合的预处理脚本，包括: ATIS可以通过 <a class="reference external" href="https://www.kaggle.com/siddhadev/atis-dataset-from-ms-cntk">Kaggle</a> 进行下载；SNIP对话语言理解数据集，可以通过 <a class="reference external" href="https://github.com/snipsco/spoken-language-understanding-research-datasets">这里</a> 获取。预处理脚本在 <code class="docutils literal notranslate"><span class="pre">collections/nemo_nlp/nemo_nlp/text_data_utils.py</span></code>。</p>
+</div></blockquote>
+<p>当前，我们提供多个数据集合的预处理脚本，包括:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ATIS 可以通过 <a class="reference external" href="https://www.kaggle.com/siddhadev/atis-dataset-from-ms-cntk">Kaggle</a> 进行下载</p></li>
+<li><p>SNIP 对话语言理解数据集，可以通过 <a class="reference external" href="https://github.com/snipsco/spoken-language-understanding-research-datasets">这里</a> 获取。</p></li>
+</ul>
+</div></blockquote>
+<p>预处理脚本在 <code class="docutils literal notranslate"><span class="pre">collections/nemo_nlp/nemo_nlp/text_data_utils.py</span></code> 。</p>
 </div>
-<div class="section" id="id4">
-<h2>代码结构<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>首先，我们初始化Neural Module Factory，需要定义1、后端（Pytorch或是TensorFlow)；2、混合精度优化的级别；3、本地GPU的序列号；4、一个实验的管理器，用于创建文件夹来保存相应的checkpoint、输出、日志文件和TensorBoard的图。</p>
+<div class="section" id="id5">
+<h2>代码结构<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>首先，我们初始化 <code class="docutils literal notranslate"><span class="pre">NeuralModuleFactory</span></code> ，需要定义1、后端 (PyTorch)；2、混合精度优化的级别；3、本地 GPU 的序列号；4、一个实验的管理器，用于创建文件夹来保存相应的 checkpoint、输出、日志文件和 TensorBoard 的图。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span>
                 <span class="n">backend</span><span class="o">=</span><span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Backend</span><span class="o">.</span><span class="n">PyTorch</span><span class="p">,</span>
@@ -217,7 +224,7 @@
 </pre></div>
 </div>
 </div></blockquote>
-<p>我们定义分词器，它可以将文本转换成符号串，这里使用来自 <a href="#id5"><span class="problematic" id="id6">`</span></a>pytorch_transformers`的内置分词器。其将使用BERT模型的映射，把文本转成相应的符号串。</p>
+<p>我们定义分词器，它可以将文本转换成符号串，这里使用来自 <cite>pytorch_transformers</cite> 的内置分词器。其将使用 BERT 模型的映射，把文本转成相应的符号串。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytorch_transformers</span> <span class="kn">import</span> <span class="n">BertTokenizer</span>
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">pretrained_bert_model</span><span class="p">)</span>
@@ -229,13 +236,12 @@
 <div><ul class="simple">
 <li><p>处理数据: <cite>nemo_nlp/nemo_nlp/text_data_utils.py</cite> 中的 <cite>JointIntentSlotDataDesc</cite> 类，用于将源数据处理成 <cite>BertJointIntentSlotDataset</cite> 支持的类型。当前，它支持SNIPS和ATIS两种格式的数据，当你也可以实现预处理脚本，来支持任意格式的数据。</p></li>
 </ul>
-<p>JointIntentSlotDataDesc 对象包含例如 <cite>self.train_file</cite>, <cite>self.train_slot_file</cite>, <cite>self.eval_file</cite>, <cite>self.eval_slot_file</cite>,  <cite>self.intent_dict_file</cite> 和 <a href="#id7"><span class="problematic" id="id8">`</span></a>self.slot_dict_file`等信息。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_desc</span> <span class="o">=</span> <span class="n">JointIntentSlotDataDesc</span><span class="p">(</span>
-    <span class="n">args</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">do_lower_case</span><span class="p">)</span>
+<p>JointIntentSlotDataDesc 对象包含例如 <cite>self.train_file</cite>, <cite>self.train_slot_file</cite>, <cite>self.eval_file</cite>, <cite>self.eval_slot_file</cite>,  <cite>self.intent_dict_file</cite> 和 <cite>self.slot_dict_file</cite> 等信息。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_desc</span> <span class="o">=</span> <span class="n">JointIntentSlotDataDesc</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">do_lower_case</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>数据集: 将数据转换成DataLayerNM可以接收的格式.</p></li>
+<li><p>数据集: 将数据转换成 <cite>DataLayerNM</cite> 可以接收的格式.</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_dataset</span><span class="p">(</span><span class="n">data_desc</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">):</span>
     <span class="n">nf</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Loading {mode} data...&quot;</span><span class="p">)</span>
@@ -250,7 +256,6 @@
         <span class="n">max_seq_length</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">max_seq_length</span><span class="p">,</span>
         <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
         <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle</span><span class="p">)</span>
-
 
 <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">get_dataset</span><span class="p">(</span><span class="n">data_desc</span><span class="p">,</span> <span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">num_train_samples</span><span class="p">)</span>
 <span class="n">eval_dataset</span> <span class="o">=</span> <span class="n">get_dataset</span><span class="p">(</span><span class="n">data_desc</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">num_eval_samples</span><span class="p">)</span>
@@ -300,7 +305,7 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>创建相应的callbacks，来保存checkpoints，打印训练过程和测试结果。</p></li>
+<li><p>创建相应的 callbacks ，来保存 checkpoints ，打印训练过程和测试结果。</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">callback_train</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">SimpleLossLoggerCallback</span><span class="p">(</span>
     <span class="n">tensors</span><span class="o">=</span><span class="n">train_tensors</span><span class="p">,</span>
@@ -341,8 +346,8 @@
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="id9">
-<h2>模型训练<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>模型训练<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p>为了训练一个意图识别和槽填充的混合任务，运行 <code class="docutils literal notranslate"><span class="pre">nemo/examples/nlp</span></code> 下的脚本 <code class="docutils literal notranslate"><span class="pre">joint_intent_slot_with_bert.py</span></code> ：</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">launch</span> <span class="o">--</span><span class="n">nproc_per_node</span><span class="o">=</span><span class="mi">2</span> <span class="n">joint_intent_slot_with_bert</span><span class="o">.</span><span class="n">py</span> \
@@ -371,8 +376,8 @@
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="id10">
-<h2>参考文献<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>参考文献<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-nlp/joint_intent_slot_filling-0"><dl class="citation">
 <dt class="bibtex label" id="chen2019bert"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
 <dd><p>Qian Chen, Zhu Zhuo, and Wen Wang. Bert for joint intent classification and slot filling. <em>arXiv preprint arXiv:1902.10909</em>, 2019.</p>
