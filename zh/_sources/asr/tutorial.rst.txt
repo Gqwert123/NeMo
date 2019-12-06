@@ -84,17 +84,17 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
     import nemo_asr
 
     # 创建 Neural Factory
-    # It creates log files and tensorboard writers for us among other functions
+    # 它会为我们创建日志文件和 tensorboard 记录器
     nf = nemo.core.NeuralModuleFactory(
         log_dir='jasper12x1SEP',
         create_tb_writer=True)
     tb_writer = nf.tb_writer
     logger = nf.logger
 
-    # Path to our training manifest
+    # 到训练列表文件的路径
     train_dataset = "<path_to_where_you_put_data>/train_clean_100.json"
 
-    # Path to our validation manifest
+    # 到验证集列表文件的路径
     eval_datasets = "<path_to_where_you_put_data>/dev_clean.json"
 
     # Jasper 模型定义
@@ -200,7 +200,7 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
     # 一旦这个“操作”开始调用，数据开始在训练和验证的有向无环图上流动
     # 计算就开始了
     nf.train(
-        # Specify the loss to optimize for
+        # 指定需要优化的损失函数
         tensors_to_optimize=[loss],
         # 定义你想跑多少个回调
         callbacks=[train_callback, eval_callback, saver_callback],

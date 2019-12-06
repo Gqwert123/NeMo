@@ -99,7 +99,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#id2">简介</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id3">下载数据集</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id4">训练</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#bert">使用其它的 BERT 模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bert">使用脚本训练新的 BERT 模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">使用其它的 BERT 模型</a></li>
 </ul>
 </li>
 </ul>
@@ -186,29 +187,29 @@
 </div>
 <div class="section" id="id3">
 <h2>下载数据集<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://www.clips.uantwerpen.be/conll2003/ner/">CoNLL-2003</a> 是一个NER上标准的验证集合，当然任何一个NER数据集合都可以。数据集合需要满足的条件是符合以下的格式:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Jennifer</span>    <span class="n">B</span><span class="o">-</span><span class="n">PER</span>
-<span class="ow">is</span>      <span class="n">O</span>
-<span class="kn">from</span>    <span class="nn">O</span>
-<span class="n">New</span>     <span class="n">B</span><span class="o">-</span><span class="n">LOC</span>
-<span class="n">York</span>    <span class="n">I</span><span class="o">-</span><span class="n">LOC</span>
-<span class="n">City</span>    <span class="n">I</span><span class="o">-</span><span class="n">LOC</span>
-<span class="o">.</span>       <span class="n">O</span>
-
-<span class="n">She</span>     <span class="n">O</span>
-<span class="n">likes</span>   <span class="n">O</span>
-<span class="o">...</span>
+<p><a class="reference external" href="https://www.clips.uantwerpen.be/conll2003/ner/">CoNLL-2003</a> 是一个NER上标准的验证集合，当然任何一个NER数据集合都可以。数据集合被拆分成两个文件 text.txt 和 labels.txt。text.txt 需要满足的格式为：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Jennifer is from New York City .
+She likes ...
+...
 </pre></div>
 </div>
-<p>这里，词和标注使用空格进行分隔，但是在你的数据集里，它们需要用用tab分隔。每一行需要符合这样的格式: [WORD] [TAB] [LABEL] （中间没有空格)。一如 <a class="reference external" href="https://www.clips.uantwerpen.be/conll2003/ner/">CoNLL-2003 website</a> 网页上，词性标签之间可能会有列。每个句子中间需要用空行进行分隔。</p>
+<p>labels.txt 需要满足的格式为：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>B-PER O O B-LOC I-LOC I-LOC O
+O O ...
+...
+</pre></div>
+</div>
+<p>text.txt 每一行包含文本序列，其中词以空格来进行分隔。label.txt 中包含 text.txt 中每个词的标注，标注以空格分隔。文件中的每一行需要符合如下格式：
+[WORD] [SPACE] [WORD] [SPACE] [WORD] (在 text.txt 中) 和 [LABEL] [SPACE] [LABEL] [SPACE] [LABEL] (在 labels.txt中)。</p>
 </div>
 <div class="section" id="id4">
 <h2>训练<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>我们建议试试使用Jupyter来运行这部分代码，这会使得调试更加容易!</p>
+<p>我们建议试试使用Jupyter来运行这部分代码，这会使得调试更加容易!
+详见 examples/nlp/NERWithBERT.ipynb</p>
 </div>
-<p>首先，我们需要使用所支持的后端，来创建我们的 <cite>Neural Factory</cite> 。你需要确认使用多GPU或者混合精度训练。这个教程中我们使用单GPU训练，不使用混合精度。如果你想使用混合精度训练，需要设置 <code class="docutils literal notranslate"><span class="pre">amp_opt_level</span></code> 这个参数为 <code class="docutils literal notranslate"><span class="pre">O1</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">O2</span></code> 。</p>
+<p>首先，我们需要使用所支持的后端，来创建我们的 <cite>Neural Factory</cite> 。你需要确认使用多GPU或者混合精度训练。这个教程中我们使用单GPU训练，不使用混合精度(<code class="docutils literal notranslate"><span class="pre">optimization_level=&quot;O0&quot;</span></code>)。如果你想使用混合精度训练，需要设置 <code class="docutils literal notranslate"><span class="pre">amp_opt_level</span></code> 这个参数为 <code class="docutils literal notranslate"><span class="pre">O1</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">O2</span></code> 。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Backend</span><span class="o">.</span><span class="n">PyTorch</span><span class="p">,</span>
                                    <span class="n">local_rank</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">local_rank</span><span class="p">,</span>
@@ -222,24 +223,14 @@
 <p>接着，我们需要定义我们的分词器 (tokenizer) 和 BERT 模型。你可以有多种方式来实现。注意，NER是大小写敏感的（”New York City”比”new york city”更容易被识别出来），所以我们建议使用区分大小写的模型。</p>
 <p>如果你正在使用一个标准的 BERT 模型，我们建议你使用下面这条命令。想获取完整的 BERT 列表，可以参考 <code class="docutils literal notranslate"><span class="pre">nemo_nlp.huggingface.BERT.list_pretrained_models()</span></code> 。</p>
 <blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">NemoBertTokenizer</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">pretrained_bert_model</span><span class="p">)</span>
-<span class="n">pretrained_bert_model</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span>
-    <span class="n">pretrained_model_name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">pretrained_bert_model</span><span class="p">)</span>
-</pre></div>
-</div>
-</div></blockquote>
-<p>如果你在使用一个自己预训练好的 BERT 模型，你可以使用下面这条命令。这里，你需要把 <code class="docutils literal notranslate"><span class="pre">args.bert_checkpoint</span></code> 这个参数改成你的 checkpoint 文件所在的位置。</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">SentencePieceTokenizer</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="n">tokenizer_model</span><span class="p">)</span>
-<span class="n">tokenizer</span><span class="o">.</span><span class="n">add_special_tokens</span><span class="p">([</span><span class="s2">&quot;[MASK]&quot;</span><span class="p">,</span> <span class="s2">&quot;[CLS]&quot;</span><span class="p">,</span> <span class="s2">&quot;[SEP]&quot;</span><span class="p">])</span>
-
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">NemoBertTokenizer</span><span class="p">(</span><span class="n">pretrained_model</span><span class="o">=</span><span class="s2">&quot;bert-base-cased&quot;</span><span class="p">)</span>
 <span class="n">bert_model</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span>
-        <span class="n">config_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">bert_config</span><span class="p">)</span>
-<span class="n">pretrained_bert_model</span><span class="o">.</span><span class="n">restore_from</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">bert_checkpoint</span><span class="p">)</span>
+    <span class="n">pretrained_model_name</span><span class="o">=</span><span class="s2">&quot;bert-base-cased&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
-<p>现在，创建训练和验证数据集合:</p>
+<p>查看 examples/nlp/token_classification.py 文件来获取如何使用自己预训练好的模型。
+现在，创建训练和验证数据集合:</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_data_layer</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">BertTokenClassificationDataLayer</span><span class="p">(</span>
     <span class="n">dataset_type</span><span class="o">=</span><span class="s2">&quot;BertCornellNERDataset&quot;</span><span class="p">,</span>
@@ -259,30 +250,45 @@
 </div></blockquote>
 <p>接着，我们需要在预先训练好的模型上，创建分类器并定义损失函数:</p>
 <blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">pretrained_bert_model</span><span class="o">.</span><span class="n">local_parameters</span><span class="p">[</span><span class="s2">&quot;hidden_size&quot;</span><span class="p">]</span>
-<span class="n">tag_ids</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="o">.</span><span class="n">tag_ids</span>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">label_ids</span> <span class="o">=</span> <span class="n">train_data_layer</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">label_ids</span>
+<span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_ids</span><span class="p">)</span>
+
+<span class="n">hidden_size</span> <span class="o">=</span> <span class="n">bert_model</span><span class="o">.</span><span class="n">local_parameters</span><span class="p">[</span><span class="s2">&quot;hidden_size&quot;</span><span class="p">]</span>
 <span class="n">ner_classifier</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">TokenClassifier</span><span class="p">(</span><span class="n">hidden_size</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
-                                          <span class="n">num_classes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">tag_ids</span><span class="p">),</span>
-                                          <span class="n">dropout</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">fc_dropout</span><span class="p">)</span>
-<span class="n">ner_loss</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">TokenClassificationLoss</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">tag_ids</span><span class="p">))</span>
+                                      <span class="n">num_classes</span><span class="o">=</span><span class="n">num_classes</span><span class="p">,</span>
+                                      <span class="n">dropout</span><span class="o">=</span><span class="n">CLASSIFICATION_DROPOUT</span><span class="p">)</span>
+
+<span class="n">ner_loss</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">TokenClassificationLoss</span><span class="p">(</span><span class="n">d_model</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
+                                        <span class="n">num_classes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">label_ids</span><span class="p">),</span>
+                                        <span class="n">dropout</span><span class="o">=</span><span class="n">CLASSIFICATION_DROPOUT</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
-<p>并创建管道用来进行训练和验证:</p>
+<p>现在，创建训练和验证集合:</p>
 <blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_pipeline</span><span class="p">(</span><span class="n">data_layer</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
-                    <span class="n">local_rank</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">local_rank</span><span class="p">,</span> <span class="n">num_gpus</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">num_gpus</span><span class="p">):</span>
-    <span class="n">input_ids</span><span class="p">,</span> <span class="n">input_type_ids</span><span class="p">,</span> <span class="n">input_mask</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">seq_ids</span> <span class="o">=</span> <span class="n">data_layer</span><span class="p">()</span>
-    <span class="n">hidden_states</span> <span class="o">=</span> <span class="n">pretrained_bert_model</span><span class="p">(</span><span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span>
-                                          <span class="n">token_type_ids</span><span class="o">=</span><span class="n">input_type_ids</span><span class="p">,</span>
-                                          <span class="n">attention_mask</span><span class="o">=</span><span class="n">input_mask</span><span class="p">)</span>
-    <span class="n">logits</span> <span class="o">=</span> <span class="n">ner_classifier</span><span class="p">(</span><span class="n">hidden_states</span><span class="o">=</span><span class="n">hidden_states</span><span class="p">)</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">ner_loss</span><span class="p">(</span><span class="n">logits</span><span class="o">=</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">input_mask</span><span class="o">=</span><span class="n">input_mask</span><span class="p">)</span>
-    <span class="n">steps_per_epoch</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_layer</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">batch_size</span> <span class="o">*</span> <span class="n">num_gpus</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="p">,</span> <span class="n">data_layer</span><span class="p">,</span> <span class="p">[</span><span class="n">logits</span><span class="p">,</span> <span class="n">seq_ids</span><span class="p">]</span>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">input_ids</span><span class="p">,</span> <span class="n">input_type_ids</span><span class="p">,</span> <span class="n">input_mask</span><span class="p">,</span> <span class="n">loss_mask</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">train_data_layer</span><span class="p">()</span>
 
-<span class="n">train_loss</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">create_pipeline</span><span class="p">(</span><span class="n">train_data_layer</span><span class="p">)</span>
-<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">data_layer</span><span class="p">,</span> <span class="n">eval_tensors</span> <span class="o">=</span> <span class="n">create_pipeline</span><span class="p">(</span><span class="n">eval_data_layer</span><span class="p">)</span>
+<span class="n">hidden_states</span> <span class="o">=</span> <span class="n">bert_model</span><span class="p">(</span><span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span>
+                       <span class="n">token_type_ids</span><span class="o">=</span><span class="n">input_type_ids</span><span class="p">,</span>
+                       <span class="n">attention_mask</span><span class="o">=</span><span class="n">input_mask</span><span class="p">)</span>
+
+<span class="n">logits</span> <span class="o">=</span> <span class="n">ner_classifier</span><span class="p">(</span><span class="n">hidden_states</span><span class="o">=</span><span class="n">hidden_states</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">ner_loss</span><span class="p">(</span><span class="n">logits</span><span class="o">=</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">loss_mask</span><span class="o">=</span><span class="n">loss_mask</span><span class="p">)</span>
+
+
+<span class="n">eval_input_ids</span><span class="p">,</span> <span class="n">eval_input_type_ids</span><span class="p">,</span> <span class="n">eval_input_mask</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">eval_subtokens_mask</span><span class="p">,</span> <span class="n">eval_labels</span> \
+<span class="o">=</span> <span class="n">eval_data_layer</span><span class="p">()</span>
+
+<span class="n">hidden_states</span> <span class="o">=</span> <span class="n">bert_model</span><span class="p">(</span>
+    <span class="n">input_ids</span><span class="o">=</span><span class="n">eval_input_ids</span><span class="p">,</span>
+    <span class="n">token_type_ids</span><span class="o">=</span><span class="n">eval_input_type_ids</span><span class="p">,</span>
+    <span class="n">attention_mask</span><span class="o">=</span><span class="n">eval_input_mask</span><span class="p">)</span>
+
+<span class="n">eval_logits</span> <span class="o">=</span> <span class="n">ner_classifier</span><span class="p">(</span><span class="n">hidden_states</span><span class="o">=</span><span class="n">hidden_states</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_tensors</span><span class="p">,</span> <span class="n">train_loss</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="p">,</span> <span class="n">label_ids</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">create_pipeline</span><span class="p">()</span>
+<span class="n">eval_tensors</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">data_layer</span> <span class="o">=</span> <span class="n">create_pipeline</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;dev&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -300,47 +306,54 @@
 </div>
 </div>
 <blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">SimpleLossLoggerCallback</span><span class="p">(</span>
-    <span class="n">tensors</span><span class="o">=</span><span class="p">[</span><span class="n">train_loss</span><span class="p">],</span>
-    <span class="n">print_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Loss: {:.3f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">())),</span>
-    <span class="n">get_tb_values</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[[</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]],</span>
-    <span class="n">tb_writer</span><span class="o">=</span><span class="n">nf</span><span class="o">.</span><span class="n">tb_writer</span><span class="p">)</span>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">callback_train</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">SimpleLossLoggerCallback</span><span class="p">(</span>
+    <span class="n">tensors</span><span class="o">=</span><span class="p">[</span><span class="n">loss</span><span class="p">],</span>
+    <span class="n">print_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Loss: {:.3f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">())))</span>
 
-<span class="n">eval_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">EvaluatorCallback</span><span class="p">(</span>
-    <span class="n">eval_tensors</span><span class="o">=</span><span class="n">eval_tensors</span><span class="p">,</span>
-    <span class="n">user_iter_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">eval_iter_callback</span><span class="p">(</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">data_layer</span><span class="p">,</span> <span class="n">tag_ids</span><span class="p">),</span>
-    <span class="n">user_epochs_done_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">eval_epochs_done_callback</span><span class="p">(</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">tag_ids</span><span class="p">,</span> <span class="n">output_file</span><span class="p">),</span>
-    <span class="n">tb_writer</span><span class="o">=</span><span class="n">nf</span><span class="o">.</span><span class="n">tb_writer</span><span class="p">,</span>
+<span class="n">train_data_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_data_layer</span><span class="p">)</span>
+
+<span class="c1"># 如果你在使用多 GPU 训练，需要把这里改成</span>
+<span class="c1"># train_data_size / (batch_size * batches_per_step * num_gpus)</span>
+<span class="n">steps_per_epoch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">train_data_size</span> <span class="o">/</span> <span class="p">(</span><span class="n">BATCHES_PER_STEP</span> <span class="o">*</span> <span class="n">BATCH_SIZE</span><span class="p">))</span>
+
+<span class="n">callback_eval</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">EvaluatorCallback</span><span class="p">(</span>
+    <span class="n">eval_tensors</span><span class="o">=</span><span class="p">[</span><span class="n">eval_logits</span><span class="p">,</span> <span class="n">eval_labels</span><span class="p">,</span> <span class="n">eval_subtokens_mask</span><span class="p">],</span>
+    <span class="n">user_iter_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">eval_iter_callback</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+    <span class="n">user_epochs_done_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">eval_epochs_done_callback</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">label_ids</span><span class="p">),</span>
     <span class="n">eval_step</span><span class="o">=</span><span class="n">steps_per_epoch</span><span class="p">)</span>
-
-<span class="n">ckpt_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">CheckpointCallback</span><span class="p">(</span>
-    <span class="n">folder</span><span class="o">=</span><span class="n">nf</span><span class="o">.</span><span class="n">checkpoint_dir</span><span class="p">,</span>
-    <span class="n">epoch_freq</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">save_epoch_freq</span><span class="p">,</span>
-    <span class="n">step_freq</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">save_step_freq</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
 <p>最后，我们需要定义学习率规则和优化器，并且开始训练：</p>
 <blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lr_policy_fn</span> <span class="o">=</span> <span class="n">get_lr_policy</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">lr_policy</span><span class="p">,</span>
-                             <span class="n">total_steps</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">num_epochs</span> <span class="o">*</span> <span class="n">steps_per_epoch</span><span class="p">,</span>
-                             <span class="n">warmup_ratio</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">lr_warmup_proportion</span><span class="p">)</span>
-
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lr_policy</span> <span class="o">=</span> <span class="n">WarmupAnnealing</span><span class="p">(</span><span class="n">NUM_EPOCHS</span> <span class="o">*</span> <span class="n">steps_per_epoch</span><span class="p">,</span>
+                    <span class="n">warmup_ratio</span><span class="o">=</span><span class="n">LR_WARMUP_PROPORTION</span><span class="p">)</span>
 
 <span class="n">nf</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">tensors_to_optimize</span><span class="o">=</span><span class="p">[</span><span class="n">train_loss</span><span class="p">],</span>
-         <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">train_callback</span><span class="p">,</span> <span class="n">eval_callback</span><span class="p">,</span> <span class="n">ckpt_callback</span><span class="p">],</span>
-         <span class="n">lr_policy</span><span class="o">=</span><span class="n">lr_policy_fn</span><span class="p">,</span>
-         <span class="n">optimizer</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">optimizer_kind</span><span class="p">,</span>
-         <span class="n">optimization_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num_epochs&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">num_epochs</span><span class="p">,</span>
-                              <span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">lr</span><span class="p">})</span>
+         <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">train_callback</span><span class="p">,</span> <span class="n">eval_callback</span><span class="p">],</span>
+         <span class="n">lr_policy</span><span class="o">=</span><span class="n">lr_policy</span><span class="p">,</span>
+         <span class="n">optimizer</span><span class="o">=</span><span class="n">OPTIMIZER</span><span class="p">,</span>
+         <span class="n">optimization_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num_epochs&quot;</span><span class="p">:</span> <span class="n">NUM_EPOCHS</span><span class="p">,</span>
+                              <span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="n">LEARNING_RATE</span><span class="p">})</span>
 </pre></div>
 </div>
 </div></blockquote>
 </div>
 <div class="section" id="bert">
-<h2>使用其它的 BERT 模型<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h2>
+<h2>使用脚本训练新的 BERT 模型<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h2>
+<p>运行如下训练脚本:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python token_classification.py --data_dir /data/ner/ --work_dir output_ner
+</pre></div>
+</div>
+<p>测试:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python token_classification_infer.py --labels_dict /data/ner/label_ids.csv
+--work_dir output_ner/checkpoints/
+</pre></div>
+</div>
+<p>注意，这里会在训练过程中，到 data_dir 目录下生成 label_ids.csv 文件。</p>
+</div>
+<div class="section" id="id5">
+<h2>使用其它的 BERT 模型<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>除了可以使用谷歌提供的预训练 BERT 模型和你自己训练的模型外，在NeMo中，也可以使用来自第三方的BERT模型，只要这个模型的参数可以加载到PyTorch中即可。例如，如果你想使用 <a class="reference external" href="https://github.com/allenai/scibert">SciBERT</a> 来微调：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://s3-us-west-2.amazonaws.com/ai2-s2-research/scibert/pytorch_models/scibert_scivocab_cased.tar
 tar -xf scibert_scivocab_cased.tar

@@ -256,17 +256,17 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
 <span class="kn">import</span> <span class="nn">nemo_asr</span>
 
 <span class="c1"># 创建 Neural Factory</span>
-<span class="c1"># It creates log files and tensorboard writers for us among other functions</span>
+<span class="c1"># 它会为我们创建日志文件和 tensorboard 记录器</span>
 <span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span>
     <span class="n">log_dir</span><span class="o">=</span><span class="s1">&#39;jasper12x1SEP&#39;</span><span class="p">,</span>
     <span class="n">create_tb_writer</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">tb_writer</span> <span class="o">=</span> <span class="n">nf</span><span class="o">.</span><span class="n">tb_writer</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">nf</span><span class="o">.</span><span class="n">logger</span>
 
-<span class="c1"># Path to our training manifest</span>
+<span class="c1"># 到训练列表文件的路径</span>
 <span class="n">train_dataset</span> <span class="o">=</span> <span class="s2">&quot;&lt;path_to_where_you_put_data&gt;/train_clean_100.json&quot;</span>
 
-<span class="c1"># Path to our validation manifest</span>
+<span class="c1"># 到验证集列表文件的路径</span>
 <span class="n">eval_datasets</span> <span class="o">=</span> <span class="s2">&quot;&lt;path_to_where_you_put_data&gt;/dev_clean.json&quot;</span>
 
 <span class="c1"># Jasper 模型定义</span>
@@ -372,7 +372,7 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
 <span class="c1"># 一旦这个“操作”开始调用，数据开始在训练和验证的有向无环图上流动</span>
 <span class="c1"># 计算就开始了</span>
 <span class="n">nf</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
-    <span class="c1"># Specify the loss to optimize for</span>
+    <span class="c1"># 指定需要优化的损失函数</span>
     <span class="n">tensors_to_optimize</span><span class="o">=</span><span class="p">[</span><span class="n">loss</span><span class="p">],</span>
     <span class="c1"># 定义你想跑多少个回调</span>
     <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">train_callback</span><span class="p">,</span> <span class="n">eval_callback</span><span class="p">,</span> <span class="n">saver_callback</span><span class="p">],</span>

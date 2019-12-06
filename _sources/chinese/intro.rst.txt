@@ -1,8 +1,3 @@
-.. _asr-docs:
-
-Mandarin Support
-==================
-
-`中文版支持戳这里 <../zh/index.html>`_
-
-
+中文支持
+========
+`中文版支持戳这里呀 <../zh/index.html>`_ 
