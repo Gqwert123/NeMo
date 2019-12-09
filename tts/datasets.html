@@ -34,7 +34,9 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Models" href="models.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,13 +84,23 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">Fast Training</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">Speech Recognition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="intro.html">Speech Synthesis</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ljspeech">LJSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chinese-standard-mandarin-speech-copus-10000-sentences">Chinese Standard Mandarin Speech Copus(10000 Sentences)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../chinese/intro.html">中文支持</a></li>
@@ -137,6 +149,8 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
+          <li><a href="intro.html">Speech Synthesis</a> &raquo;</li>
+        
       <li>Datasets</li>
     
     
@@ -175,7 +189,7 @@ hours of speech.</p>
 consists of a single female, Mandarin speaker. It contains approximately 12 hours of speech. The copyright of this dataset is held
 by Databaker (Beijing) Technology Co.,Ltd. Support non-commercial use only.</p>
 <p>Obtaining and prepocessing the data for NeMo can be done with
-<a class="reference external" href="https://github.com/NVIDIA/NeMo/blob/master/scripts/get_databaker_data.py">our helper script</a>:</p>
+<a class="reference external" href="https://github.com/NVIDIA/NeMo/blob/master/scripts/get_databaker_data.py">helper script</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python scripts/get_databaker_data.py --data_root<span class="o">=</span>&lt;where_you_want_to_save_data&gt;
 </pre></div>
 </div>
@@ -187,6 +201,15 @@ by Databaker (Beijing) Technology Co.,Ltd. Support non-commercial use only.</p>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="models.html" class="btn btn-neutral float-right" title="Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

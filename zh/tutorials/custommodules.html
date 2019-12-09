@@ -95,14 +95,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#id2">可训练模块</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id3">从头定义模块</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id4">例子 1</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pytorchnn-module">转换PyTorch的nn.Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytorch-nn-module">转换 PyTorch 的 nn.Module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id5">数据层模块</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id8">例子</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">例子</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">损失函数神经模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">损失函数神经模块</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
 </ul>
 </li>
@@ -110,7 +110,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a></li>
 <li class="toctree-l2"><a class="reference internal" href="callbacks.html">回调</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程（GAN例子）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程（ GAN 例子）</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
@@ -189,38 +189,37 @@
 <h1>如何构建神经模块<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>目前，NeMo只支持Pytorch作为后端</p>
+<p>目前，NeMo 只支持 Pytorch 作为后端</p>
 </div>
 <p>神经模块根据概念可以分成4个有重叠的类目:</p>
 <ul class="simple">
 <li><p><strong>Trainable Modules</strong> - 包含了有可训练权重的模块。继承自
-<code class="xref py py-class docutils literal notranslate"><span class="pre">TrainableNM</span></code> 类。</p></li>
-<li><p><strong>Data Layers</strong> - 对数据做(extraction抽取, transform转换, load加载, feed接入) ETLF操作的模块。继承自
-<code class="xref py py-class docutils literal notranslate"><span class="pre">DataLayerNM</span></code> 类。</p></li>
+<a class="reference internal" href="../api-docs/nemo.html#nemo.backends.pytorch.nm.TrainableNM" title="nemo.backends.pytorch.nm.TrainableNM"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainableNM</span></code></a> 类。</p></li>
+<li><p><strong>Data Layers</strong> - 对数据做(extraction抽取, transform转换, load加载, feed接入) ETLF 操作的模块。继承自
+<a class="reference internal" href="../api-docs/nemo.html#nemo.backends.pytorch.nm.DataLayerNM" title="nemo.backends.pytorch.nm.DataLayerNM"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLayerNM</span></code></a> 类。</p></li>
 <li><p><strong>Loss Modules</strong> - 计算损失函数的模块。继承自
-<code class="xref py py-class docutils literal notranslate"><span class="pre">LossNM</span></code> 类。</p></li>
+<a class="reference internal" href="../api-docs/nemo.html#nemo.backends.pytorch.nm.LossNM" title="nemo.backends.pytorch.nm.LossNM"><code class="xref py py-class docutils literal notranslate"><span class="pre">LossNM</span></code></a> 类。</p></li>
 <li><p><strong>Non Trainable Modules</strong> - 不可训练模块，比如，查表，数据增强，贪心解码器等。继承自
-<code class="xref py py-class docutils literal notranslate"><span class="pre">NonTrainableNM</span></code> 类。</p></li>
+<a class="reference internal" href="../api-docs/nemo.html#nemo.backends.pytorch.nm.NonTrainableNM" title="nemo.backends.pytorch.nm.NonTrainableNM"><code class="xref py py-class docutils literal notranslate"><span class="pre">NonTrainableNM</span></code></a> 类。</p></li>
 </ul>
 <p>在下面的图片中，你可以看到这些类的继承关系</p>
-<div class="figure align-default" id="id10">
+<div class="figure align-default" id="id8">
 <img alt="map to buried treasure" src="../_images/nm_class_structure.png" />
-<p class="caption"><span class="caption-text">继承类关系图。假设API’s类是绿色的。红色类是用户将要执行的。</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">继承类关系图。假设 API 的类是绿色的。红色类是用户将要执行的。</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="id2">
 <h2>可训练模块<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>注意 <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainableNM</span></code> 类
-有两个基础类：<code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> 类 和 <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>.</p>
+<p>注意 <a class="reference internal" href="../api-docs/nemo.html#nemo.backends.pytorch.nm.TrainableNM" title="nemo.backends.pytorch.nm.TrainableNM"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainableNM</span></code></a> 类
+有两个基础类：<a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a> 类 和 <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>.</p>
 </div>
 <div class="section" id="id3">
 <h3>从头定义模块<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li><p>首先继承 <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainableNM</span></code> 类。</p></li>
+<li><p>首先继承 <a class="reference internal" href="../api-docs/nemo.html#nemo.backends.pytorch.nm.TrainableNM" title="nemo.backends.pytorch.nm.TrainableNM"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainableNM</span></code></a> 类。</p></li>
 <li><p>创建 <code class="docutils literal notranslate"><span class="pre">create_ports()</span></code> 静态方法，定义输入输出端口
-如果你的 <code class="docutils literal notranslate"><span class="pre">create_ports()</span></code> 方法需要一些参数，把它作为 <code class="docutils literal notranslate"><span class="pre">create_port_args</span></code>
-的部分参数传递给基类的构造函数。</p></li>
+如果你的 <code class="docutils literal notranslate"><span class="pre">create_ports()</span></code> 方法需要一些参数，把它作为 <code class="docutils literal notranslate"><span class="pre">create_port_args</span></code> 的部分参数传递给基类的构造函数。</p></li>
 </ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">create_ports</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
@@ -246,7 +245,7 @@
 </div>
 <div class="section" id="id4">
 <h3>例子 1<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TaylorNet</span><span class="p">(</span><span class="n">TrainableNM</span><span class="p">):</span> <span class="c1"># (1) Note inheritance from TrainableNM</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TaylorNet</span><span class="p">(</span><span class="n">TrainableNM</span><span class="p">):</span> <span class="c1"># (1) 注意继承 TrainableNM 类</span>
     <span class="sd">&quot;&quot;&quot;学习Taylor系数的模块&quot;&quot;&quot;</span>
 
     <span class="c1"># (2) create_ports()定义输入输出端口</span>
@@ -261,10 +260,13 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># (3) 调用基类构造函数</span>
         <span class="n">TrainableNM</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="c1"># And of Neural Modules specific part. Rest is PyTorch code</span>
+        <span class="c1"># Neural Modules 的特定部分，剩下的是 PyTorch 代码</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_parameters</span><span class="p">[</span><span class="s2">&quot;dim&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">t</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">xavier_uniform_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">device</span><span class="p">(</span>
+            <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">placement</span> <span class="o">==</span> <span class="n">DeviceType</span><span class="o">.</span><span class="n">GPU</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">)</span>
 
     <span class="c1"># IMPORTANT: 给前向参数的名字必须匹配输入端口的名字</span>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
@@ -277,11 +279,11 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="pytorchnn-module">
-<h3>转换PyTorch的nn.Module<a class="headerlink" href="#pytorchnn-module" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="pytorch-nn-module">
+<h3>转换 PyTorch 的 nn.Module<a class="headerlink" href="#pytorch-nn-module" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li><p>如果你已经有PyTorch的类继承自 <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>，把那个继承改成继承
-<code class="xref py py-class docutils literal notranslate"><span class="pre">TrainableNM</span></code> 类。</p></li>
+<li><p>如果你已经有 PyTorch 的类继承自 <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code> ，把那个继承改成继承
+<a class="reference internal" href="../api-docs/nemo.html#nemo.backends.pytorch.nm.TrainableNM" title="nemo.backends.pytorch.nm.TrainableNM"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainableNM</span></code></a> 类。</p></li>
 <li><p>创建 <code class="docutils literal notranslate"><span class="pre">create_ports()</span></code> 静态方法</p></li>
 <li><p>修改构造函数，首先调用基类构造函数</p></li>
 </ol>
@@ -304,23 +306,22 @@
 <div class="section" id="id5">
 <h2>数据层模块<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li><p>继承自 <code class="xref py py-class docutils literal notranslate"><span class="pre">DataLayerNM</span></code> 类。</p></li>
+<li><p>继承自 <a class="reference internal" href="../api-docs/nemo.html#nemo.backends.pytorch.nm.DataLayerNM" title="nemo.backends.pytorch.nm.DataLayerNM"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLayerNM</span></code></a> 类。</p></li>
 <li><p>实现 <code class="docutils literal notranslate"><span class="pre">__len__</span></code> 方法，返回数据集大小</p></li>
 <li><p>实现 <code class="docutils literal notranslate"><span class="pre">dataset</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">data_iterator</span></code> 属性，返回一个PyTorch数据集对象或者你的数据集的迭代器。(没有使用的属性应该返回None)</p></li>
 </ol>
-<p>当实现构造函数的时候，你首先要调用基类构造函数，并且定义
-在create_ports()定义*仅输出端口* 。另外，模块应该接收像是
-<code class="docutils literal notranslate"><span class="pre">batch_size</span></code> 和 <a href="#id6"><span class="problematic" id="id7">``</span></a>shuffle``的参数。</p>
-<p>如果你使用了 <code class="docutils literal notranslate"><span class="pre">torch.utils.data.Dataset</span></code> 类 (<em>推荐方法</em>)，接着你可以实现 <code class="docutils literal notranslate"><span class="pre">dataset</span></code> 属性，一个数据加载器就会自动给你创建。
-(见下面的例子).</p>
-<div class="section" id="id8">
-<h3>例子<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<p>这个例子把PyTorch的 <em>ImageFolder</em> 数据集封装成一个神经模块的数据层。</p>
+<p>当实现构造函数的时候，你首先要调用基类构造函数，并且定义在create_ports()定义 <em>仅输出端口</em> 。
+另外，模块应该接收像是 <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> 和 <code class="docutils literal notranslate"><span class="pre">shuffle</span></code> 的参数。</p>
+<p>如果你使用了 <code class="docutils literal notranslate"><span class="pre">torch.utils.data.Dataset</span></code> 类 (<em>推荐方法</em>)，那么你可以实现 <code class="docutils literal notranslate"><span class="pre">dataset</span></code> 属性，一个数据加载器就会自动给你创建。
+(见下面的例子)。</p>
+<div class="section" id="id6">
+<h3>例子<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>这个例子把 PyTorch 的 <em>ImageFolder</em> 数据集封装成一个神经模块的数据层。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torchvision</span>
 <span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="kn">as</span> <span class="nn">transforms</span><span class="o">,</span> <span class="nn">datasets</span>
 
-<span class="sd">&quot;&quot;&quot;这个类把Pytorch的ImageFolder数据集的API封装成了神经模块&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;这个类把 Pytorch 的 ImageFolder 数据集的 API 封装成了神经模块&quot;&quot;&quot;</span>
 
 <span class="k">class</span> <span class="nc">ImageFolderDataLayer</span><span class="p">(</span><span class="n">DataLayerNM</span><span class="p">):</span>
     <span class="nd">@staticmethod</span>
@@ -366,10 +367,10 @@
 </div>
 </div>
 </div>
-<div class="section" id="id9">
-<h2>损失函数神经模块<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>损失函数神经模块<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li><p>继承自 <code class="xref py py-class docutils literal notranslate"><span class="pre">LossNM</span></code> 类</p></li>
+<li><p>继承自 <a class="reference internal" href="../api-docs/nemo.html#nemo.backends.pytorch.nm.LossNM" title="nemo.backends.pytorch.nm.LossNM"><code class="xref py py-class docutils literal notranslate"><span class="pre">LossNM</span></code></a> 类</p></li>
 <li><p>创建create_ports()方法</p></li>
 <li><p>在构造函数里调用基类构造函数</p></li>
 <li><p>实现 <code class="xref py py-meth docutils literal notranslate"><span class="pre">_loss_function</span></code> 方法。</p></li>
@@ -386,10 +387,10 @@
         <span class="k">return</span> <span class="n">input_ports</span><span class="p">,</span> <span class="n">output_ports</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="c1"># 神经模块API</span>
+        <span class="c1"># 神经模块 API</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="c1"># 结束神经模块API</span>
+        <span class="c1"># 结束神经模块 API</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
 
     <span class="c1"># 你需要实现这个方法</span>

@@ -185,31 +185,63 @@
 <li><p>NVIDIA APEX: <a class="reference external" href="https://github.com/NVIDIA/apex">https://github.com/NVIDIA/apex</a></p></li>
 </ol>
 <p><strong>开始吧</strong></p>
-<p>如果需要的话，你可以从这个 docker 容器开始 <a class="reference external" href="https://ngc.nvidia.com/catalog/containers/nvidia:pytorch">NGC PyTorch容器</a> 这里面已经包含了上面所需要的环境。</p>
-<p>你可以直接运行 <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">nvcr.io/nvidia/pytorch:19.08-py3</span></code></p>
-<p>接着按照下面的步骤：</p>
-<ol class="arabic">
-<li><p>克隆这个仓库</p></li>
-<li><p>切到 nemo 文件夹下，运行: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p></li>
-<li><p>安装 collections:</p>
-<blockquote>
-<div><ul>
-<li><p>ASR collections <cite>collections/nemo_asr</cite>:</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libsndfile1</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p></li>
-</ol>
-</div></blockquote>
-</li>
-<li><p>NLP collections <cite>collections/nemo_nlp</cite>: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p></li>
-<li><p>TTS collections <cite>collections/nemo_tts</cite>: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p></li>
+<p>你可以从这个 docker 容器开始 <a class="reference external" href="https://ngc.nvidia.com/catalog/containers/nvidia:pytorch">NGC PyTorch容器</a> 这里面已经包含了上面所需要的环境。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># pull相应的 docker 容器</span>
+docker pull nvcr.io/nvidia/pytorch:19.10-py3
+
+<span class="c1"># 运行下面两个命令之一</span>
+<span class="c1"># 如果你的 docker 版本 &lt;19.03</span>
+nvidia-docker run -it --rm -v &lt;nemo_github_folder&gt;:/NeMo --shm-size<span class="o">=</span>1g -p <span class="m">8888</span>:8888 -p <span class="m">6006</span>:6006 --ulimit <span class="nv">memlock</span><span class="o">=</span>-1 --ulimit <span class="nv">stack</span><span class="o">=</span><span class="m">67108864</span> nvcr.io/nvidia/pytorch:19.10-py3
+
+<span class="c1"># 如果你的 docker 版本 &gt;=19.03</span>
+docker run --runtime<span class="o">=</span>nvidia -it --rm -v &lt;nemo_github_folder&gt;:/NeMo --shm-size<span class="o">=</span>1g -p <span class="m">8888</span>:8888 -p <span class="m">6006</span>:6006 --ulimit <span class="nv">memlock</span><span class="o">=</span>-1 --ulimit <span class="nv">stack</span><span class="o">=</span><span class="m">67108864</span> nvcr.io/nvidia/pytorch:19.10-py3
+
+<span class="nb">cd</span> /NeMo
+</pre></div>
+</div>
+<p>接着运行下面的步骤</p>
+<p>如果你已经安装了所有依赖（或者使用了 <a class="reference external" href="https://ngc.nvidia.com/catalog/containers/nvidia:pytorch">NGC PyTorch容器</a> ）
+那么你只要简单的用 pip来安装最新的 NeMo 和 NeMo 集合即可</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install nemo-toolkit  <span class="c1"># 安装 NeMo Core</span>
+pip install nemo-asr <span class="c1"># 安装 NeMo asr 集合</span>
+pip install nemo-nlp <span class="c1"># 安装 NeMo nlp 集合</span>
+pip install nemo-tts <span class="c1"># 安装 NeMo tts 集合</span>
+</pre></div>
+</div>
+<p><strong>教程</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://nvidia.github.io/NeMo/asr/zh/intro.html">语音识别</a></p></li>
+<li><p><a class="reference external" href="https://nvidia.github.io/NeMo/zh/nlp/intro.html">自然语言处理</a></p></li>
+<li><p><a class="reference external" href="https://nvidia.github.io/NeMo/tts/zh/intro.html">语音合成</a></p></li>
 </ul>
-</div></blockquote>
-</li>
-<li><p>如果要开发，你需要运行: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">develop</span></code> 而不是之前步骤3.2中的 <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p></li>
-<li><p>到 <cite>examples/start_here</cite> 下，从这几个简单的例子开始吧</p></li>
+<p><strong>从github上安装</strong></p>
+<p>如果你更想用 NeMo 最新的开发版本（从 github上 获取），请按照下面的步骤：</p>
+<p><em>Note</em>: 对于下面的步骤2和3，如果你想在开发模式下用 NeMo，用: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> 而不是 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code></p>
+<ol class="arabic simple">
+<li><p>克隆这个仓库 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/NVIDIA/NeMo.git</span></code></p></li>
+<li><p>切到 nemo 文件夹下，安装工具包:</p></li>
 </ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> NeMo/nemo
+pip install .
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>安装 collections:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 从 collections/nemo_asr 下安装 ASR 集合</span>
+apt-get install libsndfile1
+<span class="nb">cd</span> NeMo/collections/nemo_asr
+pip install .
+
+<span class="c1"># 从 collections/nemo_nlp 下安装 NLP 集合</span>
+<span class="nb">cd</span> NeMo/collections/nemo_nlp
+pip install .
+
+<span class="c1"># 从 collections/nemo_tts 下安装 TTS 集合</span>
+<span class="nb">cd</span> NeMo/collections/nemo_tts
+pip install .
+</pre></div>
+</div>
 <p><strong>单元测试</strong></p>
 <p>下面这个命令会运行单元测试:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./reinstall.sh

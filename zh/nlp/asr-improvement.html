@@ -181,10 +181,10 @@
   <div class="section" id="id1">
 <h1>教程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>在这个教程中，我们会训练一个后处理模型来纠正端到端语音识别模型的输出错误。这个模型类似于一个翻译模型，但和传统语音识别中的二次打分模型不太一样。
-这个模型的架构是基于注意力机制的编码器解码器架构，其中编码器和解码器都是用BERT的预训练语言模型初始化的。为了训练这个模型，我们用预训练的 Jasper 语音识别模型 <a class="bibtex reference internal" href="#li2019jasper" id="id2">[2]</a> 产生的错误来收集数据集。</p>
+这个模型的架构是基于注意力机制的编码器解码器架构，其中编码器和解码器都是用BERT的预训练语言模型初始化的。为了训练这个模型，我们用预训练的 Jasper 语音识别模型 <a class="bibtex reference internal" href="#asr-imps-li2019jasper" id="id2">[ASR-IMPROVEMENTS3]</a> 产生的错误来收集数据集。</p>
 <div class="section" id="id3">
 <h2>数据<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p><strong>数据收集</strong> 我们用 Jasper <a class="bibtex reference internal" href="#li2019jasper" id="id4">[2]</a> 在 Librispeech 数据集 <a class="bibtex reference internal" href="#panayotov2015librispeech" id="id5">[3]</a> 上训练的模型为这个任务收集数据集。
+<p><strong>数据收集</strong> 我们用 Jasper <a class="bibtex reference internal" href="#asr-imps-li2019jasper" id="id4">[ASR-IMPROVEMENTS3]</a> 在 Librispeech 数据集 <a class="bibtex reference internal" href="#asr-imps-panayotov2015librispeech" id="id5">[ASR-IMPROVEMENTS4]</a>  上训练的模型为这个任务收集数据集。
 下载 Librispeech 数据集, 参考 <a class="reference internal" href="../asr/datasets.html#librispeech-dataset"><span class="std std-ref">LibriSpeech</span></a> 。
 获得 Jasper 预训练模型, 参考 <a class="reference internal" href="../asr/jasper.html#jasper-model"><span class="std std-ref">Jasper</span></a> 。
 Librispeech 训练数据集包含三个部分: train-clean-100, train-clean-360, 和 train-clean-500 总共281000个训练样本。
@@ -201,7 +201,7 @@ Librispeech 训练数据集包含三个部分: train-clean-100, train-clean-360,
 </div>
 <div class="section" id="bert">
 <h2>从预训练 BERT 模型中加载参数<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h2>
-<p>编码器和解码器用的都是预训练的 BERT 模型参数。 因为 BERT 的语言模型和 Transformer 的编码器结构相同，因此没有其他什么需要做的。从预训练的 BERT 模型中为解码器准备参数，我们写了一个脚本 <code class="docutils literal notranslate"><span class="pre">get_decoder_params_from_bert.py</span></code> 会从 <code class="docutils literal notranslate"><span class="pre">pytorch-transformers</span></code> <a class="bibtex reference internal" href="#huggingface2019transformers" id="id6">[1]</a> 下载参数，并把他们映射到解码器的参数上.
+<p>编码器和解码器用的都是预训练的 BERT 模型参数。 因为 BERT 的语言模型和 Transformer 的编码器结构相同，因此没有其他什么需要做的。从预训练的 BERT 模型中为解码器准备参数，我们写了一个脚本 <code class="docutils literal notranslate"><span class="pre">get_decoder_params_from_bert.py</span></code> 会从 <code class="docutils literal notranslate"><span class="pre">pytorch-transformers</span></code> <a class="bibtex reference internal" href="#asr-imps-huggingface2019transformers" id="id6">[ASR-IMPROVEMENTS1]</a> 下载参数，并把他们映射到解码器的参数上.
 编码器和解码器的注意力是用 self-attention 参数做初始化的。
 这个脚本位于 <code class="docutils literal notranslate"><span class="pre">scripts</span></code> 文件目录下，接受两个参数：</p>
 <ul>
@@ -241,8 +241,13 @@ Librispeech 训练数据集包含三个部分: train-clean-100, train-clean-360,
 <span class="n">encoder</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">BERT</span><span class="p">(</span>
     <span class="n">pretrained_model_name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">pretrained_model</span><span class="p">,</span>
     <span class="n">local_rank</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">local_rank</span><span class="p">)</span>
-
-<span class="n">vocab_size</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab_size</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>让词嵌入的大小（包括其他的张量维度）能够整除8可以得到最好的GPU利用率和混精度训练加速。</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vocab_size</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab_size</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span>
 <span class="n">tokens_to_add</span> <span class="o">=</span> <span class="n">vocab_size</span> <span class="o">-</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab_size</span>
 
 <span class="n">device</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">bert</span><span class="o">.</span><span class="n">embeddings</span><span class="o">.</span><span class="n">word_embeddings</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
@@ -252,12 +257,8 @@ Librispeech 训练数据集包含三个部分: train-clean-100, train-clean-360,
     <span class="p">(</span><span class="n">encoder</span><span class="o">.</span><span class="n">bert</span><span class="o">.</span><span class="n">embeddings</span><span class="o">.</span><span class="n">word_embeddings</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">zeros</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>让词嵌入的大小（包括其他的张量维度）能够整除8可以得到最好的GPU利用率和混精度训练加速。</p>
-</div>
 </div></blockquote>
-<p>接着, 我们构建 Transformer 解码器神经模块. 因为我们会用 BERT 预训练的参数来初始化我们的解码器, 我们设置隐藏层激活函数为 <code class="docutils literal notranslate"><span class="pre">&quot;hidden_act&quot;:</span> <span class="pre">&quot;gelu&quot;</span></code> 以及设置学习位置编码 <code class="docutils literal notranslate"><span class="pre">&quot;learn_positional_encodings&quot;:</span> <span class="pre">True</span></code>:</p>
+<p>接着, 我们构建 Transformer 解码器神经模块. 因为我们会用 BERT 预训练的参数来初始化我们的解码器, 我们设置隐藏层激活函数为 <code class="docutils literal notranslate"><span class="pre">&quot;hidden_act&quot;:</span> <span class="pre">&quot;gelu&quot;</span></code> 以及设置学习位置编码 <code class="docutils literal notranslate"><span class="pre">&quot;learn_positional_encodings&quot;:</span> <span class="pre">True</span></code> :</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">decoder</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">TransformerDecoderNM</span><span class="p">(</span>
     <span class="n">d_model</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">d_model</span><span class="p">,</span>
@@ -283,7 +284,7 @@ Librispeech 训练数据集包含三个部分: train-clean-100, train-clean-360,
 </div>
 <div class="section" id="id8">
 <h2>模型训练<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
-<p>训练模型，运行 <code class="docutils literal notranslate"><span class="pre">asr_postprocessor.py.py</span></code> ，它位于 <code class="docutils literal notranslate"><span class="pre">examples/nlp</span></code> 目录中。我们用 novograd 优化器来训练 <a class="bibtex reference internal" href="#ginsburg2019stochastic" id="id9">[2]</a>, 设置学习率 <code class="docutils literal notranslate"><span class="pre">lr=0.001</span></code> ，多项式学习率衰减策略, <code class="docutils literal notranslate"><span class="pre">1000</span></code> 步预热, 每个GPU的 batch size 为 <code class="docutils literal notranslate"><span class="pre">4096*8</span></code> 个符号, 以及 <code class="docutils literal notranslate"><span class="pre">0.25</span></code> dropout 概率。我们在8块GPU上做训练，可以用下面的方法开启多GPU训练模式:</p>
+<p>训练模型，运行 <code class="docutils literal notranslate"><span class="pre">asr_postprocessor.py.py</span></code> ，它位于 <code class="docutils literal notranslate"><span class="pre">examples/nlp</span></code> 目录中。我们用 novograd 优化器来训练 <a class="bibtex reference internal" href="#asr-imps-ginsburg2019stochastic" id="id9">[ASR-IMPROVEMENTS2]</a>, 设置学习率 <code class="docutils literal notranslate"><span class="pre">lr=0.001</span></code> ，多项式学习率衰减策略, <code class="docutils literal notranslate"><span class="pre">1000</span></code> 步预热, 每个GPU的 batch size 为 <code class="docutils literal notranslate"><span class="pre">4096*8</span></code> 个符号, 以及 <code class="docutils literal notranslate"><span class="pre">0.25</span></code> dropout 概率。我们在8块GPU上做训练，可以用下面的方法开启多GPU训练模式:</p>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="m">8</span>  asr_postprocessor.py --data_dir ../../tests/data/pred_real/ --restore_from ../../scripts/bert-base-uncased_decoder.pt
 </pre></div>
@@ -293,16 +294,16 @@ Librispeech 训练数据集包含三个部分: train-clean-100, train-clean-360,
 <div class="section" id="id10">
 <h2>参考<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-nlp/asr-improvement-0"><dl class="citation">
-<dt class="bibtex label" id="huggingface2019transformers"><span class="brackets"><a class="fn-backref" href="#id6">1</a></span></dt>
+<dt class="bibtex label" id="asr-imps-huggingface2019transformers"><span class="brackets"><a class="fn-backref" href="#id6">ASR-IMPROVEMENTS1</a></span></dt>
 <dd><p>A library of state-of-the-art pretrained models for natural language processing (nlp). <span><a class="reference external" href="#"></a></span>https://github.com/huggingface/pytorch-transformers, Accessed August 23, 2019.</p>
 </dd>
-<dt class="bibtex label" id="ginsburg2019stochastic"><span class="brackets"><a class="fn-backref" href="#id9">2</a></span></dt>
+<dt class="bibtex label" id="asr-imps-ginsburg2019stochastic"><span class="brackets"><a class="fn-backref" href="#id9">ASR-IMPROVEMENTS2</a></span></dt>
 <dd><p>Boris Ginsburg, Patrice Castonguay, Oleksii Hrinchuk, Oleksii Kuchaiev, Vitaly Lavrukhin, Ryan Leary, Jason Li, Huyen Nguyen, and Jonathan M Cohen. Stochastic gradient methods with layer-wise adaptive moments for training of deep networks. <em>arXiv preprint arXiv:1905.11286</em>, 2019.</p>
 </dd>
-<dt class="bibtex label" id="li2019jasper"><span class="brackets">2</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id4">2</a>)</span></dt>
+<dt class="bibtex label" id="asr-imps-li2019jasper"><span class="brackets">ASR-IMPROVEMENTS3</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id4">2</a>)</span></dt>
 <dd><p>Jason Li, Vitaly Lavrukhin, Boris Ginsburg, Ryan Leary, Oleksii Kuchaiev, Jonathan M Cohen, Huyen Nguyen, and Ravi Teja Gadde. Jasper: an end-to-end convolutional neural acoustic model. <em>arXiv preprint arXiv:1904.03288</em>, 2019.</p>
 </dd>
-<dt class="bibtex label" id="panayotov2015librispeech"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
+<dt class="bibtex label" id="asr-imps-panayotov2015librispeech"><span class="brackets"><a class="fn-backref" href="#id5">ASR-IMPROVEMENTS4</a></span></dt>
 <dd><p>Vassil Panayotov, Guoguo Chen, Daniel Povey, and Sanjeev Khudanpur. Librispeech: an asr corpus based on public domain audio books. In <em>2015 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)</em>, 5206–5210. IEEE, 2015.</p>
 </dd>
 </dl>

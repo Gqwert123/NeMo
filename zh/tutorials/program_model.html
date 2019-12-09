@@ -94,7 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="custommodules.html">如何构建神经模块</a></li>
 <li class="toctree-l2"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a></li>
 <li class="toctree-l2"><a class="reference internal" href="callbacks.html">回调</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程（GAN例子）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程（ GAN 例子）</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
@@ -173,14 +173,14 @@
 <h1>编程模型<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>一个典型的使用 NeMo APIs 构建的应用包含三个逻辑步骤：</p>
 <ol class="arabic simple">
-<li><p>创建 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModuleFactory</span></code> 类和必要的 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> 类</p></li>
-<li><p>定义 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> 类的有向无环图（DAG）</p></li>
-<li><p>调用像是 <code class="xref py py-class docutils literal notranslate"><span class="pre">train</span></code> 类的操作</p></li>
+<li><p>创建 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_factory.NeuralModuleFactory" title="nemo.core.neural_factory.NeuralModuleFactory"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModuleFactory</span></code></a> 类和必要的 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a> 类</p></li>
+<li><p>定义 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a> 类的有向无环图（DAG）</p></li>
+<li><p>调用像是 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_factory.Actions.train" title="nemo.core.neural_factory.Actions.train"><code class="xref py py-class docutils literal notranslate"><span class="pre">train</span></code></a> 类的操作</p></li>
 </ol>
 <p>NeMo 遵循 <em>lazy execution</em> 模型 - 实际的计算只会在训练和推理的操作被调用后才会执行。</p>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> 是层和神经网络的一个抽象，比如：编码器，解码器，语言模型，声学模型等。每个 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code> 从一系列的输入计算一系列的输出。
-每个 <code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code> 有 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 。
-<code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 描述了张量的语义，轴的次序和维度。用这些类型
+<p><a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a> 是层和神经网络的一个抽象，比如：编码器，解码器，语言模型，声学模型等。每个 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_modules.NeuralModule" title="nemo.core.neural_modules.NeuralModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralModule</span></code></a> 从一系列的输入计算一系列的输出。
+每个 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NmTensor" title="nemo.core.neural_types.NmTensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code></a> 有 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NeuralType" title="nemo.core.neural_types.NeuralType"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code></a> 。
+<a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NeuralType" title="nemo.core.neural_types.NeuralType"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code></a> 描述了张量的语义，轴的次序和维度。用这些类型
 来确定模块之间如何连接起来。</p>
 <p>你也可以给操作传递 <em>回调函数</em> ，这些回调函数可以用来做评估验证，打印日志和性能监测。</p>
 </div>

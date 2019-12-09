@@ -104,6 +104,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../training.html">Fast Training</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../asr/intro.html">Speech Recognition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nlp/intro.html">Natural Language Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tts/intro.html">Speech Synthesis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collections/modules.html">NeMo Collections API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api-docs/modules.html">NeMo API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../chinese/intro.html">中文支持</a></li>
@@ -187,7 +188,7 @@ require multiple losses and multiple optimizers.</p>
 <p>Taking our Hello World example from earlier. Let’s say that we now want to
 optimize for both a square error loss and a l1 loss. We can pass both the
 square error loss tensor and the l1 loss tensor to
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">NeuralFactory.train()</span></code>.
+<a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_factory.NeuralModuleFactory.train" title="nemo.core.neural_factory.NeuralModuleFactory.train"><code class="xref py py-meth docutils literal notranslate"><span class="pre">NeuralFactory.train()</span></code></a>.
 An example is shown below.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">### Same as previous example ###</span>
 <span class="kn">import</span> <span class="nn">nemo</span>

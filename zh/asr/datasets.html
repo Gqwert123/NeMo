@@ -217,14 +217,14 @@ python get_librispeech_data.py --data_root<span class="o">=</span>data --data_se
     └── ...
 </pre></div>
 </div>
-<p>文本位于 <cite>fe_03_p&lt;1,2&gt;_transcripts/data/trans</cite>，音频文件 .sph 位于 <cite>audio</cite> 子目录下的剩下目录中。</p>
+<p>文本位于 <cite>fe_03_p&lt;1,2&gt;_transcripts/data/trans</cite> ，音频文件 .sph 位于 <cite>audio</cite> 子目录下的剩下目录中。</p>
 <p>首先，把音频文件从 .sph 转换成 .wav：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> &lt;nemo_root&gt;/scripts
 python fisher_audio_to_wav.py <span class="se">\</span>
   --data_root<span class="o">=</span>&lt;fisher_root&gt; --dest_root<span class="o">=</span>&lt;conversion_target_dir&gt;
 </pre></div>
 </div>
-<p>这个脚本会把未切分的 .wav 文件放到 <cite>&lt;conversion_target_dir&gt;/LDC200[4,5]S13-Part[1,2]/audio-wav/</cite>。
+<p>这个脚本会把未切分的 .wav 文件放到 <cite>&lt;conversion_target_dir&gt;/LDC200[4,5]S13-Part[1,2]/audio-wav/</cite> 。
 需要运行几分钟。</p>
 <p>接着，处理文本和切分音频数据：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python process_fisher_data.py <span class="se">\</span>

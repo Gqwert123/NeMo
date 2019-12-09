@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="复杂训练流程（GAN例子）" href="complex_training.html" />
+    <link rel="next" title="复杂训练流程（ GAN 例子）" href="complex_training.html" />
     <link rel="prev" title="模块间的权重共享" href="weightsharing.html" /> 
 </head>
 
@@ -99,7 +99,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#evaluatorcallback">EvaluatorCallback</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程（GAN例子）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程（ GAN 例子）</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
@@ -176,10 +176,10 @@
             
   <div class="section" id="id1">
 <h1>回调<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>NeMo用回调的方法在训练过程中运行一些列的帮助函数。
-NeMo有三个非常有用的回调：SimpleLossLoggerCallback，
-CheckpointCallback，和EvaluatorCallback。
-回调在train()函数之前就要定义好，然后传给train()函数。
+<p>NeMo 用回调的方法在训练过程中运行一系列的帮助函数。
+NeMo 有三个非常有用的回调：SimpleLossLoggerCallback，
+CheckpointCallback，和 EvaluatorCallback。
+回调在 train() 函数之前就要定义好，然后传给 train() 函数。
 例如，一个常见的训练脚本是这样的：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loggercallback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">SimpleLossLoggerCallback</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">savercallback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">CheckpointCallback</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
@@ -192,13 +192,13 @@ CheckpointCallback，和EvaluatorCallback。
 </div>
 <div class="section" id="simplelossloggercallback">
 <h2>SimpleLossLoggerCallback<a class="headerlink" href="#simplelossloggercallback" title="Permalink to this headline">¶</a></h2>
-<p>SimpleLossLoggerCallback是用来记录训练过程中的一些指标数据比如像loss和打印到屏幕
-或者tensorboard上的时间间隔。SimpleLossLoggerCallback有一个必须的参数和两个我们建议
-重写的参数。它接受一个list的NMTensors,这些NMTensors会在训练过程中作为print_func()，
-get_tb_values()和log_to_tb_func()函数的输入。两个推荐重写的参数是print_func()和
-get_tb_values()或者log_to_tb_func()任选其一。</p>
-<p>print_func()应该用来记录打印到屏幕上的值。我们推荐使用neural_factory.logger.info()
-来取代print()函数。比如，可以这么打印loss值：</p>
+<p>SimpleLossLoggerCallback 是用来记录训练过程中的一些指标数据比如 loss 以及打印到屏幕
+或者 tensorboard 上两个时间步的间隔。SimpleLossLoggerCallback 有一个必须的参数和两个我们建议
+重写的参数。它接受一个 list 的 NMTensors, 这些NMTensors会在训练过程中作为 print_func()，
+get_tb_values() 和 log_to_tb_func() 函数的输入。两个推荐重写的参数是 print_func() 和
+get_tb_values() 或者 log_to_tb_func() 任选其一。</p>
+<p>print_func() 应该用来记录打印到屏幕上的值。我们推荐使用 neural_factory.logger.info()
+来取代 print() 函数。比如，可以这么打印 loss 值：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_print_func</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">logger</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Loss {tensors[0]}&quot;</span><span class="p">)</span>
@@ -206,17 +206,17 @@ get_tb_values()或者log_to_tb_func()任选其一。</p>
         <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Loss {tensors[0]}&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>我们提供了两个方法来打印到tensorboard: get_tb_values()和
-log_to_tb_func()。对于记录标量的简单用例，我们推荐使用get_tb_values()。
-对于高级用例，像是图片或者音频，我们推荐用log_to_tb_func()函数。</p>
-<p>get_tb_values()用来返回需要打印到tensorboard的值。它应该返回一个list，其中每个元素是一个二元组。
-二元组的第一个元素是一个字符串，表示tensorbard标签，第二个元素是要记录的标量值。
-注意我们当前只支持标量值。注意如果要用get_tb_values()，tb_writer也需要定义。</p>
+<p>我们提供了两个方法来打印到 tensorboard: get_tb_values() 和
+log_to_tb_func()。对于记录标量的简单用例，我们推荐使用 get_tb_values()。
+对于高级用例，像是图片或者音频，我们推荐用 log_to_tb_func() 函数。</p>
+<p>get_tb_values() 用来返回需要打印到 tensorboard 的值。它应该返回一个 list，其中每个元素是一个二元组。
+二元组的第一个元素是一个字符串，表示 tensorbard 标签，第二个元素是要记录的标量值。
+注意我们当前只支持标量值。注意如果要用 get_tb_values()，tb_writer 也需要定义。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_get_tb_values</span><span class="p">(</span><span class="n">tensors</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">[(</span><span class="s2">&quot;Train_Loss&quot;</span><span class="p">,</span> <span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
 </pre></div>
 </div>
-<p>log_to_tb_func()接收三个参数:
+<p>log_to_tb_func() 接收三个参数:
 <a class="reference external" href="https://tensorboardx.readthedocs.io/en/latest/tensorboard.html">tensorboardX.SummaryWriter</a>
 ，1个list的张量和当前步。接着用户可以用
 SummaryWriter类来加图片，音频和其它。比如：</p>
@@ -232,14 +232,14 @@ SummaryWriter类来加图片，音频和其它。比如：</p>
     <span class="c1"># 定义我们想要传给print_func和get_tb_values的张量</span>
     <span class="n">tensors</span><span class="o">=</span><span class="p">[</span><span class="n">train_loss</span><span class="p">],</span>
     <span class="c1"># 传入我们想要用的打印函数</span>
-    <span class="c1"># 注意我们用partial来指定可以额外传入的参数</span>
+    <span class="c1"># 注意我们用 partial 来指定可以额外传入的参数</span>
     <span class="n">print_func</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">my_print_func</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">neural_factory</span><span class="o">.</span><span class="n">logger</span><span class="p">),</span>
     <span class="c1"># 传入可以返回tensorboard标签和张量的函数</span>
     <span class="n">get_tb_values</span><span class="o">=</span><span class="n">my_get_tb_values</span><span class="p">,</span>
     <span class="c1"># 我们想要回调这个函数的频次</span>
     <span class="n">step_freq</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-    <span class="c1"># 我们想要用的tensorboard writer, 如果create_tb_writer在neural_factory</span>
-    <span class="c1"># 中设置为True, 那么它会自动在neural_factory创建的时候被创建</span>
+    <span class="c1"># 我们想要用的 tensorboard writer, 如果 create_tb_writer 在 neural_factory</span>
+    <span class="c1"># 中设置为True, 那么它会自动在 neural_factory 创建的时候被创建</span>
     <span class="n">tb_writer</span><span class="o">=</span><span class="n">neural_factory</span><span class="o">.</span><span class="n">tb_writer</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -247,25 +247,25 @@ SummaryWriter类来加图片，音频和其它。比如：</p>
 </div>
 <div class="section" id="checkpointcallback">
 <h2>CheckpointCallback<a class="headerlink" href="#checkpointcallback" title="Permalink to this headline">¶</a></h2>
-<p>CheckpointCallback用于在训练过程中对checkpoint模型进行的操作，这样他们后面
-就可以重新加载来做推理或者微调。CheckpointCallback用起来很简单:</p>
+<p>CheckpointCallback 用于在训练过程中对 checkpoint 模型进行的操作，这样他们后面
+就可以重新加载来做推理或者微调。CheckpointCallback 用起来很简单:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
 <span class="n">loggercallback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">CheckpointCallback</span><span class="p">(</span>
-    <span class="c1"># 保存checkpoints的目录</span>
-    <span class="c1"># 注意: Neural Factory会自动创建checkpoint目录</span>
+    <span class="c1"># 保存 checkpoints 的目录</span>
+    <span class="c1"># 注意: Neural Factory 会自动创建 checkpoint 目录</span>
     <span class="n">folder</span><span class="o">=</span><span class="n">neural_factory</span><span class="o">.</span><span class="n">checkpoint_dir</span><span class="p">,</span>
-    <span class="c1"># 如果是None, CheckpointCallback在训练开始的时候回从folder</span>
+    <span class="c1"># 如果是None, CheckpointCallback 在训练开始的时候回从 folder</span>
     <span class="c1"># 中加载模型</span>
-    <span class="c1"># 否则的话, CheckpointCallback会尝试从load_from_folder中加载</span>
+    <span class="c1"># 否则的话, CheckpointCallback 会尝试从 load_from_folder 中加载</span>
     <span class="n">load_from_folder</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-    <span class="c1"># Checkpointing回调频次(步数)</span>
+    <span class="c1"># Checkpointing 回调频次(步数)</span>
     <span class="n">step_freq</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
-    <span class="c1"># Checkpointing回调频次(轮数)</span>
+    <span class="c1"># Checkpointing 回调频次(轮数)</span>
     <span class="n">epoch_freq</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
-    <span class="c1"># 需要保存的checkpoint数</span>
+    <span class="c1"># 需要保存的 checkpoint 数</span>
     <span class="n">checkpoints_to_keep</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-    <span class="c1"># 设置为True, CheckpointCallback会触发error如果加载失败</span>
+    <span class="c1"># 设置为 True, CheckpointCallback 会触发 error 如果加载失败</span>
     <span class="n">force_load</span><span class="o">=</span><span class="bp">False</span>
 <span class="p">)</span>
 </pre></div>
@@ -273,28 +273,28 @@ SummaryWriter类来加图片，音频和其它。比如：</p>
 </div>
 <div class="section" id="evaluatorcallback">
 <h2>EvaluatorCallback<a class="headerlink" href="#evaluatorcallback" title="Permalink to this headline">¶</a></h2>
-<p>EvaluatorCallback在评估验证中记录指标等参数到屏幕或者tensorboard。
-EvaluatorCallback需要三个参数:
+<p>EvaluatorCallback 在评估验证中记录指标等参数到屏幕或者 tensorboard。
+EvaluatorCallback 需要三个参数:
 eval_tensors, user_iter_callback, user_epochs_done_callback。类似于
-SimpleLossLoggerCallback，eval_tensors是一个list的NMTensors，包含了我们
+SimpleLossLoggerCallback，eval_tensors 是一个 list 的 NMTensors，包含了我们
 想在评估验证中获取到的值。</p>
-<p>user_iter_callback是在评估验证中每个batch后都会调用的一个函数。
-它总是接收两个参数values_dict和global_var_dict。
-values_dict是个字典，NMTensor的名字作为这个batch的keys，计算得到的张量值作为
-这个batch的values。它的主要作用是把已经计算过的张量值从values_dict拷贝到
-global_var_dict，因为global_var_dict是保存了batch之间的值，并且会最后传递给
-user_epochs_done_callback函数。</p>
-<p>user_epochs_done_callback是个接收global_var_dict为参数的函数。它的作用是
-记录要打印到屏幕的相关信息，比如像是验证集上的loss。</p>
-<p>像是把简单的标量值打印到tensorboard上，user_epochs_done_callback应该返回一个字典，
-字符串是keys,标量值是values。这个tag到value的字典会被解析，每个元素都会被记录到
-tensorboard上(需要tensorboard writer定义好)。</p>
-<p>如果想使用更复杂的tensorboard打印记录像是图像或者音频，
-EvaluatorCallback必须要在初始化的时候传递给tb_writer_func函数。这个函数必须要接收一个
+<p>user_iter_callback 是在评估验证中每个 batch 后都会调用的一个函数。
+它总是接收两个参数 values_dict 和 global_var_dict。
+values_dict 是个字典，NMTensor 的名字作为这个 batch 的 keys，计算得到的张量值作为
+这个 batch 的 values。它的主要作用是把已经计算过的张量值从 values_dict 拷贝到
+global_var_dict，因为 global_var_dict 是保存了 batch 之间的值，并且会最后传递给
+user_epochs_done_callback 函数。</p>
+<p>user_epochs_done_callback 是个接收 global_var_dict 为参数的函数。它的作用是
+记录要打印到屏幕的相关信息，比如像是验证集上的 loss。</p>
+<p>像是把简单的标量值打印到 tensorboard 上，user_epochs_done_callback 应该返回一个字典，
+字符串是keys,标量值是 values。这个 tag 到 value 的字典会被解析，每个元素都会被记录到
+tensorboard上 (需要 tensorboard writer 定义好)。</p>
+<p>如果想使用更复杂的 tensorboard 打印记录像是图像或者音频，
+EvaluatorCallback 必须要在初始化的时候传递给 tb_writer_func 函数。这个函数必须要接收一个
 <a class="reference external" href="https://tensorboardx.readthedocs.io/en/latest/tensorboard.html">tensorboardX.SummaryWriter</a>
-参数，以及user_epochs_done_callback需要的参数和当前步。</p>
-<p>我们推荐用user_epochs_done_callback来简单返回global_var_dict
-从而给到tb_writer_func函数来处理。用户必须在tb_writer_func中记录所有需要的数据，
+参数，以及 user_epochs_done_callback 需要的参数和当前步。</p>
+<p>我们推荐用 user_epochs_done_callback 来简单返回 global_var_dict
+从而给到 tb_writer_func 函数来处理。用户必须在 tb_writer_func 中记录所有需要的数据，
 包括标量。</p>
 <p>例如，可以参考 &lt;nemo_dir&gt;/examples 下面的例子。</p>
 </div>
@@ -308,7 +308,7 @@ EvaluatorCallback必须要在初始化的时候传递给tb_writer_func函数。�
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="complex_training.html" class="btn btn-neutral float-right" title="复杂训练流程（GAN例子）" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="complex_training.html" class="btn btn-neutral float-right" title="复杂训练流程（ GAN 例子）" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="weightsharing.html" class="btn btn-neutral float-left" title="模块间的权重共享" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

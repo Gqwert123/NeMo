@@ -180,14 +180,14 @@
             
   <div class="section" id="transformer">
 <h1>Transformer语言模型<a class="headerlink" href="#transformer" title="Permalink to this headline">¶</a></h1>
-<p>在这个教程中，我们会用Transformer <span class="bibtex" id="id1">[vaswani2017attention]</span> 的结构构建和训练一个语言模型。确保在开始这个教程之前你已经安装了 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 和 <code class="docutils literal notranslate"><span class="pre">nemo_nlp</span></code> ，详见 <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a> 。</p>
+<p>在这个教程中，我们会用Transformer <a class="bibtex reference internal" href="#nlp-lm-vaswani2017attention" id="id1">[NLP-LM4]</a> 的结构构建和训练一个语言模型。确保在开始这个教程之前你已经安装了 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 和 <code class="docutils literal notranslate"><span class="pre">nemo_nlp</span></code> ，详见 <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a> 。</p>
 <div class="section" id="id2">
 <h2>简介<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>一个好的语言模型对于下游任务有很广泛的应用。用于下游任务的语言模型例子包括 GPT-2 <span class="bibtex" id="id3">[radford2019language]</span>。</p>
+<p>一个好的语言模型对于下游任务有很广泛的应用。用于下游任务的语言模型例子包括 GPT-2 <a class="bibtex reference internal" href="#nlp-lm-radford2019language" id="id3">[NLP-LM3]</a> 。</p>
 </div>
 <div class="section" id="id4">
 <h2>下载语料<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>在这个实验中我们会使用非常小的WikiText-2数据集 <a class="bibtex reference internal" href="bert_pretraining.html#merity2016pointer" id="id5">[4]</a>。</p>
+<p>在这个实验中我们会使用非常小的WikiText-2数据集 <a class="bibtex reference internal" href="#nlp-lm-merity2016pointer" id="id5">[NLP-LM1]</a> 。</p>
 <p>下载数据集，运行脚本 <code class="docutils literal notranslate"><span class="pre">examples/nlp/scripts/get_wt2.sh</span></code>. 下载和解压数据集后，文件夹会包括三个文件:</p>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>test.txt
@@ -220,8 +220,8 @@ valid.txt
 </div>
 <div class="section" id="id7">
 <h2>创建模型<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<p>首先我们需要用支持的后端来创建 <code class="docutils literal notranslate"><span class="pre">neural</span> <span class="pre">factory</span></code>。你如何定义它取决于你想做多GPU训练或者是混精度训练。这个教程假设你不用混精度，在一块GPU上做训练。
-如果你想做混精度训练，设置 <code class="docutils literal notranslate"><span class="pre">amp_opt_level</span></code> 为 <code class="docutils literal notranslate"><span class="pre">O1</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">O2</span></code>。</p>
+<p>首先我们需要用支持的后端来创建 <code class="docutils literal notranslate"><span class="pre">neural</span> <span class="pre">factory</span></code> 。你如何定义它取决于你想做多GPU训练或者是混精度训练。这个教程假设你不用混精度，在一块GPU上做训练。
+如果你想做混精度训练，设置 <code class="docutils literal notranslate"><span class="pre">amp_opt_level</span></code> 为 <code class="docutils literal notranslate"><span class="pre">O1</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">O2</span></code> 。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Backend</span><span class="o">.</span><span class="n">PyTorch</span><span class="p">,</span>
                                    <span class="n">local_rank</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">local_rank</span><span class="p">,</span>
@@ -245,7 +245,7 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>根据 <a class="reference external" href="https://arxiv.org/abs/1608.05859">Press and Wolf, 2016</a> <a class="bibtex reference internal" href="neural_machine_translation.html#press2016using" id="id8">[3]</a>, 我们也会把词嵌入的参数和softmax层连起来:</p>
+<p>根据 <a class="reference external" href="https://arxiv.org/abs/1608.05859">Press and Wolf, 2016</a> <a class="bibtex reference internal" href="#nlp-lm-press2016using" id="id8">[NLP-LM2]</a>, 我们也会把词嵌入的参数和softmax层连起来:</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">log_softmax</span><span class="o">.</span><span class="n">mlp</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">embedding_layer</span><span class="o">.</span><span class="n">token_embedding</span><span class="o">.</span><span class="n">weight</span>
 </pre></div>
@@ -285,9 +285,9 @@ valid.txt
 </div></blockquote>
 <p>接下来，我们定义一些必要的回调:</p>
 <ol class="arabic">
-<li><p><cite>SimpleLossLoggerCallback</cite>: 追踪训练中的loss</p></li>
+<li><p><cite>SimpleLossLoggerCallback</cite>: 追踪训练中的 loss</p></li>
 <li><p><cite>EvaluatorCallback</cite>: 在用户设置的间隔中，追踪评估的度量指标</p></li>
-<li><p><cite>CheckpointCallback</cite>: 在设置的间各种保存checkpoints</p>
+<li><p><cite>CheckpointCallback</cite>: 在设置的间各种保存 checkpoints</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">SimpleLossLoggerCallback</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">eval_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">EvaluatorCallback</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
@@ -318,7 +318,21 @@ valid.txt
 </div>
 <div class="section" id="id9">
 <h2>参考<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-nlp/transformer_language_model-0"></p>
+<p id="bibtex-bibliography-nlp/transformer_language_model-0"><dl class="citation">
+<dt class="bibtex label" id="nlp-lm-merity2016pointer"><span class="brackets"><a class="fn-backref" href="#id5">NLP-LM1</a></span></dt>
+<dd><p>Stephen Merity, Caiming Xiong, James Bradbury, and Richard Socher. Pointer sentinel mixture models. <em>arXiv preprint arXiv:1609.07843</em>, 2016.</p>
+</dd>
+<dt class="bibtex label" id="nlp-lm-press2016using"><span class="brackets"><a class="fn-backref" href="#id8">NLP-LM2</a></span></dt>
+<dd><p>Ofir Press and Lior Wolf. Using the output embedding to improve language models. <em>arXiv preprint arXiv:1608.05859</em>, 2016.</p>
+</dd>
+<dt class="bibtex label" id="nlp-lm-radford2019language"><span class="brackets"><a class="fn-backref" href="#id3">NLP-LM3</a></span></dt>
+<dd><p>Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, and Ilya Sutskever. Language models are unsupervised multitask learners. <em>OpenAI Blog</em>, 2019.</p>
+</dd>
+<dt class="bibtex label" id="nlp-lm-vaswani2017attention"><span class="brackets"><a class="fn-backref" href="#id1">NLP-LM4</a></span></dt>
+<dd><p>Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. Attention is all you need. In <em>Advances in neural information processing systems</em>, 5998–6008. 2017.</p>
+</dd>
+</dl>
+</p>
 </div>
 </div>
 

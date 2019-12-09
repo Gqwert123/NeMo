@@ -179,12 +179,12 @@
             
   <div class="section" id="bert">
 <h1>BERT预训练<a class="headerlink" href="#bert" title="Permalink to this headline">¶</a></h1>
-<p>在本教程中，我们会按照BERT模型结构 <a class="bibtex reference internal" href="#devlin2018bert" id="id1">[2]</a> 构建并训练一个掩码语言模型。训练可以完全从零开始或者在一个预训练好的模型基础上继续训练。在开始本教程之前，请先安装好 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 和 <code class="docutils literal notranslate"><span class="pre">nemo_nlp</span></code> 。关于安装 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 的一些步骤可以参阅 <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a> 章节。</p>
-<p>创建一个专门领域的BERT模型对于某些应用是更有优势的。比如一个专门针对生物医学领域的专业BERT，类似于BioBERT <a class="bibtex reference internal" href="#lee2019biobert" id="id2">[3]</a> 和SciBERT <a class="bibtex reference internal" href="#beltagy2019scibert" id="id3">[1]</a>.</p>
+<p>在本教程中，我们会按照BERT模型结构 <a class="bibtex reference internal" href="#nlp-bert-devlin2018bert" id="id1">[NLP-BERT-PRETRAINING2]</a> 构建并训练一个掩码语言模型。训练可以完全从零开始或者在一个预训练好的模型基础上继续训练。在开始本教程之前，请先安装好 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 和 <code class="docutils literal notranslate"><span class="pre">nemo_nlp</span></code> 。关于安装 <code class="docutils literal notranslate"><span class="pre">nemo</span></code> 的一些步骤可以参阅 <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a> 章节。</p>
+<p>创建一个专门领域的BERT模型对于某些应用是更有优势的。比如一个专门针对生物医学领域的专业BERT，类似于BioBERT <a class="bibtex reference internal" href="#nlp-bert-lee2019biobert" id="id2">[NLP-BERT-PRETRAINING3]</a> 和SciBERT <a class="bibtex reference internal" href="#nlp-bert-beltagy2019scibert" id="id3">[NLP-BERT-PRETRAINING1]</a> 。</p>
 <p>本教程中所使用的代码来自于 <code class="docutils literal notranslate"><span class="pre">examples/nlp/bert_pretraining.py</span></code>.</p>
 <div class="section" id="id4">
 <h2>语料下载<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>因为这只是一个演示，所以我们使用一个非常小的英文数据集WikiText-2 <a class="bibtex reference internal" href="#merity2016pointer" id="id5">[4]</a>.</p>
+<p>因为这只是一个演示，所以我们使用一个非常小的英文数据集 WikiText-2 <a class="bibtex reference internal" href="#nlp-bert-merity2016pointer" id="id5">[NLP-BERT-PRETRAINING4]</a> 。</p>
 <p>运行脚本 <code class="docutils literal notranslate"><span class="pre">examples/nlp/scripts/get_wt2.sh</span></code> 便可以下载这个数据集。下载后并解压，会得到如下三个文件：</p>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>test.txt
@@ -370,16 +370,16 @@ valid.txt
 <div class="section" id="id7">
 <h2>参考<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-nlp/bert_pretraining-0"><dl class="citation">
-<dt class="bibtex label" id="beltagy2019scibert"><span class="brackets"><a class="fn-backref" href="#id3">1</a></span></dt>
+<dt class="bibtex label" id="nlp-bert-beltagy2019scibert"><span class="brackets"><a class="fn-backref" href="#id3">NLP-BERT-PRETRAINING1</a></span></dt>
 <dd><p>Iz Beltagy, Arman Cohan, and Kyle Lo. Scibert: pretrained contextualized embeddings for scientific text. 2019. <a class="reference external" href="https://arxiv.org/abs/1903.10676">arXiv:1903.10676</a>.</p>
 </dd>
-<dt class="bibtex label" id="devlin2018bert"><span class="brackets"><a class="fn-backref" href="#id1">2</a></span></dt>
+<dt class="bibtex label" id="nlp-bert-devlin2018bert"><span class="brackets"><a class="fn-backref" href="#id1">NLP-BERT-PRETRAINING2</a></span></dt>
 <dd><p>Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. Bert: pre-training of deep bidirectional transformers for language understanding. <em>arXiv preprint arXiv:1810.04805</em>, 2018.</p>
 </dd>
-<dt class="bibtex label" id="lee2019biobert"><span class="brackets"><a class="fn-backref" href="#id2">3</a></span></dt>
+<dt class="bibtex label" id="nlp-bert-lee2019biobert"><span class="brackets"><a class="fn-backref" href="#id2">NLP-BERT-PRETRAINING3</a></span></dt>
 <dd><p>Jinhyuk Lee, Wonjin Yoon, Sungdong Kim, Donghyeon Kim, Sunkyu Kim, Chan Ho So, and Jaewoo Kang. Biobert: a pre-trained biomedical language representation model for biomedical text mining. 2019. <a class="reference external" href="https://arxiv.org/abs/1901.08746">arXiv:1901.08746</a>.</p>
 </dd>
-<dt class="bibtex label" id="merity2016pointer"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
+<dt class="bibtex label" id="nlp-bert-merity2016pointer"><span class="brackets"><a class="fn-backref" href="#id5">NLP-BERT-PRETRAINING4</a></span></dt>
 <dd><p>Stephen Merity, Caiming Xiong, James Bradbury, and Richard Socher. Pointer sentinel mixture models. <em>arXiv preprint arXiv:1609.07843</em>, 2016.</p>
 </dd>
 </dl>

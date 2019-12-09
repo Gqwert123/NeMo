@@ -94,7 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="custommodules.html">如何构建神经模块</a></li>
 <li class="toctree-l2"><a class="reference internal" href="weightsharing.html">模块间的权重共享</a></li>
 <li class="toctree-l2"><a class="reference internal" href="callbacks.html">回调</a></li>
-<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程（GAN例子）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complex_training.html">复杂训练流程（ GAN 例子）</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../training.html">快速训练</a></li>
@@ -172,10 +172,10 @@
   <div class="section" id="id1">
 <h1>神经类型<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>神经类型是用来检查输入张量，确保两个神经模块是兼容的，并且捕捉语义和维度上的错误。</p>
-<p>神经类型在 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 类中实现，它把张量的轴映射到 <code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code>。</p>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code> 每个轴包含下列信息：</p>
+<p>神经类型在 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NeuralType" title="nemo.core.neural_types.NeuralType"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code></a> 类中实现，它把张量的轴映射到 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.AxisType" title="nemo.core.neural_types.AxisType"><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code></a>。</p>
+<p><a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.AxisType" title="nemo.core.neural_types.AxisType"><code class="xref py py-class docutils literal notranslate"><span class="pre">AxisType</span></code></a> 每个轴包含下列信息：</p>
 <ul class="simple">
-<li><p>语义标签（Semantic Tag）, 必须继承 <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ChannelTag</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTag</span></code> 等。这些标签是 <cite>is-a</cite> 的继承关系。</p></li>
+<li><p>语义标签（Semantic Tag）, 必须继承 <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTag</span></code>, <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.ChannelTag" title="nemo.core.neural_types.ChannelTag"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChannelTag</span></code></a>, <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.TimeTag" title="nemo.core.neural_types.TimeTag"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeTag</span></code></a> 等。这些标签是 <cite>is-a</cite> 的继承关系。</p></li>
 <li><p>维度（Dimension）: 无符号整形</p></li>
 <li><p>描述符（Descriptor）: 字符串</p></li>
 </ul>
@@ -191,7 +191,7 @@
 </pre></div>
 </div>
 <p><strong>神经类型比较</strong></p>
-<p>两个 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 对象可以通过 <code class="docutils literal notranslate"><span class="pre">.compare</span></code> 方法来进行比较。
+<p>两个 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NeuralType" title="nemo.core.neural_types.NeuralType"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code></a> 对象可以通过 <code class="docutils literal notranslate"><span class="pre">.compare</span></code> 方法来进行比较。
 结果是:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NeuralTypeComparisonResult</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;比较两个神经类型兼容性的结果</span>
@@ -231,7 +231,7 @@
 <p>一个模块期望图片尺寸是 224x224 但是得到的是 256x256。这种类型比较会导致 <code class="docutils literal notranslate"><span class="pre">NeuralTypeComparisonResult.DIM_INCOMPATIBLE</span></code>。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>这个类型机制是由 Python 继承表示的。也就是说 <code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code> 类继承自 <code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code> 类。</p>
+<p>这个类型机制是由 Python 继承表示的。也就是说 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NmTensor" title="nemo.core.neural_types.NmTensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">NmTensor</span></code></a> 类继承自 <a class="reference internal" href="../api-docs/nemo.html#nemo.core.neural_types.NeuralType" title="nemo.core.neural_types.NeuralType"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuralType</span></code></a> 类。</p>
 </div>
 </div>
 

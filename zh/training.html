@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="语音识别" href="asr/intro.html" />
-    <link rel="prev" title="复杂训练流程（GAN例子）" href="tutorials/complex_training.html" /> 
+    <link rel="prev" title="复杂训练流程（ GAN 例子）" href="tutorials/complex_training.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -165,10 +165,10 @@
             
   <div class="section" id="id1">
 <h1>快速训练<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>训练较大的模型，特别是从头开始训练，需要巨大的算力。NeMo 支持分布式训练和混合精度训练以加速训练。NeMo 借助 <a class="reference external" href="https://github.com/NVIDIA/apex">英伟达的 APEX 库</a> 在英伟达 GPU 上达到最佳的性能。另外，配备了多块 GPU 的系统，例如 DGX Station, DGX-1 &amp; DGX-2 等，可以进一步地加速 GPU 间的通信，从而最大限度地发挥 GPU 的性能。</p>
+<p>训练较大的模型，特别是从头开始训练，需要巨大的算力。NeMo 支持分布式训练和混合精度训练以加速训练。NeMo 借助 <a class="reference external" href="https://github.com/NVIDIA/apex">英伟达的 APEX 库</a> 在英伟达 GPU 上达到最佳的性能。另外，配备了多块 GPU 的系统（例如 DGX Station, DGX-1 &amp; DGX-2 等），可以进一步地使用 <em>NVLINK</em> 加速 GPU 间的通信，从而最大限度地发挥 GPU 的性能。</p>
 <div class="section" id="id2">
 <h2>混合精度训练<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>在英伟达最新的 Volta 和 Turning 架构中，GPU 配备了 Tensor Cores 计算单元，能够大幅加速半精度数据的矩阵乘法运算。想要在 NeMo 中使用混合精度训练，你可以设置 <cite>nemo.core.NeuralModuleFactory</cite> 类的 <cite>optimization_level</cite> 选项为 <cite>nemo.core.Optimization.mxprO1</cite> 。</p>
+<p>在英伟达最新的 Volta 和 Turning 架构中，GPU 配备了 Tensor Cores 计算单元，能够大幅加速半精度浮点数的矩阵乘法运算。想要在 NeMo 中使用混合精度训练，你可以设置 <cite>nemo.core.NeuralModuleFactory</cite> 类的 <cite>optimization_level</cite> 选项为 <cite>nemo.core.Optimization.mxprO1</cite> 。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span>
        <span class="n">optimization_level</span><span class="o">=</span><span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Optimization</span><span class="o">.</span><span class="n">mxprO1</span><span class="p">)</span>
 </pre></div>
@@ -197,17 +197,18 @@
 </div>
 <div class="section" id="id3">
 <h2>范例<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>一个比较完整的利用 NeMo 训练 ASR 模型的范例，请参阅这个文件： <cite>&lt;nemo_repo&gt;/examples/asr/jasper.py</cite>. 这个例子会创建一个训练集和三个验证集，以便在不同的数据集上对模型精度进行验证。</p>
+<p>一个比较完整的利用 NeMo 训练 ASR 模型的范例，请参阅这个文件： <cite>&lt;nemo_git_repo_root&gt;/examples/asr/jasper.py</cite> 。 这个例子会创建一个训练有向无环图和三个验证有向无环图，以便在不同的数据集上对模型精度进行验证。</p>
 <p>在一台配备了多块 Volta GPU 的系统上，你可以用如下的命令来开始训练：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m torch.distributed.launch --nproc_per_node<span class="o">=</span><span class="m">8</span> &lt;nemo_git_repo_root&gt;/examples/asr/jasper.py --batch_size<span class="o">=</span><span class="m">64</span> --num_gpus<span class="o">=</span><span class="m">8</span> --num_epochs<span class="o">=</span><span class="m">100</span> --lr<span class="o">=</span><span class="m">0</span>.015 --warmup_steps<span class="o">=</span><span class="m">8000</span> --weight_decay<span class="o">=</span><span class="m">0</span>.001 --train_manifest<span class="o">=</span>/manifests/librivox-train-all.json --val_manifest1<span class="o">=</span>/manifests/librivox-dev-clean.json --val_manifest2<span class="o">=</span>/manifests/librivox-dev-other.json --model_config<span class="o">=</span>&lt;nemo_git_repo_root&gt;/nemo/examples/asr/configs/jasper15x5SEP.yaml --exp_name<span class="o">=</span>MyLARGE-ASR-EXPERIMENT
 </pre></div>
 </div>
-<p>这条命令会进行8卡并行和混合精度训练，并且会在多个数据集上进行验证。</p>
+<p>这条命令会进行8卡并行和混合精度训练，在上面的命令中，不同的列表文件（.json）指的是不同的数据集。你可以用自己的数据集来代替它们。</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>你可以在选项中同时传入多个数据集，使用逗号隔开，例如：
 <cite>–train_manifest=/manifests/librivox-train-all.json,/manifests/librivox-train-all-sp10pcnt.json,/manifests/cv/validated.json</cite>.</p>
 </div>
+<p>这个例子会在三个数据集上进行训练，LibriSpeech, Mozzila Common Voice 和 Librispeech做了速度扰动后的数据集。</p>
 </div>
 </div>
 
@@ -222,7 +223,7 @@
         <a href="asr/intro.html" class="btn btn-neutral float-right" title="语音识别" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="tutorials/complex_training.html" class="btn btn-neutral float-left" title="复杂训练流程（GAN例子）" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tutorials/complex_training.html" class="btn btn-neutral float-left" title="复杂训练流程（ GAN 例子）" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
