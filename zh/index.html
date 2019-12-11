@@ -173,9 +173,9 @@
 <ul class="simple">
 <li><p><cite>NeuralModule</cite> 类 - 表示以及执行一个神经模块。</p></li>
 <li><p><cite>NmTensor</cite> - 表示的是神经模块端口之间流动的激活元。</p></li>
-<li><p><cite>NeuralType</cite> - 表示模块端口类型和 NmTensors。</p></li>
+<li><p><cite>NeuralType</cite> - 表示模块端口和 NmTensors 的类型。</p></li>
 <li><p><cite>NeuralFactory</cite> - 创建神经模块并且管理训练流程。</p></li>
-<li><p><cite>Lazy execution</cite> - 当描述神经模块之间的激活流时，在一个“action”(比如 <cite>optimizer.optimize(…)</cite> 没有触发前，什么都不会发生。</p></li>
+<li><p><cite>Lazy execution</cite> - NeMo 描述神经模块之间的激活流时，运算并没有发生。只有在运行某个 “action”，例如 <cite>optimizer.optimize(…)</cite> 才会真正触发计算。</p></li>
 <li><p><cite>Collections</cite> - NeMo中附带的模块集合 -  与其相关的模块集合，例如， <cite>nemo_asr</cite> (语音识别) 以及 <cite>nemo_nlp</cite> (自然语言处理)</p></li>
 </ul>
 <p><strong>安装依赖</strong></p>
