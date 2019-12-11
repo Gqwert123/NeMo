@@ -94,18 +94,18 @@
 <li class="toctree-l3"><a class="reference internal" href="#id2">简介</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id5">获取数据</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id7">训练</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">混精度训练</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">混合精度训练</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gpu">多 GPU 训练</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id10">大量训练样本例子</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id11">微调</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">推理</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14">用语言模型推理</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#kenlm">用KenLM构建的语言模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">推理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">用语言模型推理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kenlm">用 KenLM 构建的语言模型</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">参考</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">参考</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="datasets.html">数据集</a></li>
@@ -188,7 +188,7 @@
 参考 <a class="reference internal" href="../installation.html#installation"><span class="std std-ref">如何安装</span></a> 部分。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>在这个教程中你只需要用到 <cite>nemo</cite> 和 <cite>nemo_asr</cite>。</p>
+<p>在这个教程中你只需要用到 <cite>nemo</cite> 和 <cite>nemo_asr</cite> 。</p>
 </div>
 <div class="section" id="id2">
 <h2>简介<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -227,7 +227,7 @@ python get_librispeech_data.py --data_root<span class="o">=</span>data --data_se
 <li><p>train_clean_100.json</p></li>
 </ul>
 <p>在这个教程中我们会使用 <cite>train_clean_100.json</cite> 做训练，以及 <cite>dev_clean.json</cite> 做评估。
-Json 文件中的每一行都指的是一个训练样本 <cite>audio_filepath</cite> 包含了 wav 文件的路径，<cite>duration</cite> 为该文件的音频时长（秒），<cite>text</cite> 是音频对应的文本：</p>
+Json 文件中的每一行都指的是一个训练样本 <cite>audio_filepath</cite> 包含了 wav 文件的路径， <cite>duration</cite> 为该文件的音频时长（秒）， <cite>text</cite> 是音频对应的文本：</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;audio_filepath&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;absolute_path_to&gt;/1355-39947-0000.wav&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">11.3</span><span class="p">,</span> <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;psychotherapy and the community both the physician and the patient find their place in the community the life interests of which are superior to the interests of the individual&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;audio_filepath&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;absolute_path_to&gt;/1355-39947-0001.wav&quot;</span><span class="p">,</span> <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">15.905</span><span class="p">,</span> <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;it is an unavoidable question how far from the higher point of view of the social mind the psychotherapeutic efforts should be encouraged or suppressed are there any conditions which suggest suspicion of or direct opposition to such curative work&quot;</span><span class="p">}</span>
 </pre></div>
@@ -404,10 +404,10 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
 </div>
 </div>
 <div class="section" id="id9">
-<h2>混精度训练<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
-<p>NeMo 中的混精度和分布式训练上基于 <a class="reference external" href="https://github.com/NVIDIA/apex">NVIDIA’s APEX library</a> 。
+<h2>混合精度训练<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>NeMo 中的混合精度和分布式训练是基于 <a class="reference external" href="https://github.com/NVIDIA/apex">英伟达的 APEX 库</a> 。
 确保它已经安装了。</p>
-<p>训混精度训练你只需要在 <cite>nemo.core.NeuralModuleFactory</cite> 中设置 <cite>optimization_level</cite> 参数为 <cite>nemo.core.Optimization.mxprO1</cite> 。例如：</p>
+<p>进行混合精度训练你只需要在 <cite>nemo.core.NeuralModuleFactory</cite> 中设置 <cite>optimization_level</cite> 参数为 <cite>nemo.core.Optimization.mxprO1</cite> 。例如：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span>
     <span class="n">backend</span><span class="o">=</span><span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Backend</span><span class="o">.</span><span class="n">PyTorch</span><span class="p">,</span>
     <span class="n">local_rank</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">local_rank</span><span class="p">,</span>
@@ -418,7 +418,7 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>因为混精度训练需要 Tensor Cores, 因此它当前只能在 NVIDIA Volta 和 Turing 架构的 GPU 上运行。</p>
+<p>因为混精度训练需要 Tensor Cores, 因此它当前只能在英伟达的 Volta 和 Turing 架构的 GPU 上运行。</p>
 </div>
 </div>
 <div class="section" id="gpu">
@@ -426,9 +426,9 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
 <p>在 NeMo 中开启多 GPU 训练很容易：</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p>首先把 NeuralModuleFactory 中的 <cite>placement</cite> 设置成 <cite>nemo.core.DeviceType.AllGpu</cite></p></li>
+<li><p>首先把 <cite>NeuralModuleFactory</cite> 中的 <cite>placement</cite> 设置成 <cite>nemo.core.DeviceType.AllGpu</cite></p></li>
 <li><p>让你的脚本能够接受 ‘local_rank’ 参数，你无需手动指定该参数值，只需要在代码中添加: <cite>parser.add_argument(“–local_rank”, default=None, type=int)</cite></p></li>
-<li><p>用 <cite>torch.distributed.launch</cite> 包来运行你的脚本（把 &lt;num_gpus&gt; 改成 GPU 的数量）</p></li>
+<li><p>用 <cite>torch.distributed.launch</cite> 包来运行你的脚本（把 <cite>&lt;num_gpus&gt;</cite> 改成 GPU 的数量）</p></li>
 </ol>
 </div></blockquote>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m torch.distributed.launch --nproc_per_node<span class="o">=</span>&lt;num_gpus&gt; &lt;nemo_git_repo_root&gt;/examples/asr/jasper.py ...
@@ -441,10 +441,10 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m torch.distributed.launch --nproc_per_node<span class="o">=</span>&lt;num_gpus&gt; &lt;nemo_git_repo_root&gt;/examples/asr/jasper.py --batch_size<span class="o">=</span><span class="m">64</span> --num_epochs<span class="o">=</span><span class="m">100</span> --lr<span class="o">=</span><span class="m">0</span>.015 --warmup_steps<span class="o">=</span><span class="m">8000</span> --weight_decay<span class="o">=</span><span class="m">0</span>.001 --train_dataset<span class="o">=</span>/manifests/librivox-train-all.json --eval_datasets /manifests/librivox-dev-clean.json /manifests/librivox-dev-other.json --model_config<span class="o">=</span>&lt;nemo_git_repo_root&gt;/nemo/examples/asr/configs/quartznet15x5.yaml --exp_name<span class="o">=</span>MyLARGE-ASR-EXPERIMENT
 </pre></div>
 </div>
-<p>上面的命令行应该会出发一个8卡的混精度训练。其中不同的列表文件（.json）文件是不同的数据集。你可以用你的数据来替代它们。</p>
+<p>上面的命令会运行一个8 GPU 的混合精度训练。其中不同的列表文件（.json）文件是不同的数据集。你可以用你的数据来替代它们。</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>你可以用逗号分隔不同的数据集：<cite>–train_manifest=/manifests/librivox-train-all.json,/manifests/librivox-train-all-sp10pcnt.json,/manifests/cv/validated.json</cite>。
+<p>你可以用逗号分隔不同的数据集： <cite>–train_manifest=/manifests/librivox-train-all.json,/manifests/librivox-train-all-sp10pcnt.json,/manifests/cv/validated.json</cite> 。
 这里使用了3个数据集 LibriSpeech，Mozilla Common Voice 和 LibriSpeech音频速度进行干扰后的数据集。</p>
 </div>
 </div>
@@ -454,7 +454,7 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
 <p>如果我们从一个好的预训练模型开始训练，训练时间会大大的减小：</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p>从`这里 &lt;<a class="reference external" href="https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5">https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5</a>&gt;`_获取预训练模型 （jasper_encoder，jasper_decoder 和 configuration files）。</p></li>
+<li><p>从 <a class="reference external" href="https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5">这里</a> 获取预训练模型 （jasper_encoder，jasper_decoder 和 configuration files）。</p></li>
 <li><p>在你初始化好 jasper_encoder 和 jasper_decoder 后，可以这样加载权重：</p></li>
 </ol>
 </div></blockquote>
@@ -469,18 +469,18 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
 <p>微调的时候，用小一点的学习率。</p>
 </div>
 </div>
-<div class="section" id="id12">
-<h2>推理<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h2>推理<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <p>首先下载预训练模型（jasper_encoder, jasper_decoder and configuration files） 请从 <a class="reference external" href="https://ngc.nvidia.com/catalog/models/nvidia:quartznet15x5">这里</a> 下载并放置到 <cite>&lt;path_to_checkpoints&gt;</cite> 。 我们会用这个预训练模型在 LibriSpeech dev-clean 数据集上测试 WER。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python &lt;nemo_git_repo_root&gt;/examples/asr/jasper_infer.py --model_config<span class="o">=</span>&lt;nemo_git_repo_root&gt;/examples/asr/configs/quartznet15x5.yaml --eval_datasets <span class="s2">&quot;&lt;path_to_data&gt;/dev_clean.json&quot;</span> --load_dir<span class="o">=</span>&lt;directory_containing_checkpoints&gt;
 </pre></div>
 </div>
 </div>
-<div class="section" id="id14">
-<h2>用语言模型推理<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h2>用语言模型推理<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="kenlm">
-<h3>用KenLM构建的语言模型<a class="headerlink" href="#kenlm" title="Permalink to this headline">¶</a></h3>
-<p>我们会使用 <a class="reference external" href="https://github.com/PaddlePaddle/DeepSpeech">Baidu’s CTC 带语言模型的解码器</a> .</p>
+<h3>用 KenLM 构建的语言模型<a class="headerlink" href="#kenlm" title="Permalink to this headline">¶</a></h3>
+<p>我们会使用 <a class="reference external" href="https://github.com/PaddlePaddle/DeepSpeech">百度的 CTC 带语言模型的解码器</a> 。</p>
 <p>请按照下面的步骤：</p>
 <blockquote>
 <div><ul class="simple">
@@ -495,8 +495,8 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
 </dd>
 </dl>
 </li>
-<li><p>在 Librispeech 上构建一个 6-gram KenLM 的语言模型  <code class="docutils literal notranslate"><span class="pre">./build_6-gram_OpenSLR_lm.sh</span></code></p></li>
-<li><p>运行 jasper_infer.py 带上 –lm_path 来指定语言模型的路径</p></li>
+<li><p>在 Librispeech 上构建一个 6-gram KenLM 的语言模型 <code class="docutils literal notranslate"><span class="pre">./build_6-gram_OpenSLR_lm.sh</span></code></p></li>
+<li><p>运行 <code class="docutils literal notranslate"><span class="pre">jasper_infer.py</span></code> 带上 <code class="docutils literal notranslate"><span class="pre">--lm_path</span></code> 来指定语言模型的路径</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python &lt;nemo_git_repo_root&gt;/examples/asr/jasper_infer.py --model_config<span class="o">=</span>&lt;nemo_git_repo_root&gt;/examples/asr/configs/quartznet15x5.yaml --eval_datasets <span class="s2">&quot;&lt;path_to_data&gt;/dev_clean.json&quot;</span> --load_dir<span class="o">=</span>&lt;directory_containing_checkpoints&gt; --lm_path<span class="o">=</span>&lt;path_to_6gram.binary&gt;
 </pre></div>
@@ -504,8 +504,8 @@ Jasper 家族的模型的结构可以这样表示 Jasper_[BxR] 其中 B 是块�
 </div></blockquote>
 </div>
 </div>
-<div class="section" id="id15">
-<h2>参考<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id16">
+<h2>参考<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-asr/tutorial-0"><dl class="citation">
 <dt class="bibtex label" id="asr-tut-graves2006"><span class="brackets"><a class="fn-backref" href="#id4">ASR-TUT1</a></span></dt>
 <dd><p>Alex Graves, Santiago Fernández, Faustino Gomez, and Jürgen Schmidhuber. Connectionist temporal classification: labelling unsegmented sequence data with recurrent neural networks. In <em>Proceedings of the 23rd international conference on Machine learning</em>, 369–376. ACM, 2006.</p>

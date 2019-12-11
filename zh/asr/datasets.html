@@ -255,7 +255,7 @@ python fisher_audio_to_wav.py <span class="se">\</span>
   --dest_root<span class="o">=</span>&lt;target_dir&gt;
 </pre></div>
 </div>
-<p>你可以选择性的加入 <cite>–min_slice_duration=&lt;num_seconds&gt;</cite> 如果你想改变最小音频片段长度。</p>
+<p>你可以选择性的加入 <code class="docutils literal notranslate"><span class="pre">--min_slice_duration=&lt;num_seconds&gt;</span></code> 如果你想改变最小音频片段长度。</p>
 </div>
 <div class="section" id="aishell-1">
 <h2>AISHELL-1<a class="headerlink" href="#aishell-1" title="Permalink to this headline">¶</a></h2>
@@ -270,11 +270,11 @@ python get_aishell_data.py --data_root<span class="o">=</span>data
 </div>
 <div class="section" id="aishell-2">
 <h2>AISHELL-2<a class="headerlink" href="#aishell-2" title="Permalink to this headline">¶</a></h2>
-<p>运行下面的脚本处理 AIShell-2 数据集，把它处理成 <cite>nemo_asr</cite> 需要的文件格式。通过设置 <cite>–audio_folder</cite> 指定数据目录，用 <cite>–dest_folder</cite> 指定处理后的文件目录。</p>
+<p>运行下面的脚本处理 AIShell-2 数据集，把它处理成 <cite>nemo_asr</cite> 需要的文件格式。通过设置 <code class="docutils literal notranslate"><span class="pre">--audio_folder</span></code> 指定数据目录，用 <code class="docutils literal notranslate"><span class="pre">--dest_folder</span></code> 指定处理后的文件目录。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python process_aishell2_data.py --audio_folder<span class="o">=</span>&lt;data directory&gt; --dest_folder<span class="o">=</span>&lt;destination directory&gt;
 </pre></div>
 </div>
-<p>接着在 <cite>dest_folder</cite> 下会生成 <cite>train.json</cite> <cite>dev.json</cite> <cite>test.json</cite> 以及 <cite>vocab.txt</cite>。</p>
+<p>接着在 <cite>dest_folder</cite> 下会生成 <cite>train.json</cite> <cite>dev.json</cite> <cite>test.json</cite> 以及 <cite>vocab.txt</cite> 。</p>
 </div>
 </div>
 

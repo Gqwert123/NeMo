@@ -220,8 +220,8 @@ valid.txt
 </div>
 <div class="section" id="id7">
 <h2>创建模型<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<p>首先我们需要用支持的后端来创建 <code class="docutils literal notranslate"><span class="pre">neural</span> <span class="pre">factory</span></code> 。你如何定义它取决于你想做多GPU训练或者是混精度训练。这个教程假设你不用混精度，在一块GPU上做训练。
-如果你想做混精度训练，设置 <code class="docutils literal notranslate"><span class="pre">amp_opt_level</span></code> 为 <code class="docutils literal notranslate"><span class="pre">O1</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">O2</span></code> 。</p>
+<p>首先我们需要用支持的后端来创建 <code class="docutils literal notranslate"><span class="pre">neural</span> <span class="pre">factory</span></code> 。你如何定义它取决于你想做多 GPU 训练或者是混合精度训练。这个教程假设你不用混合精度，在一块 GPU 上做训练。
+如果你想做混合精度训练，设置 <code class="docutils literal notranslate"><span class="pre">amp_opt_level</span></code> 为 <code class="docutils literal notranslate"><span class="pre">O1</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">O2</span></code> 。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Backend</span><span class="o">.</span><span class="n">PyTorch</span><span class="p">,</span>
                                    <span class="n">local_rank</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">local_rank</span><span class="p">,</span>
@@ -236,7 +236,7 @@ valid.txt
 <blockquote>
 <div><ul class="simple">
 <li><p>Transformer编码器 (注意，我们的语言模型不需要解码器)</p></li>
-<li><p><cite>TokenClassifier</cite>  把输出映射到词汇表上的概率分布.</p></li>
+<li><p><cite>TokenClassifier</cite> 把输出映射到词汇表上的概率分布.</p></li>
 <li><p>损失函数 (带标签平滑正则的交叉熵).</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span> <span class="o">=</span> <span class="n">nemo_nlp</span><span class="o">.</span><span class="n">TransformerEncoderNM</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
@@ -245,7 +245,7 @@ valid.txt
 </pre></div>
 </div>
 </div></blockquote>
-<p>根据 <a class="reference external" href="https://arxiv.org/abs/1608.05859">Press and Wolf, 2016</a> <a class="bibtex reference internal" href="#nlp-lm-press2016using" id="id8">[NLP-LM2]</a>, 我们也会把词嵌入的参数和softmax层连起来:</p>
+<p>根据 <a class="reference external" href="https://arxiv.org/abs/1608.05859">Press and Wolf, 2016</a> <a class="bibtex reference internal" href="#nlp-lm-press2016using" id="id8">[NLP-LM2]</a>, 我们也会把词嵌入的参数和 softmax 层连起来:</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">log_softmax</span><span class="o">.</span><span class="n">mlp</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">embedding_layer</span><span class="o">.</span><span class="n">token_embedding</span><span class="o">.</span><span class="n">weight</span>
 </pre></div>
@@ -285,9 +285,9 @@ valid.txt
 </div></blockquote>
 <p>接下来，我们定义一些必要的回调:</p>
 <ol class="arabic">
-<li><p><cite>SimpleLossLoggerCallback</cite>: 追踪训练中的 loss</p></li>
+<li><p><cite>SimpleLossLoggerCallback</cite>: 记录训练中的 loss</p></li>
 <li><p><cite>EvaluatorCallback</cite>: 在用户设置的间隔中，追踪评估的度量指标</p></li>
-<li><p><cite>CheckpointCallback</cite>: 在设置的间各种保存 checkpoints</p>
+<li><p><cite>CheckpointCallback</cite>: 根据设定的时间点保存权重文件</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">SimpleLossLoggerCallback</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">eval_callback</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">EvaluatorCallback</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>

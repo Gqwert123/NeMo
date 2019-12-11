@@ -97,10 +97,10 @@
 <li class="toctree-l2"><a class="reference internal" href="intro.html#ner">命名实体识别 (NER)</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="intro.html#intent-and-slot-filling">Intent and Slot filling</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">教程</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id3">写在开头</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id5">代码结构</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id6">模型训练</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id7">参考文献</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">写在开头</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">代码结构</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">模型训练</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">参考文献</a></li>
 </ul>
 </li>
 </ul>
@@ -180,9 +180,9 @@
   <div class="section" id="id1">
 <h1>教程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>在这个教程中，我们将使用 BERT 模型，来实现一个意图识别 (intent classification) 和槽填充 (slot filling) 混合系统，参考自 <a class="reference external" href="https://arxiv.org/abs/1902.10909">BERT for Joint Intent Classification and Slot Filling</a> <a class="bibtex reference internal" href="#nlp-slot-chen2019bert" id="id2">[NLP-SLOT1]</a> 。本教程中所有的代码全部来自 <code class="docutils literal notranslate"><span class="pre">examples/nlp/joint_intent_slot_with_bert.py</span></code> 。</p>
-<p>我们可以使用 <cite>–pretrained_bert_model</cite> 这个参数，来选择四个预训练好的 BERT 模型。当前，我们使用的加载预训练模型的脚本均来自 <cite>pytorch_transformers</cite> 。更多预训练好的模型在 <a class="reference external" href="https://huggingface.co/pytorch-transformers/pretrained_models.html">这里</a> 。</p>
-<div class="section" id="id3">
-<h2>写在开头<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>我们可以使用 <cite>–pretrained_bert_model</cite> 这个参数，来选择四个预训练好的 BERT 模型。当前，我们使用的加载预训练模型的脚本均来自 <cite>pytorch_transformers</cite> 。更多预训练好的模型在 <a class="reference external" href="https://huggingface.co/pytorch-transformers/pretrained_models.html">这里下载</a> 。</p>
+<div class="section" id="id4">
+<h2>写在开头<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p><strong>模型细节</strong>
 这个模型会一起训练一个句子层级的分类器，和一个符号串层面的槽 (slot) 分类器，通过最小化如下的混合损失：</p>
 <blockquote>
@@ -203,8 +203,8 @@
 </div></blockquote>
 <p>当前，我们提供多个数据集合的预处理脚本，包括: ATIS，可以通过 <a class="reference external" href="https://www.kaggle.com/siddhadev/atis-dataset-from-ms-cntk">Kaggle</a> 进行下载；SNIP对话语言理解数据集，可以通过 <a class="reference external" href="https://github.com/snipsco/spoken-language-understanding-research-datasets">这里</a> 获取。预处理脚本在 <code class="docutils literal notranslate"><span class="pre">collections/nemo_nlp/nemo_nlp/text_data_utils.py</span></code> 。</p>
 </div>
-<div class="section" id="id5">
-<h2>代码结构<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>代码结构<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p>首先，我们初始化 <code class="docutils literal notranslate"><span class="pre">NeuralModuleFactory</span></code> ，需要定义，1、后端 (PyTorch)；2、混合精度优化的级别；3、本地 GPU 的序列号；4、一个实验的管理器，用于创建文件夹来保存相应的 checkpoint、输出、日志文件和 TensorBoard 的图。</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nf</span> <span class="o">=</span> <span class="n">nemo</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">NeuralModuleFactory</span><span class="p">(</span>
@@ -340,8 +340,8 @@
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="id6">
-<h2>模型训练<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>模型训练<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p>为了训练一个意图识别和槽填充的混合任务，运行 <code class="docutils literal notranslate"><span class="pre">nemo/examples/nlp</span></code> 下的脚本 <code class="docutils literal notranslate"><span class="pre">joint_intent_slot_with_bert.py</span></code> ：</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">launch</span> <span class="o">--</span><span class="n">nproc_per_node</span><span class="o">=</span><span class="mi">2</span> <span class="n">joint_intent_slot_with_bert</span><span class="o">.</span><span class="n">py</span> \
@@ -370,8 +370,8 @@
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="id7">
-<h2>参考文献<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2>参考文献<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-nlp/joint_intent_slot_filling-0"><dl class="citation">
 <dt class="bibtex label" id="nlp-slot-chen2019bert"><span class="brackets"><a class="fn-backref" href="#id2">NLP-SLOT1</a></span></dt>
 <dd><p>Qian Chen, Zhu Zhuo, and Wen Wang. Bert for joint intent classification and slot filling. <em>arXiv preprint arXiv:1902.10909</em>, 2019.</p>

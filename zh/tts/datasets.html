@@ -95,7 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html">教程</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">数据集</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#ljspeech">LJSpeech</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">中文标准女声音库（10000句）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">中文标准女声音库（10000句）</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="models.html">模型</a></li>
@@ -172,17 +172,17 @@
   <div class="section" id="id1">
 <h1>数据集<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="ljspeech">
-<span id="id2"></span><h2>LJSpeech<a class="headerlink" href="#ljspeech" title="Permalink to this headline">¶</a></h2>
+<span id="ljspeech-dataset"></span><h2>LJSpeech<a class="headerlink" href="#ljspeech" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://keithito.com/LJ-Speech-Dataset/">LJSpeech</a> 数据集中包含一个女性英语说话人的语音数据，总长度大约为 24 个小时。</p>
-<p>在 NeMo 中获取并预处理该数据可以通过我们提供的`辅助脚本 &lt;<a class="reference external" href="https://github.com/NVIDIA/NeMo/blob/master/scripts/get_ljspeech_data.py">https://github.com/NVIDIA/NeMo/blob/master/scripts/get_ljspeech_data.py</a>&gt;`_来完成:</p>
+<p>在 NeMo 中获取并预处理该数据可以通过我们提供的 <a class="reference external" href="https://github.com/NVIDIA/NeMo/blob/master/scripts/get_ljspeech_data.py">辅助脚本</a> 来完成:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python scripts/get_ljspeech_data.py --data_root<span class="o">=</span>&lt;where_you_want_to_save_data&gt;
 </pre></div>
 </div>
 </div>
-<div class="section" id="id3">
-<span id="id4"></span><h2>中文标准女声音库（10000句）<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<span id="id5"></span><h2>中文标准女声音库（10000句）<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://www.data-baker.com/open_source.html">中文标准女声音库（10000句）</a> 数据集中包含一个女性普通话说话人的语音数据，总长度大约为 12 个小时。该数据集版权归标贝（北京）科技有限公司所有，仅支持非商用。</p>
-<p>在 NeMo 中获取并预处理该数据可以通过我们提供的`辅助脚本 &lt;<a class="reference external" href="https://github.com/NVIDIA/NeMo/blob/master/scripts/get_databaker_data.py">https://github.com/NVIDIA/NeMo/blob/master/scripts/get_databaker_data.py</a>&gt;`_来完成:</p>
+<p>在 NeMo 中获取并预处理该数据可以通过我们提供的 <a class="reference external" href="https://github.com/NVIDIA/NeMo/blob/master/scripts/get_databaker_data.py">脚本</a> 来完成:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python scripts/get_databaker_data.py --data_root<span class="o">=</span>&lt;where_you_want_to_save_data&gt;
 </pre></div>
 </div>
