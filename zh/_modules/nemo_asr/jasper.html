@@ -166,7 +166,7 @@
 <span class="kn">from</span> <span class="nn">.parts.jasper</span> <span class="k">import</span> <span class="n">JasperBlock</span><span class="p">,</span> <span class="n">jasper_activations</span><span class="p">,</span> <span class="n">init_weights</span>
 
 
-<div class="viewcode-block" id="JasperEncoder"><a class="viewcode-back" href="../../collections/ncollections.html#nemo_asr.jasper.JasperEncoder">[docs]</a><span class="k">class</span> <span class="nc">JasperEncoder</span><span class="p">(</span><span class="n">TrainableNM</span><span class="p">):</span>
+<div class="viewcode-block" id="JasperEncoder"><a class="viewcode-back" href="../../collections/nemo_asr.html#nemo_asr.jasper.JasperEncoder">[docs]</a><span class="k">class</span> <span class="nc">JasperEncoder</span><span class="p">(</span><span class="n">TrainableNM</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Jasper Encoder creates the pre-processing (prologue), Jasper convolution</span>
 <span class="sd">    block, and the first 3 post-processing (epilogue) layers as described in</span>
@@ -303,7 +303,7 @@
         <span class="k">return</span> <span class="n">s_input</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">length</span></div>
 
 
-<div class="viewcode-block" id="JasperDecoderForCTC"><a class="viewcode-back" href="../../collections/ncollections.html#nemo_asr.jasper.JasperDecoderForCTC">[docs]</a><span class="k">class</span> <span class="nc">JasperDecoderForCTC</span><span class="p">(</span><span class="n">TrainableNM</span><span class="p">):</span>
+<div class="viewcode-block" id="JasperDecoderForCTC"><a class="viewcode-back" href="../../collections/nemo_asr.html#nemo_asr.jasper.JasperDecoderForCTC">[docs]</a><span class="k">class</span> <span class="nc">JasperDecoderForCTC</span><span class="p">(</span><span class="n">TrainableNM</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Jasper Decoder creates the final layer in Jasper that maps from the outputs</span>
 <span class="sd">    of Jasper Encoder to the vocabulary of interest.</span>

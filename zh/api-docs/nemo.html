@@ -99,10 +99,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-nemo.core.neural_factory">neural_factory</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#pytorch-backend">PyTorch BackEnd</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-nemo.backends.pytorch.actions">Basic actions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-nemo.backends.pytorch.nm">Classes for writing your own NMs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-nemo.backends.pytorch.module_wrapper">Trainable Module Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pytorch">PyTorch 后端</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-nemo.backends.pytorch.actions">基本操作</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-nemo.backends.pytorch.nm">写你自己的神经模块需要的类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-nemo.backends.pytorch.module_wrapper">可训练模块的封装器</a></li>
 </ul>
 </li>
 </ul>
@@ -1186,11 +1186,11 @@ where each element is now a batch of tensor values.</p>
 
 </div>
 </div>
-<div class="section" id="pytorch-backend">
-<h1>PyTorch BackEnd<a class="headerlink" href="#pytorch-backend" title="Permalink to this headline">¶</a></h1>
-<p>Currently, we only support PyTorch backend.</p>
+<div class="section" id="pytorch">
+<h1>PyTorch 后端<a class="headerlink" href="#pytorch" title="Permalink to this headline">¶</a></h1>
+<p>当前我们只支持 PyTorch 后端。</p>
 <div class="section" id="module-nemo.backends.pytorch.actions">
-<span id="basic-actions"></span><h2>Basic actions<a class="headerlink" href="#module-nemo.backends.pytorch.actions" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>基本操作<a class="headerlink" href="#module-nemo.backends.pytorch.actions" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="nemo.backends.pytorch.actions.PtActions">
 <em class="property">class </em><code class="sig-prename descclassname">nemo.backends.pytorch.actions.</code><code class="sig-name descname">PtActions</code><span class="sig-paren">(</span><em class="sig-param">local_rank=None</em>, <em class="sig-param">global_rank=None</em>, <em class="sig-param">tb_writer=None</em>, <em class="sig-param">optimization_level=&lt;Optimization.mxprO0: 0&gt;</em>, <em class="sig-param">logger=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nemo/backends/pytorch/actions.html#PtActions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nemo.backends.pytorch.actions.PtActions" title="Permalink to this definition">¶</a></dt>
@@ -1318,7 +1318,7 @@ mini-batch.</p></li>
 
 </div>
 <div class="section" id="module-nemo.backends.pytorch.nm">
-<span id="classes-for-writing-your-own-nms"></span><h2>Classes for writing your own NMs<a class="headerlink" href="#module-nemo.backends.pytorch.nm" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>写你自己的神经模块需要的类<a class="headerlink" href="#module-nemo.backends.pytorch.nm" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="nemo.backends.pytorch.nm.DataLayerNM">
 <em class="property">class </em><code class="sig-prename descclassname">nemo.backends.pytorch.nm.</code><code class="sig-name descname">DataLayerNM</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nemo/backends/pytorch/nm.html#DataLayerNM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nemo.backends.pytorch.nm.DataLayerNM" title="Permalink to this definition">¶</a></dt>
@@ -1897,7 +1897,7 @@ this:</p>
 
 </div>
 <div class="section" id="module-nemo.backends.pytorch.module_wrapper">
-<span id="trainable-module-wrapper"></span><h2>Trainable Module Wrapper<a class="headerlink" href="#module-nemo.backends.pytorch.module_wrapper" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>可训练模块的封装器<a class="headerlink" href="#module-nemo.backends.pytorch.module_wrapper" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="nemo.backends.pytorch.module_wrapper.TrainableNeuralModuleWrapper">
 <em class="property">class </em><code class="sig-prename descclassname">nemo.backends.pytorch.module_wrapper.</code><code class="sig-name descname">TrainableNeuralModuleWrapper</code><span class="sig-paren">(</span><em class="sig-param">pt_nn_module</em>, <em class="sig-param">input_ports_dict</em>, <em class="sig-param">output_ports_dict</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nemo/backends/pytorch/module_wrapper.html#TrainableNeuralModuleWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nemo.backends.pytorch.module_wrapper.TrainableNeuralModuleWrapper" title="Permalink to this definition">¶</a></dt>
